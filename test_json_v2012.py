@@ -13,7 +13,7 @@ async def fetch(client):
         #    assert session.status == 200
         #    u = await session.text()
         #    print('{} , {} ,sesrequestrequestrequestrequestsion state closed : {}**{}'.format(session.read(),client,client.closed,u))
-        #s = await client.pbost(url, data = json.dumps(data) ,headers = headers)
+        #s = await client.pbost(url, data = json.dumps(data) ,headers = headers)w
         async with await client.post(url, data = json.dumps(data) ,headers = headers) as post_session:
             #assert post_session.status == 405
             u =  json.loads(await post_session.text())
@@ -22,7 +22,7 @@ async def fetch(client):
             #print('Session method "{}", session state closed  : {} : {} json data:{}, session k'.format(post_session.method, client.closed,u,data))
 #            await post_session.release()
 
-        return await post_session.text()
+            return await post_session.text()
 
 async def main(loop):
         async with aiohttp.ClientSession(loop=loop) as client:

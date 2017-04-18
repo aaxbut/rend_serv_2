@@ -13,8 +13,7 @@ from queue import Empty
 import bpy
 from datetime import datetime
 import time
-import gevent
-
+ 
 # import config settings
 import configparser
 
@@ -72,19 +71,56 @@ def check_data(data):
 
 
 @asyncio.coroutine
-def transmit1(request):
+def transmit11(request):
     ts = []
     data = yield from request.text()
     req_json = json.loads(data)
     logging.info('Session method : {}, session type : {}, messages is : {} : {}'.format(request.method, request, request, req_json))
     if request.content_type == 'application/json':
-        yield from run_render_multi(req_json)
+        run_render_multi(req_json)
         logging.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!YIELD FROM REND_BLRND_MULTI RETURN MESSAGES : {}'.format(req_json['user']))
 
         return web.json_response(req_json)
     return web.Response(body=json.dumps({'ok': req_json}).encode('utf-8'),
         content_type='application/json')#(yield from request.text())
 
+
+@asyncio.coroutine
+def render_proc_cr(task):
+    logging.info('!!!!!!!!!!!!!!!!!!!!! {} ************* **'.format(task))
+    
+    #task=task[0]
+    try:
+        o = find_before(task)
+        bpy.context.scene.frame_start = 0
+        bpy.context.scene.frame_end = 10
+        bpy.context.scene.render.filepath ='{}{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'),random.randint(1,2000))
+        bpy.context.scene.render.engine = 'CYCLES'
+        bpy.context.scene.cycles.device='CPU'
+        bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+        bpy.context.scene.render.ffmpeg.video_bitrate=750
+        bpy.context.scene.render.ffmpeg.audio_bitrate=124
+
+        bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
+
+        os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+        os.chmod(bpy.context.scene.render.filepath, 0o777)
+         
+        bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+        bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
+        s = sys.stdout
+
+        f = open('/dev/null', 'w')
+        sys.stdout = f
+
+        bpy.ops.render.render(write_still=True)
+
+        os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+        os.chmod(bpy.context.scene.render.filepath, 0o777)
+
+        sys.stdout = s
+
+    except Empty: pass
 
 @asyncio.coroutine
 def transmit(request):
@@ -97,9 +133,14 @@ def transmit(request):
 
     if request.content_type == 'application/json':
 
-        yield from run_render_multi(req_json)
+        #data2 = yield from render_proc_cr(req_json)
         logging.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!YIELD FROM REND_BLRND_MULTI RETURN MESSAGES : {}'.format(req_json['user']))
 
+        asyncio.ensure_future(render_proc_cr(req_json))
+         
+         
+         
+        
         return web.json_response(req_json)
     
 
@@ -395,14 +436,52 @@ def run_render_multi1(data_for_render):
 ### end render module 
 import sys
 
-def render_proc(q,task):
-    q.put(task)
-    #task=task[0]
+def render_proc( task):
+    #q.put(task)
+    task=task[0]
     try:
         o = find_before(task)
         bpy.context.scene.frame_start = 0
-        bpy.context.scene.frame_end = 40
+        bpy.context.scene.frame_end = 10
         bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'))
+        bpy.context.scene.render.engine = 'CYCLES'
+        bpy.context.scene.cycles.device='CPU'
+        bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+        bpy.context.scene.render.ffmpeg.video_bitrate=750
+        bpy.context.scene.render.ffmpeg.audio_bitrate=124
+
+        bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
+
+        os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+        os.chmod(bpy.context.scene.render.filepath, 0o777)
+         
+        bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+        bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
+        s = sys.stdout
+
+        f = open('/dev/null', 'w')
+        sys.stdout = f
+
+        bpy.ops.render.render(write_still=True)
+
+        os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+        os.chmod(bpy.context.scene.render.filepath, 0o777)
+
+        sys.stdout = s
+
+    except Empty: pass
+
+import random
+
+def render_proc_crd(task):
+    logging.info('!!!!!!!!!!!!!!!!!!!!! {} ************* **'.format(task))
+    
+    task=task[0]
+    try:
+        o = find_before(task)
+        bpy.context.scene.frame_start = 0
+        bpy.context.scene.frame_end = 10
+        bpy.context.scene.render.filepath ='{}{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'),random.randint(1,2000))
         bpy.context.scene.render.engine = 'CYCLES'
         bpy.context.scene.cycles.device='CPU'
         bpy.context.scene.render.ffmpeg.format = 'MPEG4'
@@ -432,6 +511,7 @@ def render_proc(q,task):
 
 
 
+
 import random, sys
 
 def test_wrk(q,t):
@@ -446,7 +526,7 @@ def test_wrk(q,t):
 
 
 @asyncio.coroutine
-def run_render_multi(data_for_render):
+def run_render_multi55(data_for_render):
     proc = []
     ctx = mp.get_context()
 
@@ -455,7 +535,9 @@ def run_render_multi(data_for_render):
     num_procs = 4
 
     for x in range(num_procs):
-        proc.append(ctx.Process(target=render_proc, args=(q,data_for_render)))
+
+        proc.append(mp.Process(target=render_proc_cr, args=(q,data_for_render)))
+        logging.info('!!!!!!!!!!!!!!!!!!!!! {} *************** {} **'.format(data_for_render,q))
     
     
     for p in range(num_procs):
@@ -467,20 +549,38 @@ def run_render_multi(data_for_render):
         proc[p].join()
        # print('+',proc[p].is_alive())
 
+@asyncio.coroutine
+def run_render_multi1(data_for_render):
+    proc = []
+    ctx = mp.get_context()
+
+    q = ctx.Queue()
+    
+    num_procs = 4
+
+     
+    logging.info('!!!!!!!!!!!!!!!!!!!!! {} *************** {} **'.format(data_for_render,q))
+    
+    proc = mp.Process(target=render_proc_cr, args=([[data_for_render]]))
+    proc.start()
+    proc.join() 
+
+
+
     
 
 @asyncio.coroutine
-def run_render_multi11(data_for_render):
+def run_render_multig(data_for_render):
     mp.freeze_support()
     pool = mp.Pool()
 
     l = [[data_for_render]]
-    pool.map(render_proc, l)
+    res = pool.map(render_proc_cr,  l)
 
-    logging.info('!!!!!!!!!!!!!!!!!!!!! {} ******dssfsdfsdfsdfsdf************'.format(pool))
+    logging.info('!!!!!$#$####!!!!!!!! {} ******d ***********'.format(pool))
 
     pool.close()
-    #pool.join()
+    pool.join()
  
     return data_for_render
 
