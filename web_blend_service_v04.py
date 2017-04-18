@@ -13,13 +13,14 @@ from queue import Empty
 import bpy
 from datetime import datetime
 import time
+import gevent
 
 # import config settings
 import configparser
 
 
 conf = configparser.RawConfigParser()
-conf.read('/etc/wb.conf')
+conf.read('wb.conf')
 BLEND_DIR = conf.get('bl_path','BLEND_DIR')
 USERS_DIR = conf.get('bl_path','USERS_DIR')
 dbconnectionhost = conf.get('base','dbconnectionhost')
@@ -71,7 +72,7 @@ def check_data(data):
 
 
 @asyncio.coroutine
-def transmit(request):
+def transmit1(request):
     ts = []
     data = yield from request.text()
     req_json = json.loads(data)
@@ -83,6 +84,30 @@ def transmit(request):
         return web.json_response(req_json)
     return web.Response(body=json.dumps({'ok': req_json}).encode('utf-8'),
         content_type='application/json')#(yield from request.text())
+
+
+@asyncio.coroutine
+def transmit(request):
+    ts = []
+    data = yield from request.text()
+
+    req_json = json.loads(data)
+
+    logging.info('Session method : {}, session type : {}, messages is : {} : {}'.format(request.method, request, request, req_json))
+
+    if request.content_type == 'application/json':
+
+        yield from run_render_multi(req_json)
+        logging.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!YIELD FROM REND_BLRND_MULTI RETURN MESSAGES : {}'.format(req_json['user']))
+
+        return web.json_response(req_json)
+    
+
+
+    #return web.Response(body=json.dumps({'ok': req_json}).encode('utf-8'),
+     #   content_type='application/json')#(yield from request.text())
+
+
 
 
 
@@ -104,12 +129,18 @@ def find_before(task):
     #            os.chdir(os.path.abspath(os.path.join(BLEND_DIR, task['project_name']+str('/project/'))))
 
                # print ('directory in :2 : ',os.getcwd())    
+    #task['project_name']
+
+    logging.info('TEST' * 100)
+    logging.info('file !!!!!!!!!!!!!!{}'.format(os.path.abspath(os.path.join(BLEND_DIR,task['project_name']))))
+
+
     bpy.ops.wm.open_mainfile(filepath=task['project_name'])
 
     name_file =task['user'] +'_'+ task['project_name'].split('/')[-1]
     #bpy.ops.wm.save_as_mainfile(filepath=name_file)
 
-                #print('os dir now',os.path.abspath(os.path.join(USERS_DIR, task['user'])))
+    
     #bpy.ops.wm.open_mainfile(filepath=name_file)
 
 
@@ -189,9 +220,9 @@ def render_begin(scene):
 
 
 #@asyncio.coroutine
-def worker(q,task):
+def worker(q,data_for_render):
     
-
+    task = data_for_render
     logging.info('{}: TASK:{} Q: {}'.format(datetime.now().strftime('%c'),task,type(q)))
     while True:
         try:
@@ -210,14 +241,14 @@ def worker(q,task):
             bpy.context.scene.render.ffmpeg.audio_bitrate=124
 
 
-            with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                try:
-                    db.execute('update users_rollers set is_render=1 where id=%s',(str(task['user_roller_id']),))
+           # with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+           #     try:
+           #         db.execute('update users_rollers set is_render=1 where id=%s',(str(task['user_roller_id']),))#
 
-                except Exception as e:
-                    logging.info('Base err : {}'.format(e))
-                finally:
-                    db.close()
+                #except Exception as e:
+                #    logging.info('Base err : {}'.format(e))
+                #finally:
+                #    db.close()
            
             #bpy.context.scene.frame_start = 100
             #bpy.context.scene.frame_end = 150
@@ -253,10 +284,69 @@ def worker(q,task):
             
 
 # --
+def worker1( task):
+     
+
+    
+    #task = data_for_render
+    
+    while True:
+        try:
+            
+            
+            #logging.info('{} : WORKER: {} and file name {}'.format(datetime.now().strftime('%c'), task,task['project_name']))
+            ## before render we create new file project of blender, and run render it self
+
+            #bpy.ops.wm.open_mainfile(filepath=task['file_name'])
+            o = find_before(task)
+            bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'))
+            bpy.context.scene.render.engine = 'CYCLES'
+            bpy.context.scene.cycles.device='CPU'
+            bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+            bpy.context.scene.render.ffmpeg.video_bitrate=750
+            bpy.context.scene.render.ffmpeg.audio_bitrate=124
+
+
+           # with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+           #     try:
+           #         db.execute('update users_rollers set is_render=1 where id=%s',(str(task['user_roller_id']),))#
+
+                #except Exception as e:
+                #    logging.info('Base err : {}'.format(e))
+                #finally:
+                #    db.close()
+           
+            #bpy.context.scene.frame_start = 100
+            #bpy.context.scene.frame_end = 150
+
+            
+            #os.chown(bpy.context.scene.render.filepath, 500, 500)
+
+            bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
+
+            os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+            os.chmod(bpy.context.scene.render.filepath, 0o777)
+            bpy.context.scene.frame_start = 100
+            bpy.context.scene.frame_end = 101
+            bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+            bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
+            bpy.ops.render.render(write_still=True)
+            os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+            os.chmod(bpy.context.scene.render.filepath, 0o777)
+            #logging.info(' ###########{} ###################: render  name {} '.format(g,task['project_name']))
+           # yield from p
+            #    logging.info(' {} ###################: render  name {} path {}: {}'.format(q.get(),task['project_name'],datetime.now().strftime('%c'),o))
+            #    try:
+            #        os.remove(o)
+            #    except: pass
+
+             
+           ## logging.info('render file name {} complete at {}'.format(task['file_name'],datetime.now().strftime('%c')))
+        except Empty: break
 
 
 @asyncio.coroutine
-def run_render_multi(data_for_render):
+def run_render_multi1(data_for_render):
     
     tasks = []
     g=[]
@@ -303,7 +393,96 @@ def run_render_multi(data_for_render):
     return data_for_render
 
 ### end render module 
+import sys
 
+def render_proc(q,task):
+    q.put(task)
+    #task=task[0]
+    try:
+        o = find_before(task)
+        bpy.context.scene.frame_start = 0
+        bpy.context.scene.frame_end = 40
+        bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'))
+        bpy.context.scene.render.engine = 'CYCLES'
+        bpy.context.scene.cycles.device='CPU'
+        bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+        bpy.context.scene.render.ffmpeg.video_bitrate=750
+        bpy.context.scene.render.ffmpeg.audio_bitrate=124
+
+        bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
+
+        os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+        os.chmod(bpy.context.scene.render.filepath, 0o777)
+         
+        bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+        bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
+        s = sys.stdout
+
+        f = open('/dev/null', 'w')
+        sys.stdout = f
+
+        bpy.ops.render.render(write_still=True)
+
+        os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+        os.chmod(bpy.context.scene.render.filepath, 0o777)
+
+        sys.stdout = s
+
+    except Empty: pass
+
+
+
+import random, sys
+
+def test_wrk(q,t):
+    q.put(t)
+    r = random.randint(1,250)
+     
+    logging.info('!!!!!!!!!!!!!!!!!!!!! {} *************** {}***'.format(t['message'], r))
+
+     
+     
+
+
+
+@asyncio.coroutine
+def run_render_multi(data_for_render):
+    proc = []
+    ctx = mp.get_context()
+
+    q = ctx.Queue()
+    
+    num_procs = 4
+
+    for x in range(num_procs):
+        proc.append(ctx.Process(target=render_proc, args=(q,data_for_render)))
+    
+    
+    for p in range(num_procs):
+        proc[p].start()
+        #print(q.get(),proc[p])
+    
+    
+    for p in range(num_procs):
+        proc[p].join()
+       # print('+',proc[p].is_alive())
+
+    
+
+@asyncio.coroutine
+def run_render_multi11(data_for_render):
+    mp.freeze_support()
+    pool = mp.Pool()
+
+    l = [[data_for_render]]
+    pool.map(render_proc, l)
+
+    logging.info('!!!!!!!!!!!!!!!!!!!!! {} ******dssfsdfsdfsdfsdf************'.format(pool))
+
+    pool.close()
+    #pool.join()
+ 
+    return data_for_render
 
 ### server info
 import sys, os, platform, shutil
