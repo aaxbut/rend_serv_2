@@ -11,6 +11,8 @@ import multiprocessing as mp
 
 from multiprocessing import Process, freeze_support
 from threading import Thread
+from queue import Queue
+
 
 from queue import Empty
 import bpy
@@ -79,8 +81,16 @@ def render_proc_cr(task):
 
     except Empty: pass
 
+queue_taska = Queue(3)
 
+def calback_from_pool(t):
 
+   # item = queue_taska.get()
+
+    logging.info('Current process name: {}, task {}:  '.format(mp.current_process().name ,queue_taska))
+    #mp.current_process().name
+
+    print('kyky')
 
 @asyncio.coroutine
 def transmit(request):
@@ -89,7 +99,7 @@ def transmit(request):
     
 
     mp.freeze_support()
-    pool = mp.Pool()
+    pool = mp.Pool(4)
     req_json = json.loads(data)
 
     logging.info('Session method : {}, session type : {}, messages is : {} : {}'.format(request.method, request, request, req_json))
@@ -100,9 +110,10 @@ def transmit(request):
 
 
         l = [req_json]
-        res = pool.apply_async(render_proc_cr,  l)
 
-        logging.info('!!!!!$#$####!!!!!!!! {} ******d ***********'.format(pool))
+        res = pool.apply_async(render_proc_cr,  l, callback=calback_from_pool)
+        queue_taska.put(res)
+        logging.info('!!!!!$#$####!!!!!!!! {} ******d ***********'.format(res))
 
         pool.close()
         #pool.join()
