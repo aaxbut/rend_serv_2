@@ -243,8 +243,10 @@ pool = ThreadPoolExecutor(max_workers=mp.cpu_count())
 
 loop = asyncio.get_event_loop()
 task_wait_test = TaskWait(loop)
-loop.add_signal_handler(signal.SIGTERM,handler_signal,loop)
-loop.call_soon_threadsafe(print, 'test')
+
+#loop.add_signal_handler(signal.SIGTERM,handler_signal,loop)
+
+#loop.call_soon_threadsafe(print, 'test')
 
 #loop.run_in_executor(pool,)
 
