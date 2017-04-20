@@ -1,5 +1,10 @@
 from aiohttp import web
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
+import multiprocessing
+
+ 
+
 import logging
 import json
 
@@ -12,7 +17,7 @@ import multiprocessing as mp
 from multiprocessing import Process, freeze_support
 from threading import Thread
 from queue import Queue
-
+import signal
 
 from queue import Empty
 import bpy
@@ -40,7 +45,28 @@ import random
 
 # end import config settings
 
+class TaskWait:
 
+    def __init__(self,loop,*args,**kwargs):
+        self._loop = loop
+        self._waiter = asyncio.Event()
+        self._flush_future = self._loop.create_task(self.flush_task())
+
+    @asyncio.coroutine
+    def flush_task(self):
+        print('dfdfd')
+        while True:
+            try:
+                yield from asyncio.wait_for(self._waiter.wait(),timeout=10, loop=self.loop)
+                
+
+            except asyncio.TimeoutError as e:
+                print(e,'dfdf')
+            self._waiter.clear()
+
+    def force_flush():
+        print('dfdffd')
+        self._waiter.set()
 
 
 
@@ -90,7 +116,7 @@ def calback_from_pool(t):
     logging.info('Current process name: {}, task {}:  '.format(mp.current_process().name ,queue_taska))
     #mp.current_process().name
 
-    print('kyky')
+    
 
 @asyncio.coroutine
 def transmit(request):
@@ -181,31 +207,54 @@ def server_info():
     logging.info('{} SRV: {} '.format(datetime.now().strftime('%c'), nodename))
 
 
+test_calback_task = []
+
+
+@asyncio.coroutine
+def test_calback(item,handler):
+    test_calback_task.append(item)
+    logging.info('{}::::::Time now: {}'.format(item, datetime.now().strftime('%c')))
+    def log(request):
+        r = yield from handler(request)
+        logging.info(str(r))
+    return log
+
+
+    return 
+
+def handler_signal(loop):
+    loop.remove_signal_handler(signal.SIGTERM)
+    loop.stop()
 
  
 def init(loop):
     logging.basicConfig(level=logging.DEBUG)
-    bpy.app.handlers.render_complete.append(render_complete)
-
-     
-    app = web.Application()
-
-
-    
-    app.router.add_post('/tr', transmit)
-  
  
-    _ = yield from loop.create_server(app.make_handler(),'0.0.0.0',781)
-    return _
+    bpy.app.handlers.render_complete.append(render_complete)
+     
+    app = web.Application(loop=loop,middlewares=[test_calback])
+    app.router.add_post('/tr', transmit)
 
+    server = yield from loop.create_server(app.make_handler(),'0.0.0.0',781)
+    return server
+
+
+pool = ThreadPoolExecutor(max_workers=mp.cpu_count())
 
 loop = asyncio.get_event_loop()
+task_wait_test = TaskWait(loop)
+loop.add_signal_handler(signal.SIGTERM,handler_signal,loop)
+loop.call_soon_threadsafe(print, 'test')
+
+#loop.run_in_executor(pool,)
+
 srv = loop.run_until_complete(init(loop))
 
     
-try: 
+try:
+    logging.info('{} SRV: {} '.format(datetime.now().strftime('%c'), srv.sockets[0].getsockname())) 
     loop.run_forever()
-    print('serving on', srv.sockets[0].getsockname())
+    
 except KeyboardInterrupt:
     loop.close()  
     #pass
