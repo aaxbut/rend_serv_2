@@ -48,25 +48,42 @@ import random
 class TaskWait:
 
     def __init__(self,loop,*args,**kwargs):
+
         self._loop = loop
         self._waiter = asyncio.Event()
         self._flush_future = self._loop.create_task(self.flush_task())
+        self._pool = pool
+        self._log = logging.getLogger(self.__class__.__name__)
+        self._queue = queue
 
     @asyncio.coroutine
     def flush_task(self):
-        print('dfdfd')
+
+        #start_flush = datetime.now().strftime('%c')
+        
+#        logging.info('Time Flush_TASK {}'.format(datetime.now().strftime('%c')))
+
         while True:
             try:
-                yield from asyncio.wait_for(self._waiter.wait(),timeout=10, loop=self.loop)
                 
+                self._log.info('{} Current process name: {} '.format(self._queue,mp.current_process().name))
+                data = yield from asyncio.wait_for(self._waiter.wait(),timeout=2.0, loop=self._loop)
+         
+            except asyncio.TimeoutError:
+                pass
 
-            except asyncio.TimeoutError as e:
-                print(e,'dfdf')
             self._waiter.clear()
 
     def force_flush():
-        print('dfdffd')
+        #self._log.info('{} Force flush Current process name: {}  '.format(__name__, mp.current_process().name))
         self._waiter.set()
+
+
+    def submit(self,callbacks,*args, **kwargs):
+        print(args,kwargs)
+
+        return self._pool.submit(self.flush_task)
+        
 
 
 
@@ -109,11 +126,12 @@ def render_proc_cr(task):
 
 queue_taska = Queue(3)
 
+
 def calback_from_pool(t):
 
    # item = queue_taska.get()
 
-    logging.info('Current process name: {}, task {}:  '.format(mp.current_process().name ,queue_taska))
+    logging.info('{} Current process name: {}, task {}:  '.format(__name__, mp.current_process().name ,queue_taska))
     #mp.current_process().name
 
     
@@ -128,20 +146,19 @@ def transmit(request):
     pool = mp.Pool(4)
     req_json = json.loads(data)
 
-    logging.info('Session method : {}, session type : {}, messages is : {} : {}'.format(request.method, request, request, req_json))
+    logging.info('{} ::: {}'.format(datetime.now().strftime('%c'),pool ))
+
+    #logging.info('Session method : {}, session type : {}, messages is : {} : {}'.format(request.method, request, request, req_json))
 
     if request.content_type == 'application/json':
         
-        logging.info('user :{} ::'.format(req_json['user']))
-
-
+        #logging.info('user :{} ::'.format(req_json['user']))
         l = [req_json]
-
         res = pool.apply_async(render_proc_cr,  l, callback=calback_from_pool)
-        queue_taska.put(res)
-        logging.info('!!!!!$#$####!!!!!!!! {} ******d ***********'.format(res))
+        #queue_taska.put(res)
+        #logging.info('!!!!!$#$####!!!!!!!! {} ******d ***********'.format(res))
 
-        pool.close()
+        #pool.close()
         #pool.join()
 
 
@@ -179,7 +196,7 @@ def render_complete(scene):
 
 @persistent
 def render_begin(scene):
-    logging.info('################{} ################{}#########{}####'.format(scene,bpy.data.filepath,bpy.context.scene.render.filepath))
+    logging.info('################{}################{}#########{}####'.format(scene,bpy.data.filepath,bpy.context.scene.render.filepath))
     logging.info('#####{}####{}##'.format(os.path.abspath(bpy.data.filepath),bpy.data.filepath))
 
     try:
@@ -210,14 +227,21 @@ def server_info():
 test_calback_task = []
 
 
+
 @asyncio.coroutine
 def test_calback(item,handler):
-    test_calback_task.append(item)
-    logging.info('{}::::::Time now: {}'.format(item, datetime.now().strftime('%c')))
-    def log(request):
-        r = yield from handler(request)
-        logging.info(str(r))
-    return log
+
+    test_calback_task = queue.put(item)
+
+    def middle_handler(request):
+        hand_data = yield from handler(request)
+
+        logging.info(':::{}::::::Time now: {} handler status {}'.format(item, datetime.now().strftime('%c'), str(hand_data)))
+        logging.info('::In Task:{}::::::Tim'.format(test_calback_task))
+     
+        return web.json_response({'ok':str(hand_data)})
+
+    return middle_handler
 
 
     return 
@@ -226,14 +250,26 @@ def handler_signal(loop):
     loop.remove_signal_handler(signal.SIGTERM)
     loop.stop()
 
+
+ 
+def start_bk_task(app):
+    try:
+        logging.info('*'*180)
+    except Exception as e:
+        logging.info('{}'.format(e))
+        
+
  
 def init(loop):
     logging.basicConfig(level=logging.DEBUG)
  
     bpy.app.handlers.render_complete.append(render_complete)
      
-    app = web.Application(loop=loop,middlewares=[test_calback])
+    app = web.Application(loop=loop, middlewares=[test_calback])
     app.router.add_post('/tr', transmit)
+
+    #app.on_startup.append(start_bk_task)
+
 
     server = yield from loop.create_server(app.make_handler(),'0.0.0.0',781)
     return server
@@ -241,10 +277,17 @@ def init(loop):
 
 pool = ThreadPoolExecutor(max_workers=mp.cpu_count())
 
-loop = asyncio.get_event_loop()
-task_wait_test = TaskWait(loop)
 
-#loop.add_signal_handler(signal.SIGTERM,handler_signal,loop)
+queue = asyncio.Queue()
+policy = asyncio.get_event_loop_policy()
+policy.set_event_loop(policy.new_event_loop())
+loop = asyncio.get_event_loop()
+
+task_wait_test = TaskWait(loop, pool, logging,queue)
+
+loop.run_in_executor(task_wait_test,start_bk_task)
+
+loop.add_signal_handler(signal.SIGTERM,handler_signal,loop)
 
 #loop.call_soon_threadsafe(print, 'test')
 
