@@ -15,22 +15,32 @@ async def fetch(client):
         #    print('{} , {} ,sesrequestrequestrequestrequestsion state closed : {}**{}'.format(session.read(),client,client.closed,u))
         #s = await client.pbost(url, data = json.dumps(data) ,headers = headers)w
         async with await client.post(url, data = json.dumps(data) ,headers = headers) as post_session:
+
             #assert post_session.status == 405
             u =  json.loads(await post_session.text())
             #print(u)
             
-            #print('Session method "{}", session state closed  : {} : {} json data:{}, session k'.format(post_session.method, client.closed,u,data))
+            #print('Session method "{}", session state closebd  : {} : {} json data:{}, session k'.format(post_session.method, client.closed,u,data))
 #            await post_session.release()
 
-            return await post_session.text()
+            return u
 
 async def main(loop):
         async with aiohttp.ClientSession(loop=loop) as client:
             html = await fetch(client)
-            with (open('tttt','a')) as filek:
-                filek.write(html)
+            print(html)
+            #with (open('tttt','a')) as filek:
+            #    filek.write(html)
              #print('html ',html)
 
 
 loop = asyncio.get_event_loop()
-loop.run_until_complete(main(loop))
+ 
+try:
+    
+    loop.run_until_complete(main(loop))
+    
+except KeyboardInterrupt:
+    loop.close()
+
+        #logging.info('{} SRV: closing  {} '.format(datetime.now().strftime('%c'), srv.sockets[0].getsockname())) 
