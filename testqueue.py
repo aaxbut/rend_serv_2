@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#! /user/bin/env python3
+#! /usr/bin/env python3
 import multiprocessing
 import multiprocessing as mp
 from threading import Thread

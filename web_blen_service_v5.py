@@ -74,43 +74,107 @@ class TaskWait:
 
         #next_job.data=dict(next_job.data)
         time_start = time.time()
-        task = next_job[0].data
+        task = json.loads(next_job[0].data)
         #self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
 
 
         #self._log.info('worker job : {} '.format(task['project_name']))
+        bpy.ops.wm.open_mainfile(filepath=task['project_name'])
+        context_frame_start = bpy.context.scene.frame_start
+        context_frame_end = bpy.context.scene.frame_end
+        self._log.info(':::Priview ::')
+        self._log.info('{}:::Priview :: {} Picture ::{}, Full::{}'.format(
+                                                            datetime.now().strftime('%c'), 
+                                                            task['moview_priview'], 
+                                                            task['moview_picture'],
+                                                            task['moview_full']
+                                                            ))
 
 
-        try:
-            self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
 
-            bpy.ops.wm.open_mainfile(filepath=task['project_name'])
-            bpy.context.scene.frame_start = 0
-            bpy.context.scene.frame_end = 10
 
-            bpy.context.scene.render.filepath ='{}{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'),random.randint(1,2000))
-            bpy.context.scene.render.engine = 'CYCLES'
-            bpy.context.scene.cycles.device='CPU'
-            bpy.context.scene.render.ffmpeg.format = 'MPEG4'
-            bpy.context.scene.render.ffmpeg.video_bitrate=750
-            bpy.context.scene.render.ffmpeg.audio_bitrate=124
+        if task['moview_priview']:
+            try:
+                #self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
+                
 
-            bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
+                bpy.context.scene.frame_start = 0
+                bpy.context.scene.frame_end = 25
 
-            os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
-            os.chmod(bpy.context.scene.render.filepath, 0o777)
+                bpy.context.scene.render.filepath ='{}{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'),random.randint(1,2000))
+
+                bpy.context.scene.render.engine = 'CYCLES'
+                bpy.context.scene.cycles.device='CPU'
+                bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+                bpy.context.scene.render.ffmpeg.video_bitrate=750
+                bpy.context.scene.render.ffmpeg.audio_bitrate=124
+            
+                bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
+                os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+                os.chmod(bpy.context.scene.render.filepath, 0o777)
          
-            bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
-            bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
-
-            bpy.ops.render.render(write_still=True)
-
-            os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
-            os.chmod(bpy.context.scene.render.filepath, 0o777)
+        
+                bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+            
+                bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
+                bpy.ops.render.render(write_still=True)
+                os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+                os.chmod(bpy.context.scene.render.filepath, 0o777)
 
         
 
-        except Empty: pass
+            except Empty: pass
+        if task['moview_picture']:
+            try:
+       
+                bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+            
+                bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
+                bpy.ops.render.render(write_still=True)
+                os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+                os.chmod(bpy.context.scene.render.filepath, 0o777)
+
+        
+
+            except Empty: pass
+
+        if task['moview_full']:
+            try:
+                self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
+                bpy.ops.wm.open_mainfile(filepath=task['project_name'])
+                bpy.context.scene.frame_start = context_frame_start
+                bpy.context.scene.frame_end = context_frame_end
+
+                
+
+                bpy.context.scene.render.filepath ='{}{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'),random.randint(1,2000))
+
+                bpy.context.scene.render.engine = 'CYCLES'
+                bpy.context.scene.cycles.device='CPU'
+                bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+                bpy.context.scene.render.ffmpeg.video_bitrate=750
+                bpy.context.scene.render.ffmpeg.audio_bitrate=124
+            
+                bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
+                os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+                os.chmod(bpy.context.scene.render.filepath, 0o777)
+         
+        
+                bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+            
+                bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
+                bpy.ops.render.render(write_still=True)
+                os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+                os.chmod(bpy.context.scene.render.filepath, 0o777)
+
+
+
+        
+
+            except Empty: pass
+
+
+
 
         #finally:
            # self._loop.stop()
@@ -388,25 +452,7 @@ def render_complete(scene):
         pass
 
 
-@persistent
-def render_begin(scene):
-    logging.info('###### RENDER BEGIN  ###{}################{}#########{}####'.format(scene,bpy.data.filepath,bpy.context.scene.render.filepath))
-    logging.info('#####{}####{}##'.format(os.path.abspath(bpy.data.filepath),bpy.data.filepath))
 
-    try:
-        #ins()
-        h = bpy.context.scene.render.filepath
-        with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-            try:
-                cur.execute('update users_rollers set is_ready=1,filename_video=%s where id=%s',('video/roller_video.mp4',h.split('/')[7]))
-            except Exception as e:
-                logging.info('Base err : {}'.format(e))
-            finally:
-                db.close()
-     
-        os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
-    except:
-        pass
 
 
 ### server info

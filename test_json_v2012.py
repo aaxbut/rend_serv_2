@@ -5,12 +5,14 @@ import json
 
 async def fetch(client):
         url = "http://127.0.0.1:781/tr"
-        data = {'sender':'node-1','result_dir':'/var/www/cmex.ru/data/uploads/users','user': 'bob', 'message': 'We did it!','project_name':'/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend','files_png':{'head1':'head13.png','mouth1':'mouth13.png'}}
+        data = {'moview_full':True,'moview_picture':True,'moview_priview':True,'sender':'node-1','result_dir':'/var/www/cmex.ru/data/uploads/users','user': 'bob', 'message': 'We did it!','project_name':'/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend','files_png':{'head1':'head13.png','mouth1':'mouth13.png'}}
         #data = {'sendaemonder':'node-1','user': 'nebob', 'file_h1': 'head1.png', 'message': 'We did it!','project_name':'Rauf','file_name':'500265.blend','files_png':{'head1':'head1.png','mouth1':'mouth1.png'}}
         #data = {'sender':'node-1','user': 'aaxbut', 'file_h1': 'head1.png', 'message': 'We did it!','requestdata_for_renderproject_name':'Rauf','file_name':'500265.blend','files_png':{'head1':'head12.png','mouth1':'mouth12.png'}}
         headers = {'Content-type': 'application/json'}
         #async witresulth clibpy.ops.render.render(animation=True,scene=bpy.context.scene.name)ent.get(url,data=data) as session:
-        #    assert session.status == 200
+        #    assert session.status == 200                                                              task['moview_priview'], 
+                                                     #   $    task['moview_picture'],
+                                                     #      task['moview_full']
         #    u = await session.text()
         #    print('{} , {} ,sesrequestrequestrequestrequestsion state closed : {}**{}'.format(session.read(),client,client.closed,u))
         #s = await client.pbost(url, data = json.dumps(data) ,headers = headers)w

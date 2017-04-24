@@ -77,6 +77,7 @@ class TaskWait:
         try:
 
             bpy.ops.wm.open_mainfile(filepath=task['project_name'])
+            
             bpy.context.scene.frame_start = 0
             bpy.context.scene.frame_end = 10
 
