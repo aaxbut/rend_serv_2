@@ -45,6 +45,11 @@ dbusername = conf.get('base','dbusername')
 dbpassword = conf.get('base','dbpassword')
 u_ugid = conf.get('usr_permission','uid')
 u_gguid = conf.get('usr_permission','gid')
+
+LOG_FILENAME = '/var/tmp/render_blender_server.log'
+
+
+q_priority_job = queue.PriorityQueue(2)
 # base connect
 import MySQLdb as mysql
 import random
@@ -68,13 +73,16 @@ class TaskWait:
     def worker(self, next_job):
 
         #next_job.data=dict(next_job.data)
-        task = json.loads(next_job.data)
+        time_start = time.time()
+        task = next_job[0].data
+        #self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
 
 
-        self._log.info('worker job : {} '.format(task['project_name']))
+        #self._log.info('worker job : {} '.format(task['project_name']))
 
 
         try:
+            self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
 
             bpy.ops.wm.open_mainfile(filepath=task['project_name'])
             bpy.context.scene.frame_start = 0
@@ -104,50 +112,33 @@ class TaskWait:
 
         except Empty: pass
 
-        finally:
-            self._loop.stop()
+        #finally:
+           # self._loop.stop()
 
 
 
-
-        return {'ok':'ok'}
+        end_time = time.time() - time_start
+        self._log.info('worker job : {} TIME {}'.format(' s',end_time))
+        return {'ok':end_time }
 
 
 
     @asyncio.coroutine
     def run_jobs(self):
-        
-
-        #next_job = q.get()
-        #data = self._queue.get()
-        #self._log.info('Current: {} '.format(type(self._queue)))
-        
         lt = []        
 
-        #data = q_priority_job.get()
-        self._log.info('{} '.format(datetime.now().strftime('%c')))
+
+       # self._log.info('{} '.format(datetime.now().strftime('%c')))
         while not self._queue.empty():
 
-            self._log.info('Current queue : {} '.format('NOT EMPTY '))
+            #self._log.info('Current queue : {} '.format('NOT EMPTY '))
             data = self._queue.get()
             lt.append(data)
-            #map(self.worker, data)
-            #run = self._pool.submit(self.worker, (data,))
-            #run.start()
-            
-           # self._log.info('Current queue : {} '.format(run))
-            #self._loop.run_until_complete(self.worker(data))
-            #t = threading.Thread(target=self.worker, args=(data,))
-            #t.start()
-            #try:
+            self._queue.task_done()
 
-                #self.worker(data)
-            #except Exception as e:
-            #    self._log.info('Exception Current queue : {} '.format(e))
-            #res = self._pool.apply_async(self.worker, (data,))
 
-        self._log.info('{} Coutn in queue '.format(datetime.now().strftime('%c'), lt.__len__()))
-        procs = (mp.Process(target=self.worker, args=(data,)) for _ in lt)
+        self._log.info('{} Count in queue {}'.format(datetime.now().strftime('%c'), lt.__len__()))
+        procs = (mp.Process(target=self.worker, args=(lt,)) for _ in lt)
 
         for proc in procs:
             proc.daemon = True
@@ -155,62 +146,26 @@ class TaskWait:
         
         for proc in procs:
             proc.join()
-           # p.close()
-            #p.join()
-
-            #test = yield from self.worker(data)
-
-
-            self._queue.task_done()
 
             
 
+        #return 'Status run_job'
 
-
-
-
-
-        #next_job.task_done()
-
-        #return {'o@@@@@@@@@@@@@@@@@k':'o@@@@@@@@@@@@@k'}
-        #self._log.info('Current queweweweweeeeweweue name: {} '.format(type(q)))
-
-        #for x in range(10):
-        #    self._log.info('Current queweweweweeeeweweue name: {} ######{}'.format(next_job,str(x)))
-        
-        #while True:
-        #   next_job = q.get()
-        #    self._log.info('Current queue name: {} '.format(next_job))
-        #    self._log.info('!!!!!!!!!!!!!!!!!!!!! {} ******************'.format(procs))
     
-            
-
-        #next_job.task_done()
-
-
-
-
+    
 
     @asyncio.coroutine
     def flush_task(self):
 
-        #start_flush = datetime.now().strftime('%c')
-        
-       # self._log.info('Time Flush_TASK {}'.format(datetime.now().strftime('%c')))
-
+    
         while True:
             try:
-                
-                #self._log.info('{} Current process name: {} '.format(self._queue, mp.current_process().name))
+    
+                #self._log.info( datetime.now().strftime('%c'))
 
-                #data = self.run_jobs(self._queue)
-                #data = self._pool.apply_async(self.run_jobs,  self._queue)
-
-                #self._log.info('Current queue name: {} '.format(next_job))
-
-                self._log.info( datetime.now().strftime('%c'))
                 task = self._loop.create_task(self.run_jobs())
-                self._log.info('Date {} , TASK status {}'.format(datetime.now().strftime('%c'),task))
+
+                self._log.info('{} , loop time : {},   loop is working : {}'.format(datetime.now().strftime('%c'), self._loop.time(), self._loop.is_running()))
 
                 data = yield from asyncio.wait_for(self._waiter.wait(),timeout=2.0, loop=self._loop)
          
@@ -221,18 +176,14 @@ class TaskWait:
             self._waiter.clear()
 
     def force_flush():
-        #self._log.info('{} Force flush Current process name: {}  '.format(__name__, mp.current_process().name))
-       # self._waiter.clear()
         self._waiter.set()
 
 
     def submit(self,callbacks,*args, **kwargs):
         
-        print(args,kwargs)
+    
         future = self._pool.submit(self.flush_task)
-     #   future2 = self._pool.submit(self.run_jobs)
-
-
+    
         return future
 
 
@@ -370,8 +321,7 @@ def render_proc_cr(task):
 
 
 
-queue_taska = Queue(3)
-q_priority_job = queue.PriorityQueue()
+
 
 
 def calback_from_pool(t):
@@ -400,20 +350,13 @@ def transmit(request):
 
         joq_data = Job(3, request.method, data)
         q_priority_job.put(joq_data)
-        logging.info('Job description {}'.format(q_priority_job))
+        #logging.info('Job description {}'.format(q_priority_job))
         #logging.info('user :{} ::'.format(req_json['user']))
         l = [joq_data]
-      #  l.append([joq_data])
-        #res = pool.apply_async(render_proc_cr,  l, callback=calback_from_pool)
-        #queue_taska.put(res)
-        logging.info('!!!!!$#$####!!!!!!!! {} ******d ***********'.format(l))
-
-        #pool.close()
-        #pool.join()
-
-
+        #logging.info('!!!!!$#$####!!!!!!!! {} ******d ***********'.format(l))
         
-        return web.Response(body=json.dumps({'ok': req_json}).encode('utf-8'), content_type='application/json')
+        #return web.Response(body=json.dumps({'ok': req_json}).encode('utf-8'), content_type='application/json')
+        return web.json_response({'ok':'ok_transmit'}) 
     return web.json_response({'ok':'ok_transmit'})    
 
  
@@ -524,7 +467,8 @@ def shutdown(server, app, handler):
 
  
 def init(loop):
-    logging.basicConfig(level=logging.DEBUG)
+    #logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
  
     bpy.app.handlers.render_complete.append(render_complete)
      
@@ -541,7 +485,9 @@ def init(loop):
 
 
 if __name__ == '__main__':
-
+   # hdlr = logging.FileHandler('/var/tmp/render_blender_server.log')
+   # logging.addHandler(hdlr)
+    
     pool = ThreadPoolExecutor(4)
     #queue = asyncio.Queue()
 
@@ -568,8 +514,8 @@ if __name__ == '__main__':
     
     except KeyboardInterrupt:
         logging.info('{} SRV: closing  {} '.format(datetime.now().strftime('%c'), srv.sockets[0].getsockname())) 
-        #loop.close()  
+        loop.close()  
         #pass
-    finally:
-        loop.run_until_complete(shutdown(srv, app, handler))
-        loop.close()
+    #finally:
+    #    loop.run_until_complete(shutdown(srv, app, handler))
+    #    loop.close()
