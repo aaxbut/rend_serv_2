@@ -560,7 +560,7 @@ def init(loop):
     #logging.basicConfig(level=logging.DEBUG)
     logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
  
-    bpy.app.handlers.render_complete.append(render_complete)
+    #bpy.app.handlers.render_complete.append(render_complete)
      
     app = web.Application(loop=loop, middlewares=[test_calback])
     #app = web.Application(loop=loop)
