@@ -4,7 +4,7 @@ import json
 
 
 async def fetch(client):
-        url = "http://127.0.0.1:781/tr"
+        url = "http://127.0.0.1:7811/tr"
         data = {'moview_full':True,'moview_picture':True,'moview_priview':True,'sender':'node-1','result_dir':'/var/www/cmex.ru/data/uploads/users','user': 'bob', 'message': 'We did it!','project_name':'/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend','files_png':{'head1':'head13.png','mouth1':'mouth13.png'}}
         #data = {'sendaemonder':'node-1','user': 'nebob', 'file_h1': 'head1.png', 'message': 'We did it!','project_name':'Rauf','file_name':'500265.blend','files_png':{'head1':'head1.png','mouth1':'mouth1.png'}}
         #data = {'sender':'node-1','user': 'aaxbut', 'file_h1': 'head1.png', 'message': 'We did it!','requestdata_for_renderproject_name':'Rauf','file_name':'500265.blend','files_png':{'head1':'head12.png','mouth1':'mouth12.png'}}
