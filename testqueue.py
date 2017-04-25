@@ -72,7 +72,7 @@ def partial(func, *args, **kwargs):
 
 t = partial1(int, base=2)
 
-print(t)
+#print(t)
 
 t.__doc__= 'Convert base 2 string to an int.'
 
@@ -88,4 +88,4 @@ def fib(n):
     return fib(n-1) + fib(n-2)
 
 
-print([fib(n) for n in range(100)])
+#print([fib(n) for n in range(100)])

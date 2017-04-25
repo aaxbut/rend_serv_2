@@ -49,7 +49,8 @@ u_gguid = conf.get('usr_permission','gid')
 LOG_FILENAME = '/var/tmp/render_blender_server.log'
 
 
-q_priority_job = queue.PriorityQueue(2)
+q_priority_job = asyncio.Queue(maxsize=12)
+#queue.PriorityQueue(2)
 # base connect
 import MySQLdb as mysql
 import random
@@ -66,7 +67,7 @@ class TaskWait:
         self._flush_future = self._loop.create_task(self.flush_task())
         self._pool = pool
         self._log = logging.getLogger(self.__class__.__name__)
-        self._queue = q_priority_job
+        self._queue = queue
 
 
     
@@ -98,11 +99,14 @@ class TaskWait:
                 #self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
                 with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
                     try:
+                        self._log.info(':::Priview ::### before append to database %s' %(datetime.now().strftime('%c')))
                         db.execute('update users_rollers set is_render_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
                         db.execute('update users_rollers set is_render_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                        self._log.info(':::Priview ::### after  update to database %s' %(datetime.now().strftime('%c')))
                     except Exception as e:
                         logging.info('Base err : {}'.format(e))
                     finally:
+                        self._log.info(':::Priview ::### finally phase update to database %s' %(datetime.now().strftime('%c')))
                         db.close()
                 
 
@@ -132,11 +136,15 @@ class TaskWait:
 
                 with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
                     try:
+                        self._log.info(':::Priview ::### before append to database %s' %(datetime.now().strftime('%c')))
                         db.execute('update users_rollers set is_ready_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
                         db.execute('update users_rollers set is_ready_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                        self._log.info(':::Priview ::### after  update to database %s' %(datetime.now().strftime('%c')))
+
                     except Exception as e:
                         logging.info('Base err : {}'.format(e))
                     finally:
+                        self._log.info(':::Priview ::### finally phase update to database %s' %(datetime.now().strftime('%c')))
                         db.close()
 
         
@@ -239,24 +247,31 @@ class TaskWait:
        # self._log.info('{} '.format(datetime.now().strftime('%c')))
         while not self._queue.empty():
 
-            #self._log.info('Current queue : {} '.format('NOT EMPTY '))
+            self._log.info('Current queue : {} {}'.format('NOT EMPTY',self._queue))
+
             data = self._queue.get()
+            
+
             lt.append(data)
+            self._log.info('Current queue : {} DATA {} ##### '.format('$$##$@  ',lt))
             self._queue.task_done()
+            
 
 
-        self._log.info('{} Count in queue {}'.format(datetime.now().strftime('%c'), lt.__len__()))
-        procs = (mp.Process(target=self.worker, args=(lt,)) for _ in lt)
+        self._log.info('{} Count in queue {} status queu ::{}'.format(datetime.now().strftime('%c'), lt, self._queue.empty()))
+        procs = (Thread(target=self.worker, args=(lt,)) for _ in lt)
 
         for proc in procs:
-            proc.daemon = True
+            proc.setDaemon(True)
             proc.start()
+            self._log.info('{} Proc started {} status queu ::{}'.format(datetime.now().strftime('%c'), proc, self._queue.empty()))
         
         for proc in procs:
             proc.join()
+            self._log.info('{} Proc join {} status queu ::{}'.format(datetime.now().strftime('%c'), proc, self._queue.empty()))
 
             
-
+        
         #return 'Status run_job'
 
     
@@ -269,7 +284,7 @@ class TaskWait:
         while True:
             try:
     
-                #self._log.info( datetime.now().strftime('%c'))
+                self._log.info('#With out JOBS run #{} ## QUEUE empty {} ## jobs type'.format(datetime.now().strftime('%c'), self._queue.empty()))
 
                 task = self._loop.create_task(self.run_jobs())
 
@@ -277,11 +292,14 @@ class TaskWait:
 
                 data = yield from asyncio.wait_for(self._waiter.wait(),timeout=2.0, loop=self._loop)
          
-            except asyncio.TimeoutError:
-                pass
+            except Exception as e:
+            #asyncio.TimeoutError:
+
+                self._log.info('{} EXCEPTION {} '.format(datetime.now().strftime('%c'),str(e)))
+                
 
 
-            self._waiter.clear()
+            #self._waiter.clear()
 
     def force_flush():
         self._waiter.set()
@@ -299,12 +317,17 @@ class TaskWait:
 class Job:
 
     def __init__(self, priority, description, data):
+
         self.priority = priority
         self.description = description
         self.data = data
-        print('New job:', description)
+        logging.info('**{}### priority : {}###############'.format(datetime.now().strftime('%c'), self.priority ))
+
+        #print('New job:', description)
 
         return 
+    #def __call__(self):   https://pythoness.pp.ua/catalog/article/veb-pauk-s-ispolzovaniem-aiohttp-i-asyncio/
+      #  TaskWait._queue.put(self.data)
 
     def __eq__(self,other):
         try:
@@ -440,13 +463,13 @@ def calback_from_pool(t):
 
     
 
-
+@asyncio.coroutine
 def transmit(request):
     
     data = yield from request.text()
     
 
-    mp.freeze_support()
+    #mp.freeze_support()
 
    # pool = mp.Pool(1)
 
@@ -457,10 +480,12 @@ def transmit(request):
     if request.content_type == 'application/json':
 
         joq_data = Job(3, request.method, data)
+
         q_priority_job.put(joq_data)
-        #logging.info('Job description {}'.format(q_priority_job))
+
+        logging.info('Job description {} ########## {} ##########'.format('sdcsdcsdcsdvwrby3y3yb5y45by45b',q_priority_job.__dict__))
         #logging.info('user :{} ::'.format(req_json['user']))
-        l = [joq_data]
+        #l = [joq_data]
         #logging.info('!!!!!$#$####!!!!!!!! {} ******d ***********'.format(l))
         
         #return web.Response(body=json.dumps({'ok': req_json}).encode('utf-8'), content_type='application/json')
@@ -557,12 +582,12 @@ def shutdown(server, app, handler):
 
  
 def init(loop):
-    #logging.basicConfig(level=logging.DEBUG)
-    logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
+   # logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
  
     #bpy.app.handlers.render_complete.append(render_complete)
      
-    app = web.Application(loop=loop, middlewares=[test_calback])
+    app = web.Application(loop=loop)
     #app = web.Application(loop=loop)
    
     app.router.add_post('/tr', transmit)
@@ -575,21 +600,26 @@ def init(loop):
 
 
 if __name__ == '__main__':
+
+   # global q_priority_job
    # hdlr = logging.FileHandler('/var/tmp/render_blender_server.log')
    # logging.addHandler(hdlr)
+
     
     pool = ThreadPoolExecutor(4)
-    #queue = asyncio.Queue()
-
+    
     policy = asyncio.get_event_loop_policy()
     policy.set_event_loop(policy.new_event_loop())
+    
     loop = asyncio.get_event_loop()
+    queue = asyncio.Queue(maxsize=12, loop=loop)
 
-    task_wait_test = TaskWait(loop, pool, logging, q_priority_job)
 
+    task_wait_test = TaskWait(loop, pool, logging, queue)
+    #loop.set_debug(True)
     loop.run_in_executor(task_wait_test, start_bk_task)
 
-    loop.add_signal_handler(signal.SIGTERM,handler_signal,loop)
+    #loop.add_signal_handler(signal.SIGTERM, handler_signal, loop)
 
     #loop.call_soon_threadsafe(print, 'test')
 
@@ -604,6 +634,8 @@ if __name__ == '__main__':
     
     except KeyboardInterrupt:
         logging.info('{} SRV: closing  {} '.format(datetime.now().strftime('%c'), srv.sockets[0].getsockname())) 
+        asyncio.gather(*asyncio.Task.all_tasks()).cancel()
+        loop.stop()
         loop.close()  
         #pass
     #finally:
