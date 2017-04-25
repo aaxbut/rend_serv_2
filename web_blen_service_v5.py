@@ -96,12 +96,20 @@ class TaskWait:
         if task['moview_priview']:
             try:
                 #self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
+                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                    try:
+                        db.execute('update users_rollers set is_render_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+                        db.execute('update users_rollers set is_render_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                    except Exception as e:
+                        logging.info('Base err : {}'.format(e))
+                    finally:
+                        db.close()
                 
 
                 bpy.context.scene.frame_start = 0
                 bpy.context.scene.frame_end = 25
 
-                bpy.context.scene.render.filepath ='{}{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'),random.randint(1,2000))
+                bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video_demo'))
 
                 bpy.context.scene.render.engine = 'CYCLES'
                 bpy.context.scene.cycles.device='CPU'
@@ -116,16 +124,33 @@ class TaskWait:
         
                 bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
             
-                bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
+                bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video_demo'))
                 bpy.ops.render.render(write_still=True)
                 os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
                 os.chmod(bpy.context.scene.render.filepath, 0o777)
+
+
+                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                    try:
+                        db.execute('update users_rollers set is_ready_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+                        db.execute('update users_rollers set is_ready_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                    except Exception as e:
+                        logging.info('Base err : {}'.format(e))
+                    finally:
+                        db.close()
 
         
 
             except Empty: pass
         if task['moview_picture']:
             try:
+                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                    try:
+                        db.execute('update users_rollers set is_ready=1,filename_screen=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                    except Exception as e:
+                        logging.info('Base err : {}'.format(e))
+                    finally:
+                        db.close()
        
                 bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
             
@@ -134,6 +159,7 @@ class TaskWait:
                 os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
                 os.chmod(bpy.context.scene.render.filepath, 0o777)
 
+
         
 
             except Empty: pass
@@ -141,13 +167,23 @@ class TaskWait:
         if task['moview_full']:
             try:
                 self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
+                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                    try:
+                        db.execute('update users_rollers set is_render=1,filename_video=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+                        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                    except Exception as e:
+                        logging.info('Base err : {}'.format(e))
+                    finally:
+                        db.close()
+
+
                 bpy.ops.wm.open_mainfile(filepath=task['project_name'])
                 bpy.context.scene.frame_start = context_frame_start
                 bpy.context.scene.frame_end = context_frame_end
 
                 
 
-                bpy.context.scene.render.filepath ='{}{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'),random.randint(1,2000))
+                bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'))
 
                 bpy.context.scene.render.engine = 'CYCLES'
                 bpy.context.scene.cycles.device='CPU'
@@ -166,6 +202,14 @@ class TaskWait:
                 bpy.ops.render.render(write_still=True)
                 os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
                 os.chmod(bpy.context.scene.render.filepath, 0o777)
+                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                    try:
+                        db.execute('update users_rollers set is_render=1,filename_video=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+                        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                    except Exception as e:
+                        logging.info('Base err : {}'.format(e))
+                    finally:
+                        db.close()
 
 
 
