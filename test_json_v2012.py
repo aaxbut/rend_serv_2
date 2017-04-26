@@ -9,22 +9,12 @@ async def fetch(client):
         #data = {'sendaemonder':'node-1','user': 'nebob', 'file_h1': 'head1.png', 'message': 'We did it!','project_name':'Rauf','file_name':'500265.blend','files_png':{'head1':'head1.png','mouth1':'mouth1.png'}}
         #data = {'sender':'node-1','user': 'aaxbut', 'file_h1': 'head1.png', 'message': 'We did it!','requestdata_for_renderproject_name':'Rauf','file_name':'500265.blend','files_png':{'head1':'head12.png','mouth1':'mouth12.png'}}
         headers = {'Content-type': 'application/json'}
-        #async witresulth clibpy.ops.render.render(animation=True,scene=bpy.context.scene.name)ent.get(url,data=data) as session:
-        #    assert session.status == 200                                                              task['moview_priview'], 
-                                                     #   $    task['moview_picture'],
-                                                     #      task['moview_full']
-        #    u = await session.text()
-        #    print('{} , {} ,sesrequestrequestrequestrequestsion state closed : {}**{}'.format(session.read(),client,client.closed,u))
-        #s = await client.pbost(url, data = json.dumps(data) ,headers = headers)w
+         #    assert session.status == 200                                                              task['moview_priview'], 
         async with await client.post(url, data = json.dumps(data) ,headers = headers) as post_session:
 
             #assert post_session.status == 405
             u =  json.loads(await post_session.text())
-            #print(u)
-            
-            #print('Session method "{}", session state closebd  : {} : {} json data:{}, session k'.format(post_session.method, client.closed,u,data))
-#            await post_session.release()
-
+   
             return u
 
 async def main(loop):
@@ -45,4 +35,4 @@ try:
 except KeyboardInterrupt:
     loop.close()
 
-        #logging.info('{} SRV: closing  {} '.format(datetime.now().strftime('%c'), srv.sockets[0].getsockname())) 
+          
