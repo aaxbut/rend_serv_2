@@ -59,8 +59,12 @@ import random
 # end import config settings
 
 class TaskWait:
-    #queue = asyncio.Queue(maxsize=12)
 
+    __queue = asyncio.Queue(maxsize=12)
+
+    tst_list = []
+
+    
 
     def __init__(self,loop,*args,**kwargs):
 
@@ -69,15 +73,17 @@ class TaskWait:
         self._flush_future = self._loop.create_task(self.flush_task())
         self._pool = pool
         self._log = logging.getLogger(self.__class__.__name__)
-        #self._queue = 
+        self._queue = queue
+        self._list_jobs = []
 
 
     
+
     def worker(self, next_job):
 
         #next_job.data=dict(next_job.data)
         time_start = time.time()
-        task = json.loads(next_job[0].data)
+        task = json.loads(next_job)
         #self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
 
 
@@ -240,44 +246,69 @@ class TaskWait:
         return {'ok':end_time }
 
 
+   # @asyncio.coroutine
+    def _get_qu(self):
+        print('###'*80)
+
+        data = self._queue.get()
+        self._list_jobs.append(data)
+        print('###'*80)
+
+        yield self._list_jobs
+
+
+
 
     @asyncio.coroutine
     def run_jobs(self):
-        lt = []        
+              
+        self._log.info('Current queue : {} {}'.format('NOT Esdvsdvsd$$#$$MPTY',self._queue.empty()))
+  
 
 
        # self._log.info('{} '.format(datetime.now().strftime('%c')))
-        while not self._queue.empty():
+        #while not TaskWait.__queue.empty():
 
-            self._log.info('Current queue : {} {}'.format('NOT EMPTY',self._queue))
+            #self._log.info('Current queue : {} {}'.format('NOT EMPTY',TaskWait.__queue))
 
-            data = self._queue.get()
+            #self._loop.create_task(self._get_qu()) 
+
+            #data = TaskWait._get_qu() 
             
 
-            lt.append(data)
-            self._log.info('Current queue : {} DATA {} ##### '.format('$$##$@  ',lt))
-            self._queue.task_done()
+            #lt.append(data)
+            #self._log.info('Current queue : {} DATA {} ##### '.format('$$##$@  ',lt))
+            #self._queue.task_done()
             
 
 
-        self._log.info('{} Count in queue {} status queu ::{}'.format(datetime.now().strftime('%c'), lt, self._queue.empty()))
-        procs = (Thread(target=self.worker, args=(lt,)) for _ in lt)
+        self._log.info('{} Count in queue {} status queu ::'.format(datetime.now().strftime('%c'), len(TaskWait.tst_list)))
+        procs = [Process(target=self.worker, args=(_,)) for _ in TaskWait.tst_list]
+        self._log.info('{} Proc started {} status queu :: '.format(datetime.now().strftime('%c'), procs ))
 
         for proc in procs:
-            proc.setDaemon(True)
+        #    proc.setDaemon(True)
             proc.start()
-            self._log.info('{} Proc started {} status queu ::{}'.format(datetime.now().strftime('%c'), proc, self._queue.empty()))
+            self._log.info('{} Proc started {} status queu ::{}'.format(datetime.now().strftime('%c'), proc, TaskWait.__queue))
         
         for proc in procs:
             proc.join()
-            self._log.info('{} Proc join {} status queu ::{}'.format(datetime.now().strftime('%c'), proc, self._queue.empty()))
+            self._log.info('{} Proc join {} status queu ::{}'.format(datetime.now().strftime('%c'), proc, TaskWait.__queue))
 
             
         
         #return 'Status run_job'
 
     
-    
+    #@classmethod 
+    def _set_in_q(self, priority, job):
+        TaskWait.tst_list.append(job)
+
+
+        #self.__queue.put(job)
+
+        logging.info('SET IN QUEUE %s  ############## %s  JOB %s' % ('!!!!!', TaskWait.tst_list, job ) )
+        #self._log.info('{} SET IN QUEUE {} status queu ::{}'.format(datetime.now().strftime('%c'), job, TaskWait.__queue.empty()))
 
     @asyncio.coroutine
     def flush_task(self):
@@ -285,19 +316,17 @@ class TaskWait:
     
         while True:
             try:
-                self._log.info('#With out JOBS run')
     
-               #self._log.info('#With out JOBS run #{} ## QUEUE empty {} ## jobs type'.format(datetime.now().strftime('%c'), queue.empty()))
+                self._log.info('#With out JOBS run #{} ## QUEUE empty {} ## jobs type'.format(datetime.now().strftime('%c'), self._queue.empty()))
 
-               # task = self._loop.create_task(self.run_jobs())
+                task = self._loop.create_task(self.run_jobs())
 
                 self._log.info('{} , loop time : {},   loop is working : {}'.format(datetime.now().strftime('%c'), self._loop.time(), self._loop.is_running()))
 
                 data = yield from asyncio.wait_for(self._waiter.wait(),timeout=2.0, loop=self._loop)
          
             except asyncio.TimeoutError:
-
-                self._log.info('{} EXCEPTION {} '.format(datetime.now().strftime('%c'),str(e)))
+                pass
                 
 
 
@@ -305,14 +334,6 @@ class TaskWait:
 
     def force_flush():
         self._waiter.set()
-
-    #def _set_in_q(self, job):
-     #   self._log.info('::: _set_in QUEUE ::')
-     #   TaskWait.queue.put(job)
-
-
-
-
 
 
     def submit(self,callbacks,*args, **kwargs):
@@ -331,8 +352,10 @@ class Job:
         self.priority = priority
         self.description = description
         self.data = data
-        logging.info('**{}### priority : {}###############'.format(datetime.now().strftime('%c'), self.priority ))
-       # TaskWait.queue._set_in_q(self.data)
+        logging.info('**{}### priority : {}########### {} ####'.format(datetime.now().strftime('%c'), self.priority,self.data ))
+        self.q = TaskWait._set_in_q(1,1,self.data)
+        #job = self.data
+        #TaskWait._set_in_q(self.priority, job, job)
 
         #print('New job:', description)
 
@@ -351,6 +374,11 @@ class Job:
             return self.priority < other.priority
         except AttributeError:
             return NotImplemented
+
+ 
+
+
+
 
 
 
@@ -490,11 +518,16 @@ def transmit(request):
 
     if request.content_type == 'application/json':
 
-     #   joq_data = Job(3, request.method, data)
+        joq_data = Job
+        joq_data = joq_data(3, request.method, data)
+        #TaskWait.__queue.put(joq_data)
+        #data = TaskWait._set_in_q(1,joq_data,joq_data)
 
-       # q_priority_job.put(joq_data)
 
-       # logging.info('Job description {} ########## {} ##########'.format('sdcsdcsdcsdvwrby3y3yb5y45by45b',q_priority_job.__dict__))
+      #  q_priority_job.put(joq_data)
+
+
+        logging.info('Job description {} ########## {} ##########'.format(' $$ ',joq_data.__class__.__name__))
         #logging.info('user :{} ::'.format(req_json['user']))
         #l = [joq_data]
         #logging.info('!!!!!$#$####!!!!!!!! {} ******d ***********'.format(l))
@@ -593,20 +626,15 @@ def shutdown(server, app, handler):
 
  
 def init(loop):
-
-
-    logging.basicConfig(level=logging.DEBUG)
-    #logging.info('32312312312312312313')
+    logging.basicConfig(level=logging.INFO)
    # logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
  
     #bpy.app.handlers.render_complete.append(render_complete)
      
-    app = web.Application()
+    app = web.Application(loop=loop)
     #app = web.Application(loop=loop)
    
     app.router.add_post('/tr', transmit)
-
-    logging.info('32312312312312312313')
 
     #app.on_startup.append(start_bk_task)
 
@@ -623,36 +651,19 @@ if __name__ == '__main__':
 
     
     pool = ThreadPoolExecutor(4)
-    print('+++++1')
     
-    policy = asyncio.get_event_loop_policy()
-    print('+++++2')
-    policy.set_event_loop(policy.new_event_loop())
-    print('+++++3')
+   # policy = asyncio.get_event_loop_policy()
+   # policy.set_event_loop(policy.new_event_loop())
     
     loop = asyncio.get_event_loop()
-    print('+++++4')
-    loop.set_debug(True)
-    print('+++++5')
-    logging.info('32312312312312312313')
-    print('+++++6')
-
-    srv = loop.run_until_complete(init(loop))
-    print('+++++7')
-
     #queue = asyncio.Queue(maxsize=12, loop=loop)
 
+
     
-   # logging.info('{} SRV: Status taskWait  ####'.format(datetime.now().strftime('%c')))
-
-        #task_wait_test = TaskWait(loop, pool, logging)
-       # loop.set_debug(True)
-        #loop.run_in_executor(task_wait_test, start_bk_task)
-       # logging.info('{} SRV: {} Status taskWait {} ####'.format(datetime.now().strftime('%c'),task_wait_test)) 
-
-
-   # logging.info('{} SRV:  Exception   ####'.format(datetime.now().strftime('%c'))) 
-
+    #loop.set_debug(True)
+    queue = asyncio.Queue(maxsize=12)
+    task_wait_test = TaskWait(loop, pool, logging, queue)
+    loop.run_in_executor(task_wait_test, start_bk_task)
 
     #loop.add_signal_handler(signal.SIGTERM, handler_signal, loop)
 
@@ -660,17 +671,17 @@ if __name__ == '__main__':
 
     #loop.run_in_executor(pool,)
 
-  #  srv = loop.run_until_complete(init(loop))
+    srv = loop.run_until_complete(init(loop))
 
     
     try:
-        logging.info('{} SRV: {} '.format(datetime.now().strftime('%c'),'srv.sockets[0].getsockname()')) 
+        logging.info('{} SRV: {} '.format(datetime.now().strftime('%c'), srv.sockets[0].getsockname())) 
         loop.run_forever()
     
     except KeyboardInterrupt:
-      #  logging.info('{} SRV: closing  {} '.format(datetime.now().strftime('%c'), srv.sockets[0].getsockname())) 
-      #  asyncio.gather(*asyncio.Task.all_tasks()).cancel()
-      #  loop.stop()
+        logging.info('{} SRV: closing  {} '.format(datetime.now().strftime('%c'), srv.sockets[0].getsockname())) 
+        asyncio.gather(*asyncio.Task.all_tasks()).cancel()
+        loop.stop()
         loop.close()  
         #pass
     #finally:
