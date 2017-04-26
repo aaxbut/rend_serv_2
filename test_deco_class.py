@@ -1,52 +1,56 @@
 # -*- coding: utf-8 -*-
 #! /usr/bin/env python3
+import itertools
 
 class DecoWithArgs(object):
 
     
-    def __init__(self):
+    def __init__(self,args1,args2,args3):
         
         print('inside class __init__')
-        #$self.args1 = args1
-        #self.args2 = args2
-        #self.args3 = args3
-        #self.func = func
+        #additional agrs in decorator
+        self.args1 = str(args1)
+        self.args2 = str(args2)
+        self.args3 = str(args3)
+        self.q_list = []
+
+        self.q_list.append([x for x in itertools.chain(self.args1,self.args2,self.args3)])
+
+        self.q_dict = {}
     
 
     def __call__(self, func):
-
-
-
         print('inside __call__  %s' % str(func))
 
-        def warap(*args):
+        def warap(*args, **kwagrs):
+            #args.append(12)
+            print(args, kwagrs)
+            ##  change args, kwargs on function   
+            self.q_dict.update(kwagrs)
 
-            func(*args)
+            d = {'ddx':'12'}
+            
+            self.q_list.append(['11','222','21'])
+            self.q_dict.update(d)
+            self.q_list.append(args)
+            
+            print(self.q_dict)
+            func1 = func(*self.q_list, **self.q_dict)
+            return func1
         return warap
-
-        #self.func(*args)
-        #print('exit __call__ ')
-
-
-       # def wrapper_func():
-       #     print('inside __call__ %s' % self.func.__name__)
-            
-       # return wrapper_func
-
-       
-
-        
-        #self.func(*args, **kwagrs)
-            
+           
 
 
 
-@DecoWithArgs()
-def g(*args):
-    print('in function')
+@DecoWithArgs('aa','asda','fddss')
+def g(*args, **kwagrs):
+    print('in function, args %s' % str(args))
+    return args,kwagrs
 
 
-g('sd','sdds','sadasd')
+#return_deco_class = sorted(g('sddddd','sdds','sadasd'), key=lambda x:len(x))
+return_deco_class = g('sddddd','sdds','sadasd',dd=3)
+print(return_deco_class)
 
 s = lambda x: 1
 d = s(13)

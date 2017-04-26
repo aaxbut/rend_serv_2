@@ -119,14 +119,14 @@ class TaskWait:
                 
 
                 bpy.context.scene.frame_start = 0
-                bpy.context.scene.frame_end = 25
+                bpy.context.scene.frame_end = 500
 
                 bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video_demo'))
 
                 bpy.context.scene.render.engine = 'CYCLES'
                 bpy.context.scene.cycles.device='CPU'
                 bpy.context.scene.render.ffmpeg.format = 'MPEG4'
-                bpy.context.scene.render.ffmpeg.video_bitrate=750
+                bpy.context.scene.render.ffmpeg.video_bitrate=384
                 bpy.context.scene.render.ffmpeg.audio_bitrate=124
             
                 bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
