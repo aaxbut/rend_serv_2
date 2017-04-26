@@ -105,17 +105,17 @@ class TaskWait:
         if task['moview_priview']:
             try:
                 #self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
-                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                    try:
-                        self._log.info(':::Priview ::### before append to database %s' %(datetime.now().strftime('%c')))
-                        db.execute('update users_rollers set is_render_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
-                        db.execute('update users_rollers set is_render_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
-                        self._log.info(':::Priview ::### after  update to database %s' %(datetime.now().strftime('%c')))
-                    except Exception as e:
-                        logging.info('Base err : {}'.format(e))
-                    finally:
-                        self._log.info(':::Priview ::### finally phase update to database %s' %(datetime.now().strftime('%c')))
-                        db.close()
+                #with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                #    try:
+                #        self._log.info(':::Priview ::### before append to database %s' %(datetime.now().strftime('%c')))
+                #        db.execute('update users_rollers set is_render_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+                #        db.execute('update users_rollers set is_render_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                #        self._log.info(':::Priview ::### after  update to database %s' %(datetime.now().strftime('%c')))
+                #    except Exception as e:
+                #        logging.info('Base err : {}'.format(e))
+                #    finally:
+                #        self._log.info(':::Priview ::### finally phase update to database %s' %(datetime.now().strftime('%c')))
+                #        db.close()
                 
 
                 bpy.context.scene.frame_start = 0
@@ -142,31 +142,31 @@ class TaskWait:
                 os.chmod(bpy.context.scene.render.filepath, 0o777)
 
 
-                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                    try:
-                        self._log.info(':::Priview ::### before append to database %s' %(datetime.now().strftime('%c')))
-                        db.execute('update users_rollers set is_ready_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
-                        db.execute('update users_rollers set is_ready_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
-                        self._log.info(':::Priview ::### after  update to database %s' %(datetime.now().strftime('%c')))
+                #with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                #    try:
+                #        self._log.info(':::Priview ::### before append to database %s' %(datetime.now().strftime('%c')))
+                #        db.execute('update users_rollers set is_ready_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+                #        db.execute('update users_rollers set is_ready_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                #        self._log.info(':::Priview ::### after  update to database %s' %(datetime.now().strftime('%c')))
 
-                    except Exception as e:
-                        logging.info('Base err : {}'.format(e))
-                    finally:
-                        self._log.info(':::Priview ::### finally phase update to database %s' %(datetime.now().strftime('%c')))
-                        db.close()
+                #    except Exception as e:
+                #        logging.info('Base err : {}'.format(e))
+                #    finally:
+                #        self._log.info(':::Priview ::### finally phase update to database %s' %(datetime.now().strftime('%c')))
+                #        db.close()
 
         
 
             except Empty: pass
         if task['moview_picture']:
             try:
-                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                    try:
-                        db.execute('update users_rollers set is_ready=1,filename_screen=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
-                    except Exception as e:
-                        logging.info('Base err : {}'.format(e))
-                    finally:
-                        db.close()
+                #with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                #    try:
+                #        db.execute('update users_rollers set is_ready=1,filename_screen=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                #    except Exception as e:
+                #        logging.info('Base err : {}'.format(e))
+                #    finally:
+                #        db.close()
        
                 bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
             
@@ -183,14 +183,14 @@ class TaskWait:
         if task['moview_full']:
             try:
                 self._log.info('worker job !!!!!!!!!!!: {} '.format(task))
-                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                    try:
-                        db.execute('update users_rollers set is_render=1,filename_video=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
-                        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
-                    except Exception as e:
-                        logging.info('Base err : {}'.format(e))
-                    finally:
-                        db.close()
+                #with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                #    try:
+                #        db.execute('update users_rollers set is_render=1,filename_video=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+                #        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                #    except Exception as e:
+                #        logging.info('Base err : {}'.format(e))
+                #    finally:
+                #        db.close()
 
 
                 bpy.ops.wm.open_mainfile(filepath=task['project_name'])
@@ -218,14 +218,14 @@ class TaskWait:
                 bpy.ops.render.render(write_still=True)
                 os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
                 os.chmod(bpy.context.scene.render.filepath, 0o777)
-                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                    try:
-                        db.execute('update users_rollers set is_render=1,filename_video=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
-                        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
-                    except Exception as e:
-                        logging.info('Base err : {}'.format(e))
-                    finally:
-                        db.close()
+                #with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                #    try:
+                #        db.execute('update users_rollers set is_render=1,filename_video=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+                #        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                #    except Exception as e:
+                #        logging.info('Base err : {}'.format(e))
+                #    finally:
+                #        db.close()
 
 
 
@@ -283,11 +283,11 @@ class TaskWait:
 
 
         self._log.info('{} Count in queue {} status queu ::'.format(datetime.now().strftime('%c'), len(TaskWait.tst_list)))
-        procs = [Process(target=self.worker, args=(_,)) for _ in TaskWait.tst_list]
+        procs = (mp.Process(target=self.worker, args=(TaskWait.tst_list.pop(),)) for _ in TaskWait.tst_list)
         self._log.info('{} Proc started {} status queu :: '.format(datetime.now().strftime('%c'), procs ))
 
         for proc in procs:
-        #    proc.setDaemon(True)
+           # proc.setDaemon(True)
             proc.start()
             self._log.info('{} Proc started {} status queu ::{}'.format(datetime.now().strftime('%c'), proc, TaskWait.__queue))
         
