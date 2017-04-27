@@ -27,6 +27,8 @@ dbusername = conf.get('base','dbusername')
 dbpassword = conf.get('base','dbpassword')
 u_ugid = conf.get('usr_permission','uid')
 u_gguid = conf.get('usr_permission','gid')
+
+MAX_SIZE_QUEUE = 10
 # base connect
 
 
@@ -97,11 +99,12 @@ def check_queue ():
 
         #logging.info('Job description {} ########## {} ##########'.format(' $$ ','KY KY KY BACKGROUND '))
         yield from asyncio.sleep(5)
+        
         loop.call_soon_threadsafe(start_background_tasks)
 
          
 def start_background_tasks():
-    print('***'*40)
+    #print('***'*40)
     start_time = time.time()
 
     try:
@@ -110,8 +113,13 @@ def start_background_tasks():
         task = json.loads(task)
 
         #self._log.info('{} Count in queue {} status queu ::'.format(datetime.now().strftime('%c'), len(TaskWait.tst_list)))
-        
-        procs = mp.Process(target=rend_task, args=(task,)).start()
+
+
+
+        with mp.Pool(processes=os.cpu_count()) as pool:
+            pool.map(rend_task,[task])
+
+        #procs = mp.Process(target=rend_task, args=(task,)).start()
        
        # self._log.info('{} Proc started {} status queu :: '.format(datetime.now().strftime('%c'), procs ))
 
@@ -157,7 +165,7 @@ def transmit(request):
 
 @asyncio.coroutine
 def corobas_barabas(*args, **kwargs):
-    print(' <==XUBA BUBA KARABAS==> '*7,args)
+    #print(' <==XUBA BUBA KARABAS==> '*7,args)
     queue_of_task.append(args)
 
     yield from asyncio.sleep(1)
@@ -169,7 +177,7 @@ def corobas_1():
 
     yield from asyncio.sleep(1)
 
-    print(' <==XUBA BUBA==> '*7)
+   # print(' <==XUBA BUBA==> '*7)
     #return {'ok':'ok'}
 
 def main_loop(loop):

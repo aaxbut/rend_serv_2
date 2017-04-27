@@ -122,19 +122,77 @@ class Job:
         self._queue = Loop_Awaiter._put_job_in('1',self._job_name)
 
 
+from collections import deque
+
+class QueueA:
+    
+
+    def __init__(self):
+        self.items_in = deque()
+        self.items_out = deque()
+        self.items_out_count = 5
+
+  #  def isEmpty_out(self):
+  #      return self.items == 
+    def get_items_out(self):
+
+        #if self.items_out.__len__ == self.items_out_count:
+
+
+        for x in range(1):
+            try:
+                _ = self.items_in.pop()
+                self.items_out.append(_)
+            except Exception as e:
+                pass
+
+        print(self.items_in is self.items_out)
+        print(self.items_in)
+        return self.items_out
+
+    def set_item(self, args):
+        self.items_in.append(args)
+
+
 loop =  Loop_Awaiter('test','balance')
 
 Job('sdfsdfsdfsdf')
 Job('sdfsdfsdfsdf')
-Job('sdfsdfsdfsdf')
-Job('sdfsdfsdfsdf')
-Job('sdfsdfsdfsdf')
-Job('sdfsdfsdfsdf')
 
-for x in loop._get_job():
-    print(x)
+
+
+#for x in loop._get_job():
+#    print(x)
 
 #print([fib(n) for n in range(100)])
+
+z = QueueA()
+
+for x in range(15):
+    z.set_item(x)
+
+s = z.get_items_out()
+print(s)
+
+
+
+print(s.pop())
+
+max_size_q = 10
+
+size_q_now = 3
+
+i = max_size_q - size_q_now
+
+while i:
+    print(i)
+    i-=1
+
+#s = Z.get_items_out()
+#print(s)
+
+
+
 
 
 
