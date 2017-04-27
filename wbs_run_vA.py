@@ -15,6 +15,8 @@ import bpy
 import os
 import time
 
+import MySQLdb as mysql
+
 
 # import config settings
 import configparser
@@ -79,6 +81,32 @@ class DecoWithArgs(object):
         return warap
 
 
+#@asyncio.coroutine
+def base_rec_rend(task):
+    
+    try:
+        db =  mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname)
+        db.execute('update users_rollers set is_render=1,filename_video=%s where id=%s',('video/roller_video.mp4',str(task['user_roller_id'])))
+        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video.jpg',str(task['user_roller_id'])))
+    except mysql.Error as e:
+        logging.info('Base err : {}'.format(e))
+    finally:
+        db.close()
+
+
+#@asyncio.coroutine
+def base_rec_rend_of(task):
+    db = mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname)
+    try:
+        db.execute('update users_rollers set is_ready=1,filename_video=%s where id=%s',('video/roller_video.mp4',str(task['user_roller_id'])))
+        db.execute('update users_rollers set is_ready=1,filename_screen=%s where id=%s',('video/roller_video.jpg',str(task['user_roller_id'])))
+    except mysql.Error as e:
+        logging.info('Base err : {}'.format(e))
+    finally:
+        db.close()
+
+
+
 def rend_task(task):
 
 
@@ -87,15 +115,29 @@ def rend_task(task):
         context_frame_start = bpy.context.scene.frame_start
         context_frame_end = bpy.context.scene.frame_end
     except Exception as e:
-        logging.info('{} Render TASK{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), e,'KY KY KY BACKGROUND '))
+
+        logging.info('{} Render TASK{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), str(e),'KY KY KY BACKGROUND '))
+        pass
 
 
-    if task['moview_picture']:
+    if task['render_type'] is 2: # render picture 
 
         start_time=time.time()
 
-        logging.info('{} Render TASK{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task,'KY KY KY BACKGROUND '))
+        logging.info('{} Render TASK{} render picture  {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), '','KY KY KY BACKGROUND '))
+
+
         try:
+
+            with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                try:
+                    db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video.jpg',str(task['user_roller_id'])))
+                except Exception as e:
+                    logging.info('Base err : {}'.format(e))
+                finally:
+                    db.close()
+
+
             bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
             bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
             bpy.ops.render.render(write_still=True)
@@ -103,15 +145,27 @@ def rend_task(task):
             os.chmod(bpy.context.scene.render.filepath, 0o777)
             end_time = time.time() - start_time
             logging.info('{} TASK description {} moview_picture  {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
+            db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video.jpg',str(task['user_roller_id'])))
 
         except Empty: pass
 
         
-    if task['moview_priview']:
+    if task['render_type'] is 4: #render priview 
         try:
             start_time=time.time()
+            logging.info('{} Render TASK{} ##   priview   ### {} ####'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task['render_type'],' '))
+
+            with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                try:
+                    db.execute('update users_rollers set is_render_demo=1,filename_video=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+                    db.execute('update users_rollers set is_render_demo=1,filename_screen=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                except Exception as e:
+                    logging.info('Base err : {}'.format(e))
+                finally:
+                    db.close()
+
             bpy.context.scene.frame_start = 0
-            bpy.context.scene.frame_end = 25
+            bpy.context.scene.frame_end = 500
 
             bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video_demo'))
 
@@ -124,7 +178,9 @@ def rend_task(task):
             bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
             os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
             os.chmod(bpy.context.scene.render.filepath, 0o777)
-         
+            
+            bpy.context.scene.frame_start = 100
+            bpy.context.scene.frame_end = 101
         
             bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
             
@@ -134,15 +190,26 @@ def rend_task(task):
             os.chmod(bpy.context.scene.render.filepath, 0o777)
             
             end_time = time.time() - start_time
-            logging.info('{} TASK description {} ########## {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
+            
+
+            with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+                try:
+                    db.execute('update users_rollers set is_ready_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+                    db.execute('update users_rollers set is_ready_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+                except Exception as e:
+                    logging.info('Base err : {}'.format(e))
+                finally:
+                    db.close()
+            logging.info('{} TASK description {} render priview   {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
 
         except Exception as e:
 #            logging.info('{} Render TASK  moview_priview{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), str(e),'KY KY KY BACKGROUND '))
             pass
 
-    if task['moview_full']:
+    if task['render_type'] is 1: #render full video
         try:
-            logging.info('{} Render TASK{} ##   moview_full   ### {} ####'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task,'KY KY KY BACKGROUND '))
+            logging.info('{} Render TASK{} ##   moview_full   ### {} ####'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task['render_type'],' '))
+
 
 
             start_time=time.time()
@@ -157,12 +224,17 @@ def rend_task(task):
             bpy.context.scene.render.ffmpeg.format = 'MPEG4'
             bpy.context.scene.render.ffmpeg.video_bitrate=750
             bpy.context.scene.render.ffmpeg.audio_bitrate=124
+
+            base_rec_rend(task)
+
+
             
             bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
             os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
             os.chmod(bpy.context.scene.render.filepath, 0o777)
          
-        
+            bpy.context.scene.frame_start = 100
+            bpy.context.scene.frame_end = 101
             bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
             
             bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
@@ -170,6 +242,17 @@ def rend_task(task):
             os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
             os.chmod(bpy.context.scene.render.filepath, 0o777)
             end_time = time.time() - start_time
+            base_rec_rend_of(task)
+            
+
+#            with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
+#                try:
+#                    db.execute('update users_rollers set is_ready=1,filename_video=%s where id=%s',('video/roller_video.mp4',str(task['user_roller_id'])))
+#                    db.execute('update users_rollers set is_ready=1,filename_screen=%s where id=%s',('video/roller_video.jpg',str(task['user_roller_id'])))
+#                except Exception as e:
+#                    logging.info('Base err : {}'.format(e))
+#                finally:
+#                    db.close()
             logging.info('{} TASK description {} ########## {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
 
         except Exception as e:
@@ -219,10 +302,10 @@ def start_background_tasks():
 
 
 
-            with mp.Pool(processes=os.cpu_count()) as pool:
-                pool.map(rend_task,[task])
+        #    with mp.Pool(processes=os.cpu_count()) as pool:
+        #        pool.map(rend_task,[task])
 
-        #procs = mp.Process(target=rend_task, args=(task,)).start()
+            procs = mp.Process(target=rend_task, args=(task,)).start()
        
        # self._log.info('{} Proc started {} status queu :: '.format(datetime.now().strftime('%c'), procs ))
 
