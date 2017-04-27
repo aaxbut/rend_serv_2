@@ -192,7 +192,14 @@ while i:
 #print(s)
 
 
+runing_task = 5
+MAX_SIZE_QUEUE = 10
 
+i =0 
+if runing_task >= MAX_SIZE_QUEUE:
+    i = MAX_SIZE_QUEUE
+else:
+    i = runing_task
+print(i)
 
-
-
+  #  runing_task =  queue_of_run_tasks.__len__()

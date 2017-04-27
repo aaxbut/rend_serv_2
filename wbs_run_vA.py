@@ -32,6 +32,7 @@ u_ugid = conf.get('usr_permission','uid')
 u_gguid = conf.get('usr_permission','gid')
 
 MAX_SIZE_QUEUE = 10
+LOG_FILENAME = '/var/tmp/render_blender_server.log'
 # base connect
 
 
@@ -79,23 +80,105 @@ class DecoWithArgs(object):
 
 
 def rend_task(task):
-    start_time=time.time()
-    logging.info('{} Render TASK{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task,'KY KY KY BACKGROUND '))
-
 
 
     try:
-        bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
-        bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
-        bpy.ops.render.render(write_still=True)
-        os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
-        os.chmod(bpy.context.scene.render.filepath, 0o777)
-    except Empty: pass
+        bpy.ops.wm.open_mainfile(filepath=task['project_name'])
+        context_frame_start = bpy.context.scene.frame_start
+        context_frame_end = bpy.context.scene.frame_end
+    except Exception as e:
+        logging.info('{} Render TASK{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), e,'KY KY KY BACKGROUND '))
+
+
+    if task['moview_picture']:
+
+        start_time=time.time()
+
+        logging.info('{} Render TASK{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task,'KY KY KY BACKGROUND '))
+        try:
+            bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+            bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
+            bpy.ops.render.render(write_still=True)
+            os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+            os.chmod(bpy.context.scene.render.filepath, 0o777)
+            end_time = time.time() - start_time
+            logging.info('{} TASK description {} moview_picture  {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
+
+        except Empty: pass
+
+        
+    if task['moview_priview']:
+        try:
+            start_time=time.time()
+            bpy.context.scene.frame_start = 0
+            bpy.context.scene.frame_end = 25
+
+            bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video_demo'))
+
+            bpy.context.scene.render.engine = 'CYCLES'
+            bpy.context.scene.cycles.device='CPU'
+            bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+            bpy.context.scene.render.ffmpeg.video_bitrate=750
+            bpy.context.scene.render.ffmpeg.audio_bitrate=124
+            
+            bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
+            os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+            os.chmod(bpy.context.scene.render.filepath, 0o777)
+         
+        
+            bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+            
+            bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video_demo'))
+            bpy.ops.render.render(write_still=True)
+            os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+            os.chmod(bpy.context.scene.render.filepath, 0o777)
+            
+            end_time = time.time() - start_time
+            logging.info('{} TASK description {} ########## {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
+
+        except Exception as e:
+#            logging.info('{} Render TASK  moview_priview{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), str(e),'KY KY KY BACKGROUND '))
+            pass
+
+    if task['moview_full']:
+        try:
+            logging.info('{} Render TASK{} ##   moview_full   ### {} ####'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task,'KY KY KY BACKGROUND '))
+
+
+            start_time=time.time()
+           # bpy.ops.wm.open_mainfile(filepath=task['project_name'])
+             
+            bpy.context.scene.frame_start = 0
+            bpy.context.scene.frame_end = 50
+            bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'))
+
+            bpy.context.scene.render.engine = 'CYCLES'
+            bpy.context.scene.cycles.device='CPU'
+            bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+            bpy.context.scene.render.ffmpeg.video_bitrate=750
+            bpy.context.scene.render.ffmpeg.audio_bitrate=124
+            
+            bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
+            os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+            os.chmod(bpy.context.scene.render.filepath, 0o777)
+         
+        
+            bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+            
+            bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
+            bpy.ops.render.render(write_still=True)
+            os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+            os.chmod(bpy.context.scene.render.filepath, 0o777)
+            end_time = time.time() - start_time
+            logging.info('{} TASK description {} ########## {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
+
+        except Exception as e:
+            pass
 
 
 
-    end_time = time.time() - start_time 
-    logging.info('{} TASK description {} ########## {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'KY KY KY BACKGROUND ',end_time))
+
+
 
 
 
@@ -104,7 +187,7 @@ def check_queue ():
     while True:
 
 
-        #logging.info('Job description {} ########## {} ##########'.format(' $$ ','KY KY KY BACKGROUND '))
+        logging.info('Job description {} ########## {} #  #'.format(' $$ ','KY KY KY BACKGROUND '))
         yield from asyncio.sleep(5)
 
         
@@ -114,15 +197,23 @@ def check_queue ():
 def start_background_tasks():
     #print('***'*40)
     start_time = time.time()
+    runing_task =  queue_of_run_tasks.__len__()
+    logging.info('{} ##  Objects len  in runningtask: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), runing_task ))
 
-    i = MAX_SIZE_QUEUE - queue_of_run_tasks.__len__() 
+    if runing_task >= MAX_SIZE_QUEUE:
+        i = MAX_SIZE_QUEUE
+    else:
+        i = runing_task
     #queue_of_suspend
+    logging.info('{} ##  Objects len : {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), i ))
     while i:
         try:
+            logging.info('{} ##  Object len: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), i ))
 
             sec, task = queue_of_run_tasks.pop()
             
             task = json.loads(task)
+            logging.info('{} ##  Object name: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task))
 
         #self._log.info('{} Count in queue {} status queu ::'.format(datetime.now().strftime('%c'), len(TaskWait.tst_list)))
 
@@ -154,7 +245,7 @@ def start_background_tasks():
         except Exception as e:
             pass
 
-    #logging.info('Job description {} ########## {} ##########'.format(' $$ ','KY KY KY BACKGROUND '))
+        logging.info('Job description {} ########## {} ##########'.format(' $$ ','KY KY KY BACKGROUND '))
         #data = asyncio.wait_for(print('sds'), timeout=2.0)
         i-=1
         end_time = time.time() - start_time 
@@ -199,6 +290,7 @@ def corobas_1():
 def main_loop(loop):
     #set logging  
     logging.basicConfig(level=logging.INFO)
+    #logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
      
     app = web.Application(loop=loop)
     
@@ -217,7 +309,8 @@ def main_loop(loop):
 
 if __name__ == '__main__':
     #pool = ThreadPoolExecutor(4)
-    queue_of_run_tasks = deque()
+    queue_of_run_tasks = [] 
+    #deque()
     
     policy = asyncio.get_event_loop_policy()
     policy.set_event_loop(policy.new_event_loop())
