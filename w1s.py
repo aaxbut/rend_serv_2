@@ -23,7 +23,7 @@ import configparser
 
 
 conf = configparser.RawConfigParser()
-conf.read('wb1.conf')
+conf.read('wb3.conf')
 BLEND_DIR = conf.get('bl_path','BLEND_DIR')
 USERS_DIR = conf.get('bl_path','USERS_DIR')
 dbconnectionhost = conf.get('base','dbconnectionhost')
@@ -71,7 +71,7 @@ class DecoWithArgs(object):
 
             func1 = yield from func(*args)
 
-            print(func1.text)
+            #print(func1.text)
 
             # run task update in list,  
 
@@ -120,8 +120,8 @@ class DecoWithArgsMysqlUpd(object):
             if render_type == 4:
                 with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
                     try:
-                        db.execute('update users_rollers set is_render=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',user_roller_id))
-                        db.execute('update users_rollers set is_render=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',user_roller_id))
+                        db.execute('update users_rollers set is_render_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',user_roller_id))
+                        db.execute('update users_rollers set is_render_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',user_roller_id))
                     except Exception as e:
                         logging.info('Base err : {}'.format(e))
                     finally:
@@ -193,57 +193,6 @@ class DecoWithArgsMysqlUpd(object):
 
 
 #@DecoWithArgsMysqlUpd('aaxbut','@','gmail.com')
-#@asyncio.coroutine
-def rend_priview(*args, **kwargs):
-    priview_frames_start, priview_frames_end = args[0]
-    task = kwargs
-
-    logging.info('REND_PRIVIEW def {} ::: {} '.format(priview_frames_start,priview_frames_end))
-    logging.info('REND_PRIVIEW def {} :: '.format(kwargs))
-
-
-
-    try:
-        bpy.context.scene.frame_start = priview_frames_start
-        bpy.context.scene.frame_end = priview_frames_end
-
-
-            #bpy.context.scene.render.threads_mode ='FIXED'
-            #bpy.context.scene.render.threads = 4
-
-
-        bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video_demo'))
-
-        bpy.context.scene.render.engine = 'CYCLES'
-        #bpy.context.scene.render.engine = 'BLENDER_RENDER'
-            
-
-        bpy.context.scene.cycles.device='CPU'
-        bpy.context.scene.render.ffmpeg.format = 'H264'
-            #bpy.context.scene.render.ffmpeg.codec = 'MPEG4'
-
-          #  bpy.context.scene.render.ffmpeg.format = 'MPEG4'
-
-        bpy.context.scene.render.ffmpeg.video_bitrate=6000
-        bpy.context.scene.render.ffmpeg.maxrate = 9000
-           # bpy.context.scene.render.ffmpeg.buffersize = 2000
-        bpy.context.scene.render.ffmpeg.packetsize = 4096
-        bpy.context.scene.render.resolution_percentage = 45
-            #bpy.context.scene.render.ffmpeg.use_autosplit=True
-            #bpy.context.scene.render.ffmpeg.gopsize=100
-
-
-        bpy.context.scene.render.ffmpeg.audio_bitrate=384
-            
-           # s= base_rec_rend4(task)
-
-        bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
-        os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
-        os.chmod(bpy.context.scene.render.filepath, 0o777)
-    except Exception as e:
-        logging.info('REND_PRIVIEW def {} :::  '.format(str(e)))
-            
-        
 def rend_task(task):
 
 
@@ -268,7 +217,7 @@ def rend_task(task):
 #s= base_rec_rend2(task)
 
             bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
-            bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
+            bpy.context.scene.render.filepath ='{}.mp40000.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
             bpy.ops.render.render(write_still=True)
             os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
             os.chmod(bpy.context.scene.render.filepath, 0o777)
@@ -282,46 +231,29 @@ def rend_task(task):
 
         
     if task['render_type'] is 4: #render priview 
-
-
         try:
             start_time=time.time()
-            logging.info('{} Render TASK{} ##   priview   ### {} ####'.format(datetime.now().strftime('%D:: %H:%M:%S'), task['render_type'],' '))
+            logging.info('{} Render TASK{} ##   priview   ### {} ####'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task['render_type'],' '))
 
  
             bpy.context.scene.frame_start = 0
             bpy.context.scene.frame_end = 500
 
-            #bpy.context.scene.render.threads_mode ='FIXED'
-            #bpy.context.scene.render.threads = 4
-
-
             bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video_demo'))
 
             bpy.context.scene.render.engine = 'CYCLES'
-            #bpy.context.scene.render.engine = 'BLENDER_RENDER'
-            
-
             bpy.context.scene.cycles.device='CPU'
-            bpy.context.scene.render.ffmpeg.format = 'XVID'
-            #bpy.context.scene.render.ffmpeg.codec = 'MPEG4'
-
-          #  bpy.context.scene.render.ffmpeg.format = 'MPEG4'
-
+            bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+#            bpy.context.scene.render.resolution_x=320
+#            bpy.context.scene.render.resolution_y=240
+            bpy.context.scene.render.resolution_percentage = 35
             bpy.context.scene.render.ffmpeg.video_bitrate=6000
-            bpy.context.scene.render.ffmpeg.maxrate = 9000
-           # bpy.context.scene.render.ffmpeg.buffersize = 2000
-            bpy.context.scene.render.ffmpeg.packetsize = 4096
-            #bpy.context.scene.render.resolution_percentage = 35
-            #bpy.context.scene.render.ffmpeg.use_autosplit=True
-            #bpy.context.scene.render.ffmpeg.gopsize=100
-
-
-            bpy.context.scene.render.ffmpeg.audio_bitrate=384
+            bpy.context.scene.render.ffmpeg.audio_bitrate=124
             
            # s= base_rec_rend4(task)
 
             bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
+
             os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
             os.chmod(bpy.context.scene.render.filepath, 0o777)
             
@@ -346,45 +278,10 @@ def rend_task(task):
         except Exception as e:
 #            logging.info('{} Render TASK  moview_priview{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), str(e),'KY KY KY BACKGROUND '))
             pass
-    if task['render_type'] is 41: #render priview 
 
-    
-        try:
-            start_time=time.time()
-            logging.info('{} Render TASK{} ##   priview   ### {} ####'.format(datetime.now().strftime('%D:: %H:%M:%S'), task['render_type'],' '))
-
-            l_1 = [[0,100],[101,200],[201,300],[301,400],[401,500]]
-            logging.info('{} TASK des'.format(l_1))
-            #p = mp.Process(target=rend_priview, args=(l_1[0],), kwargs=task)
-            procs = (mp.Process(target=rend_priview, args=(x,), kwargs=task) for x in l_1)
-
-           # p.start()
-           # p.join()
-            
-
-            #procs = mp.Process(target=rend_priview, args=(lt[0],)).start()
-
-
-            for p in procs:
-
-            #    #p.daemon = True
-             #   logging.info('!!!!!!!!!!!!!!!!!!!!! {} ******************'.format(p))
-                p.start()
-
-
- 
-
-            end_time = time.time() - start_time
-            
-
-            logging.info('{} TASK description  @@! {} render priview   {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
-
-        except Exception as e:
-#            logging.info('{} Render TASK  moview_priview{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), str(e),'KY KY KY BACKGROUND '))
-            pass
     if task['render_type'] is 1: #render full video
         try:
-            logging.info('{} Render TASK{} ##   moview_full   ### {} ####'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task['render_type'],' '))
+            logging.info('{} Render TASK{} ##   moview_full   ### {} ####'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task['render_type'],task))
 
 
 
@@ -457,7 +354,7 @@ def check_queue ():
     while True:
 
 
-        logging.info('Job description {} ########## {} #  #'.format(' $$ ','KY KY KY BACKGROUND '))
+        #logging.info('Job description {} ########## {} #  #'.format(' $$ ','KY KY KY BACKGROUND '))
         yield from asyncio.sleep(5)
 
         
@@ -468,22 +365,22 @@ def start_background_tasks():
     #print('***'*40)
     start_time = time.time()
     runing_task =  queue_of_run_tasks.__len__()
-    logging.info('{} ##  Objects len  in runningtask: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), runing_task ))
+#    logging.info('{} ##  Objects len  in runningtask: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), runing_task ))
 
     if runing_task >= MAX_SIZE_QUEUE:
         i = MAX_SIZE_QUEUE
     else:
         i = runing_task
     #queue_of_suspend
-    logging.info('{} ##  Objects len : {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), i ))
+#    logging.info('{} ##  Objects len : {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), i ))
     while i:
         try:
-            logging.info('{} ##  Object len: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), i ))
+#            logging.info('{} ##  Object len: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), i ))
 
             sec, task = queue_of_run_tasks.pop()
             
             task = json.loads(task)
-            logging.info('{} ##  Object name: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task))
+#            logging.info('{} ##  Object name: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task))
 
         #self._log.info('{} Count in queue {} status queu ::'.format(datetime.now().strftime('%c'), len(TaskWait.tst_list)))
 
@@ -515,7 +412,7 @@ def start_background_tasks():
         except Exception as e:
             pass
 
-        logging.info('Job description {} ########## {} ##########'.format(' $$ ','KY KY KY BACKGROUND '))
+        #logging.info('Job description {} ########## {} ##########'.format(' $$ ','KY KY KY BACKGROUND '))
         #data = asyncio.wait_for(print('sds'), timeout=2.0)
         i-=1
         end_time = time.time() - start_time 
@@ -528,7 +425,7 @@ def start_background_tasks():
 def transmit(request):    
     data = yield from request.text()
     req_json = json.loads(data)
-    #logging.info('{} :::'.format(datetime.now().strftime('%c')))
+    logging.info('{} ::: {} '.format(datetime.now().strftime('%c'), req_json))
 
     if request.content_type == 'application/json':
 
@@ -559,8 +456,8 @@ def corobas_1():
 
 def main_loop(loop):
     #set logging  
-    logging.basicConfig(level=logging.DEBUG)
-    #logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
+#    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
      
     app = web.Application(loop=loop)
     
