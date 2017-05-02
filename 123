@@ -86,7 +86,7 @@ class DecoWithArgsMysqlUpd(object):
     
     def __init__(self,args1,args2,args3):
         
-       #$ print('inside class __init__')
+        print('inside class __init__')
         #additional agrs in decorator
         self.args1 = str(args1)
         self.args2 = str(args2)
@@ -99,46 +99,11 @@ class DecoWithArgsMysqlUpd(object):
     
 
     def __call__(self, func):
-       # print('inside __call__  %s' % str(func))
+        print('inside __call__  %s' % str(func))
 
-        def warap(*args):
+        def warap(*args, **kwagrs):
 
-            # args[0]['render_type']
-            # args[0]['user_roller_id']
-            render_type = args[0]['render_type']
-            user_roller_id = args[0]['user_roller_id']
-            if render_type == 1:
-                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                    try:
-                        db.execute('update users_rollers set is_render=1,filename_video=%s where id=%s',('video/roller_video.mp4',user_roller_id))
-                        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video.jpg',user_roller_id))
-                    except Exception as e:
-                        logging.info('Base err : {}'.format(e))
-                    finally:
-                        db.close()
-
-            if render_type == 4:
-                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                    try:
-                        db.execute('update users_rollers set is_render=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',user_roller_id))
-                        db.execute('update users_rollers set is_render=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',user_roller_id))
-                    except Exception as e:
-                        logging.info('Base err : {}'.format(e))
-                    finally:
-                        db.close()
-
-            if render_type == 2:
-                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                    try:
-                        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video.jpg',user_roller_id))
-                    except Exception as e:
-                        logging.info('Base err : {}'.format(e))
-                    finally:
-                        db.close()
-
-
-            logging.info('WRAP KWARGS BEFORE: {}'.format(args[0]['render_type']))
-
+            logging.info('WRAP KWARGS BEFORE: {}'.format(kwargs))
 
             #args.append(12)
             #print(args, kwagrs)
@@ -148,37 +113,8 @@ class DecoWithArgsMysqlUpd(object):
            # self.q_dict.update(kwagrs)
            # self.q_list.append(args)
 
-            func1 = func(*args)
-
-            if render_type == 1:
-                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                    try:
-                        db.execute('update users_rollers set is_ready=1,filename_video=%s where id=%s',('video/roller_video.mp4',user_roller_id))
-                        db.execute('update users_rollers set is_ready=1,filename_screen=%s where id=%s',('video/roller_video.jpg',user_roller_id))
-                    except Exception as e:
-                        logging.info('Base err : {}'.format(e))
-                    finally:
-                        db.close()
-
-            if render_type == 4:
-                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                    try:
-                        db.execute('update users_rollers set is_ready_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',user_roller_id))
-                        db.execute('update users_rollers set is_ready_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',user_roller_id))
-                    except Exception as e:
-                        logging.info('Base err : {}'.format(e))
-                    finally:
-                        db.close()
-
-            if render_type == 2:
-                with mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname) as db:
-                    try:
-                        db.execute('update users_rollers set is_ready=1,filename_screen=%s where id=%s',('video/roller_video.jpg',user_roller_id))
-                    except Exception as e:
-                        logging.info('Base err : {}'.format(e))
-                    finally:
-                        db.close()            
-            logging.info('WRAP KWARGS BEFORE: {}'.format(args[0]['render_type']))
+            func1 = yield from func(*args,**kwagrs)
+            logging.info('WRAP KWARGS AFTER: {}'.format(kwargs))
 
             
 
@@ -190,6 +126,83 @@ class DecoWithArgsMysqlUpd(object):
         return warap
 
 
+@asyncio.coroutine
+def base_rec_rend(task):
+    
+    try:
+        db = mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname)    
+    except mysql.Error as e:
+        logging.info('Base err : {}'.format(e))
+
+    
+    try:
+        db.execute('update users_rollers set is_render=1,filename_video=%s where id=%s',('video/roller_video.mp4',task['user_roller_id']))
+        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video.jpg',task['user_roller_id']))
+    except mysql.Error as e:
+        logging.info('Base err : {}'.format(e))
+    finally:
+        db.close()
+ 
+
+@asyncio.coroutine
+def base_rec_rend_of(task):
+    db = mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname)
+    try:
+        db.execute('update users_rollers set is_ready=1,filename_video=%s where id=%s',('video/roller_video.mp4',task['user_roller_id']))
+        db.execute('update users_rollers set is_ready=1,filename_screen=%s where id=%s',('video/roller_video.jpg',task['user_roller_id']))
+    except mysql.Error as e:
+        logging.info('Base err : {}'.format(e))
+    finally:
+        db.close()
+ 
+
+@asyncio.coroutine
+def base_rec_rend4(task):
+    
+    try:
+        db =  mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname)
+        db.execute('update users_rollers set is_render=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+        db.execute('update users_rollers set is_render=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+    except mysql.Error as e:
+        logging.info('Base err : {}'.format(e))
+    finally:
+        db.close()
+
+
+@asyncio.coroutine
+def base_rec_rend_of4(task):
+    db = mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname)
+    try:
+        db.execute('update users_rollers set is_ready=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',str(task['user_roller_id'])))
+        db.execute('update users_rollers set is_ready=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',str(task['user_roller_id'])))
+    except mysql.Error as e:
+        logging.info('Base err : {}'.format(e))
+    finally:
+        db.close()
+
+
+
+@asyncio.coroutine
+def base_rec_rend2(task):
+    
+    try:
+        db =  mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname)
+        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',('video/roller_video.jpg',str(task['user_roller_id'])))
+    except mysql.Error as e:
+        logging.info('Base err : {}'.format(e))
+    finally:
+        db.close()
+
+
+@asyncio.coroutine
+def base_rec_rend_of2(task):
+    db = mysql.connect(host=dbconnectionhost,user=dbusername,passwd=dbpassword,db=dbname)
+    try:
+        db.execute('update users_rollers set is_ready=1,filename_screen=%s where id=%s',('video/roller_video.jpg',str(task['user_roller_id'])))
+    except mysql.Error as e:
+        logging.info('Base err : {}'.format(e))
+    finally:
+        db.close()
 
 
 @DecoWithArgsMysqlUpd('aaxbut','@','gmail.com')
@@ -214,7 +227,7 @@ def rend_task(task):
 
         #base_rec_rend4
         try:
-#s= base_rec_rend2(task)
+            s= base_rec_rend2(task)
 
             bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
             bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
@@ -222,7 +235,7 @@ def rend_task(task):
             os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
             os.chmod(bpy.context.scene.render.filepath, 0o777)
 
-     #       s= base_rec_rend_of2(task)
+            s= base_rec_rend_of2(task)
             
             end_time = time.time() - start_time
             logging.info('{} TASK description {} moview_picture  {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
@@ -247,7 +260,7 @@ def rend_task(task):
             bpy.context.scene.render.ffmpeg.video_bitrate=384
             bpy.context.scene.render.ffmpeg.audio_bitrate=124
             
-           # s= base_rec_rend4(task)
+            s= base_rec_rend4(task)
 
             bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
             os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
@@ -284,7 +297,8 @@ def rend_task(task):
             start_time=time.time()
             bpy.ops.wm.open_mainfile(filepath=task['project_name'])
              
-
+            bpy.context.scene.frame_start = 0
+            bpy.context.scene.frame_end = 50
             bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'))
 
             bpy.context.scene.render.engine = 'CYCLES'
@@ -478,7 +492,7 @@ if __name__ == '__main__':
     policy = asyncio.get_event_loop_policy()
     policy.set_event_loop(policy.new_event_loop())
     loop = asyncio.get_event_loop()
-    #loop.set_debug(True)
+    loop.set_debug(True)
    
    # loop.call_soon_threadsafe(start_background_tasks)
    
