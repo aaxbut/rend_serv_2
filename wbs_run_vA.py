@@ -11,6 +11,9 @@ import multiprocessing as mp
 from queue import Empty
 from collections import deque
 
+import subprocess as sp
+
+
 import bpy
 import os
 import time
@@ -23,7 +26,11 @@ import configparser
 
 
 conf = configparser.RawConfigParser()
+
 conf.read('wb1.conf')
+FFMPEG_BIN = 'ffmpeg'
+
+
 BLEND_DIR = conf.get('bl_path','BLEND_DIR')
 USERS_DIR = conf.get('bl_path','USERS_DIR')
 dbconnectionhost = conf.get('base','dbconnectionhost')
@@ -34,7 +41,7 @@ u_ugid = conf.get('usr_permission','uid')
 u_gguid = conf.get('usr_permission','gid')
 
 MAX_SIZE_QUEUE = 6
-LOG_FILENAME = '/var/tmp/render_blender_server.log'
+LOG_FILENAME = '/var/tmp/render_blender_server_test.log'
 # base connect
 
 
@@ -191,10 +198,43 @@ class DecoWithArgsMysqlUpd(object):
 
 
 
+def timit(func):
+    def wrapper(*args,**kwargs):
+ #       d = {}
+  #      d.update(kwargs)
+        start_time = time.time()
+
+        logging.info('before run')
+
+        func(*args,**kwargs)
+        end_time = time.time()-start_time
+        #logging.info('after ARGS KWARGS {}      TIME:'.format(args))
+        logging.info('after run {}      TIME:{}'.format(func.__name__, end_time))
+    return wrapper
+
+def timit2(func):
+    def wrapper(*args,**kwargs):
+ #       d = {}
+  #      d.update(kwargs)
+        start_time = time.time()
+
+        logging.info('before run')
+
+        func(*args)
+        end_time = time.time()-start_time
+        logging.info('after ARGS KWARGS {}      TIME:'.format(args))
+        logging.info('after run {}      TIME:{}'.format(func.__name__, end_time))
+    return wrapper
+    
+
+
 
 #@DecoWithArgsMysqlUpd('aaxbut','@','gmail.com')
 #@asyncio.coroutine
+#@timit
 def rend_priview(*args, **kwargs):
+
+
     priview_frames_start, priview_frames_end = args[0]
     task = kwargs
 
@@ -212,15 +252,15 @@ def rend_priview(*args, **kwargs):
             #bpy.context.scene.render.threads = 4
 
 
-        bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video_demo'))
+        bpy.context.scene.render.filepath ='{}_{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video_demo'),str(priview_frames_start))
 
         bpy.context.scene.render.engine = 'CYCLES'
         #bpy.context.scene.render.engine = 'BLENDER_RENDER'
             
 
         bpy.context.scene.cycles.device='CPU'
-        bpy.context.scene.render.ffmpeg.format = 'H264'
-            #bpy.context.scene.render.ffmpeg.codec = 'MPEG4'
+        bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+        bpy.context.scene.render.ffmpeg.codec = 'MPEG4'
 
           #  bpy.context.scene.render.ffmpeg.format = 'MPEG4'
 
@@ -228,7 +268,7 @@ def rend_priview(*args, **kwargs):
         bpy.context.scene.render.ffmpeg.maxrate = 9000
            # bpy.context.scene.render.ffmpeg.buffersize = 2000
         bpy.context.scene.render.ffmpeg.packetsize = 4096
-        bpy.context.scene.render.resolution_percentage = 45
+        bpy.context.scene.render.resolution_percentage = 60
             #bpy.context.scene.render.ffmpeg.use_autosplit=True
             #bpy.context.scene.render.ffmpeg.gopsize=100
 
@@ -242,8 +282,9 @@ def rend_priview(*args, **kwargs):
         os.chmod(bpy.context.scene.render.filepath, 0o777)
     except Exception as e:
         logging.info('REND_PRIVIEW def {} :::  '.format(str(e)))
+    return '1'
             
-        
+#@timit       
 def rend_task(task):
 
 
@@ -284,6 +325,7 @@ def rend_task(task):
     if task['render_type'] is 4: #render priview 
 
 
+
         try:
             start_time=time.time()
             logging.info('{} Render TASK{} ##   priview   ### {} ####'.format(datetime.now().strftime('%D:: %H:%M:%S'), task['render_type'],' '))
@@ -303,10 +345,11 @@ def rend_task(task):
             
 
             bpy.context.scene.cycles.device='CPU'
-            bpy.context.scene.render.ffmpeg.format = 'XVID'
-            #bpy.context.scene.render.ffmpeg.codec = 'MPEG4'
+        #    bpy.context.scene.render.ffmpeg.format = 'XVID'
+            bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+            bpy.context.scene.render.ffmpeg.codec = 'MPEG4'
 
-          #  bpy.context.scene.render.ffmpeg.format = 'MPEG4'
+            
 
             bpy.context.scene.render.ffmpeg.video_bitrate=6000
             bpy.context.scene.render.ffmpeg.maxrate = 9000
@@ -346,17 +389,21 @@ def rend_task(task):
         except Exception as e:
 #            logging.info('{} Render TASK  moview_priview{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), str(e),'KY KY KY BACKGROUND '))
             pass
-    if task['render_type'] is 41: #render priview 
+    if task['render_type'] is 41:
+        start_time=time.time()
+     #render priview 
 
     
         try:
             start_time=time.time()
             logging.info('{} Render TASK{} ##   priview   ### {} ####'.format(datetime.now().strftime('%D:: %H:%M:%S'), task['render_type'],' '))
 
-            l_1 = [[0,100],[101,200],[201,300],[301,400],[401,500]]
+            #l_1 = [[0,100],[101,200],[201,300],[301,400],[401,500]]
+            #l_1 = [[0,250],[251,500]]
+            l_1 =[[0,10],[11,20]]
             logging.info('{} TASK des'.format(l_1))
             #p = mp.Process(target=rend_priview, args=(l_1[0],), kwargs=task)
-            procs = (mp.Process(target=rend_priview, args=(x,), kwargs=task) for x in l_1)
+            procs = [mp.Process(target=rend_priview, args=(x,), kwargs=task) for x in l_1]
 
            # p.start()
            # p.join()
@@ -367,21 +414,60 @@ def rend_task(task):
 
             for p in procs:
 
-            #    #p.daemon = True
-             #   logging.info('!!!!!!!!!!!!!!!!!!!!! {} ******************'.format(p))
+                p.daemon = True
+        #        logging.info('!!!!!!!!!!!!!!!!!!!!! {} ******************'.format(p))
                 p.start()
+        #        p.join()
 
+           # end_time = time.time() - start_time
+           # logging.info('DSFSDFSDFSDFSDFSDFSDFSDF'.format(end_time))
+
+            for p in procs:
+            #    logging.info('!!!!!!!!!!!!!!!!!!!!! {} ******41 ************'.format(p))
+                p.join()
+             #   logging.info('!!!!!!!!!!!!!!!!!!!!! {} ******41 ************'.format(p))
 
  
 
-            end_time = time.time() - start_time
-            
-
-            logging.info('{} TASK description  @@! {} render priview   {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
-
         except Exception as e:
-#            logging.info('{} Render TASK  moview_priview{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), str(e),'KY KY KY BACKGROUND '))
-            pass
+       
+            logging.info('{} Render TASK  moview_priview{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), str(e),start_time))
+
+
+       # finally:
+        file_txt_for_concat =str(task['result_dir'])+'/'+'tst.txt' 
+        with open(file_txt_for_concat,'w') as f:
+            for x in l_1:
+
+                f.write('file roller_video_demo_{}.mp4\n'.format(x[0]))
+
+        out_file = str(task['result_dir'])+'/'+'roller_video_demo.mp4'
+
+
+        command = [FFMPEG_BIN,
+                    '-y',
+    
+                    '-f','concat',
+                    '-safe',str(0),
+                    '-i', file_txt_for_concat,
+                    '-c','copy',
+                    out_file,
+                    ]
+
+        
+        pipe = sp.Popen(command)
+        os.chown(out_file, int(u_ugid), int(u_gguid))
+        os.chmod(out_file, 0o777)
+        end_time = time.time() - start_time
+        
+        #logging.info('22222222222222222 {}'.format(end_time))
+
+
+
+
+        logging.info('{} TASK description  @@! {} render priview   {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
+
+
     if task['render_type'] is 1: #render full video
         try:
             logging.info('{} Render TASK{} ##   moview_full   ### {} ####'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task['render_type'],' '))
@@ -457,7 +543,7 @@ def check_queue ():
     while True:
 
 
-        logging.info('Job description {} ########## {} #  #'.format(' $$ ','KY KY KY BACKGROUND '))
+        #logging.info('Job description {} ########## {} #  #'.format(' $$ ','KY KY KY BACKGROUND '))
         yield from asyncio.sleep(5)
 
         
@@ -466,16 +552,16 @@ def check_queue ():
          
 def start_background_tasks():
     #print('***'*40)
-    start_time = time.time()
+    #start_time = time.time()
     runing_task =  queue_of_run_tasks.__len__()
-    logging.info('{} ##  Objects len  in runningtask: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), runing_task ))
+    #logging.info('{} ##  Objects len  in runningtask: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), runing_task ))
 
     if runing_task >= MAX_SIZE_QUEUE:
         i = MAX_SIZE_QUEUE
     else:
         i = runing_task
     #queue_of_suspend
-    logging.info('{} ##  Objects len : {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), i ))
+    #logging.info('{} ##  Objects len : {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), i ))
     while i:
         try:
             logging.info('{} ##  Object len: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), i ))
@@ -515,10 +601,10 @@ def start_background_tasks():
         except Exception as e:
             pass
 
-        logging.info('Job description {} ########## {} ##########'.format(' $$ ','KY KY KY BACKGROUND '))
+        #logging.info('Job description {} ########## {} ##########'.format(' $$ ','KY KY KY BACKGROUND '))
         #data = asyncio.wait_for(print('sds'), timeout=2.0)
         i-=1
-        end_time = time.time() - start_time 
+        #end_time = time.time() - start_time 
     #logging.info('Task description {} ########## {} ### TIME :{}'.format('#$$#','KY KY KY BACKGROUND ',end_time))
 
 
@@ -559,8 +645,8 @@ def corobas_1():
 
 def main_loop(loop):
     #set logging  
-    logging.basicConfig(level=logging.DEBUG)
-    #logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
+    #logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
      
     app = web.Application(loop=loop)
     
@@ -573,7 +659,7 @@ def main_loop(loop):
    
     app.router.add_post('/tr', transmit)
     
-    server = yield from loop.create_server(app.make_handler(),'0.0.0.0',7811)
+    server = yield from loop.create_server(app.make_handler(),'0.0.0.0',7812)
     return server
 
 

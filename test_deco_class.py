@@ -45,7 +45,7 @@ class DecoWithArgs(object):
 @DecoWithArgs('aa','asda','fddss')
 def g(*args, **kwagrs):
     print('in function, args %s' % str(args))
-    return args,kwagrs
+    return args, kwagrs
 
 
 #return_deco_class = sorted(g('sddddd','sdds','sadasd'), key=lambda x:len(x))
