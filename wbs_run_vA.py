@@ -292,6 +292,7 @@ def rend_task(task):
         bpy.ops.wm.open_mainfile(filepath=task['project_name'])
         context_frame_start = bpy.context.scene.frame_start
         context_frame_end = bpy.context.scene.frame_end
+        
     except Exception as e:
 
         logging.info('{} Render TASK{} ########## {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), str(e),'KY KY KY BACKGROUND '))
@@ -465,7 +466,7 @@ def rend_task(task):
 
 
 
-        logging.info('{} TASK description  @@! {} render priview   {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'',end_time))
+        logging.info('{} TASK description  @@! {} render priview {} ### TIME :{}'.format(datetime.now().strftime('%D:: %H:%M:%S'),task['result_dir'],'',end_time))
 
 
     if task['render_type'] is 1: #render full video
@@ -551,9 +552,9 @@ def check_queue ():
 
          
 def start_background_tasks():
-    #print('***'*40)
-    #start_time = time.time()
-    runing_task =  queue_of_run_tasks.__len__()
+
+    runing_task =  len(queue_of_run_tasks)
+    
     #logging.info('{} ##  Objects len  in runningtask: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), runing_task ))
 
     if runing_task >= MAX_SIZE_QUEUE:
@@ -578,6 +579,7 @@ def start_background_tasks():
         #    with mp.Pool(processes=os.cpu_count()) as pool:
         #        pool.map(rend_task,[task])
 
+            #if 
             procs = mp.Process(target=rend_task, args=(task,)).start()
        
        # self._log.info('{} Proc started {} status queu :: '.format(datetime.now().strftime('%c'), procs ))

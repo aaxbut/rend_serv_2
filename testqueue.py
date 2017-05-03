@@ -200,6 +200,80 @@ if runing_task >= MAX_SIZE_QUEUE:
     i = MAX_SIZE_QUEUE
 else:
     i = runing_task
-print(i)
+#print(i)
+
 
   #  runing_task =  queue_of_run_tasks.__len__()
+from math import floor
+import time
+import pdb
+import dis
+
+
+len_frames = 1440
+parts = 25
+
+def du__du_test(func):
+    
+    def wrapper(*args,**kwargs):
+        start_time = time.time()
+        
+
+        res = func(*args,**kwargs)
+        print(time.time()-start_time)
+
+        return res
+    
+    return wrapper
+
+
+@du__du_test
+def return_list_of_parts(len_frames,parts):
+    """  function make parts from size """
+
+    chunk = len_frames / parts
+    floor_chunk = floor(chunk)
+    chunk_all = floor_chunk * parts
+
+    i=0
+    parts_list = []
+    
+    for x in range(parts):
+        i += floor_chunk
+        parts_list.append([i-floor_chunk, i-1])
+
+    if parts_list[-1][1] != len_frames:
+        i += len_frames - chunk_all
+        x1,y1 = parts_list.pop()
+        parts_list.append([x1,i])
+
+    yield parts_list
+
+
+d = return_list_of_parts(len_frames,parts)
+for x in d:
+    print(x)
+#print(dis.dis(return_list_of_parts))
+
+
+    
+
+#print(chunk)
+#print(floor(chunk), df)
+
+def legb_tes():
+    try:
+        try_legb = 42
+    except Exception as e:
+        print(str(e))
+
+    print(try_legb)
+
+legb_tes()
+
+
+
+
+
+
+
