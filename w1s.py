@@ -364,7 +364,7 @@ def check_queue ():
 def start_background_tasks():
     #print('***'*40)
     start_time = time.time()
-    runing_task =  queue_of_run_tasks.__len__()
+    runing_task = queue_of_run_tasks.__len__()
 #    logging.info('{} ##  Objects len  in runningtask: {} ##########'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), runing_task ))
 
     if runing_task >= MAX_SIZE_QUEUE:

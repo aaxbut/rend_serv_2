@@ -228,31 +228,32 @@ def du__du_test(func):
 
 
 @du__du_test
-def return_list_of_parts(len_frames,parts):
+def return_list_of_parts(len_frames, parts):
     """  function make parts from size """
 
     chunk = len_frames / parts
     floor_chunk = floor(chunk)
     chunk_all = floor_chunk * parts
 
-    i=0
+    i = 0
     parts_list = []
-    
+
     for x in range(parts):
         i += floor_chunk
         parts_list.append([i-floor_chunk, i-1])
 
     if parts_list[-1][1] != len_frames:
         i += len_frames - chunk_all
-        x1,y1 = parts_list.pop()
-        parts_list.append([x1,i])
+        x1, y1 = parts_list.pop()
+        parts_list.append([x1, i])
 
     yield parts_list
 
 
 d = return_list_of_parts(len_frames,parts)
-for x in d:
-    print(x)
+print(list(d)[0])
+#for x in d:
+#    print(x)
 #print(dis.dis(return_list_of_parts))
 
 
