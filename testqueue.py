@@ -247,11 +247,11 @@ def return_list_of_parts(len_frames, parts):
         x1, y1 = parts_list.pop()
         parts_list.append([x1, i])
 
-    yield parts_list
+    return parts_list
 
 
 d = return_list_of_parts(len_frames,parts)
-print(list(d)[0])
+print(d)
 #for x in d:
 #    print(x)
 #print(dis.dis(return_list_of_parts))

@@ -80,8 +80,8 @@ class DecoWithArgsMysqlUpd(object):
             if render_type == 4:
                 with mysql.connect(host=dbconnectionhost, user=dbusername, passwd=dbpassword, db=dbname) as db:
                     try:
-                        db.execute('update users_rollers set is_render=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',user_roller_id))
-                        db.execute('update users_rollers set is_render=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',user_roller_id))
+                        db.execute('update users_rollers set is_render_demo=1,filename_video_demo=%s where id=%s',('video/roller_video_demo.mp4',user_roller_id))
+                        db.execute('update users_rollers set is_render_demo=1,filename_screen_demo=%s where id=%s',('video/roller_video_demo.jpg',user_roller_id))
                     except Exception as e:
                         logging.info('Base err : {}'.format(e))
                     finally:
@@ -145,7 +145,7 @@ def return_list_of_parts(len_frames, parts):
         i += len_frames - chunk_all
         x1, y1 = parts_list.pop()
         parts_list.append([x1, i])
-    yield parts_list
+    return parts_list
 
 
 def timit(func):
@@ -175,7 +175,7 @@ def timit2(func):
 def rend_priview(*args, **kwargs):
     frames_start, frames_end = args[0]
     task = kwargs
-    logging.info('REND_PRIVIEW {} ::: {} in queue {} '.format(frames_start, frames_end, len(queue_of_run_tasks)))
+    #logging.info('REND_PRIVIEW {} ::: {} in queue {} '.format(frames_start, frames_end, len(queue_of_run_tasks)))
 #    logging.info('REND_PRIVIEW def {} :: '.format(kwargs))
     try:
         scn = bpy.context.scene
@@ -196,11 +196,14 @@ def rend_priview(*args, **kwargs):
         bpy.ops.render.render(animation=True, scene=bpy.context.scene.name)
         os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
         os.chmod(bpy.context.scene.render.filepath, 0o777)
-        io = run_tasks.pop()
-        logging.info('!@!@!@!@@@! def {} :::  '.format(io))
+
 
     except Exception as e:
         logging.info('REND_PRIVIEW def {} :::  '.format(str(e)))
+        pass
+
+    io = run_tasks.pop()
+   # logging.info('@@##  {} :: !@!@!@!@@@! def {} :::>'.format(len(run_tasks),io))
 
     return '1'
 
@@ -208,8 +211,8 @@ def rend_priview(*args, **kwargs):
 def rend_full_movie(*args, **kwargs):
     frames_start, frames_end = args[0]
     task = kwargs
-    logging.info('REND_full movie {} ::: {} '.format(frames_start, frames_end))
-    logging.info('REND_full movie {} :: '.format(kwargs))
+  #  logging.info('REND_full movie {} ::: {} '.format(frames_start, frames_end))
+  #  logging.info('REND_full movie {} :: '.format(kwargs))
     try:
         scn = bpy.context.scene
         scn.frame_start = frames_start
@@ -229,12 +232,13 @@ def rend_full_movie(*args, **kwargs):
         bpy.ops.render.render(animation=True,scene=bpy.context.scene.name)
         os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
         os.chmod(bpy.context.scene.render.filepath, 0o777)
+        #run_tasks.pop()
     except Exception as e:
         logging.info('REND_full movie {} :::  '.format(str(e)))
     return '1'
 
 
-#@timit       
+@DecoWithArgsMysqlUpd('aaxbut','@','gmail.com')      
 def rend_task(task):
     try:
         bpy.ops.wm.open_mainfile(filepath=task['project_name'])
@@ -263,7 +267,7 @@ def rend_task(task):
         try:
             start_time = time.time()
             logging.info('{} Render TASK{} ##   priview   ### {} ####'.format(datetime.now().strftime('%D:: %H:%M:%S'), task['render_type'],' '))
-            l_1 = list(return_list_of_parts(50, 5))[0]
+            l_1 = return_list_of_parts(500, 5)
             logging.info('{} TASK des'.format(l_1))
             procs = [mp.Process(target=rend_priview, args=(x,), kwargs=task) for x in l_1]
             for p in procs:
@@ -272,8 +276,6 @@ def rend_task(task):
                 p.daemon = True
                 p.start()
             for p in procs:
-                run_tasks.pop()
-
                 p.join()
 
 
@@ -305,7 +307,7 @@ def rend_task(task):
         try:
             start_time = time.time()
             logging.info('{} Render TASK{} ## full movie ### {} ####'.format(datetime.now().strftime('%D:: %H:%M:%S'), task['render_type'], ' '))
-            l_1 = list(return_list_of_parts(context_frame_end, 5))[0]
+            l_1 = return_list_of_parts(context_frame_end, 5)
             logging.info('{} TASK des'.format(l_1))
             procs = [mp.Process(target=rend_full_movie, args=(x,), kwargs=task) for x in l_1]
             for p in procs:
@@ -318,7 +320,7 @@ def rend_task(task):
         except Exception as e:
             logging.info('{} Render TASK full movie {} ## {} ##'.format(datetime.now().strftime('%D: %H:%M:%S'), str(e),start_time))
 
-        file_txt_for_concat = str(task['result_dir'])+'/'+'tst.txt'
+        file_txt_for_concat = str(task['result_dir'])+'/'+'tst_1.txt'
         with open(file_txt_for_concat, 'w') as f:
             for x in l_1:
                 f.write('file roller_video_{}.mp4\n'.format(x[0]))
@@ -336,36 +338,9 @@ def rend_task(task):
         os.chown(out_file, int(u_ugid), int(u_gguid))
         os.chmod(out_file, 0o777)
         end_time = time.time() - start_time
-        logging.info('{} TASK description  @@! {} render priview {} ### TIME :{}'.format(datetime.now().strftime('%D:: %H:%M:%S'),task['result_dir'],'',end_time))
+        logging.info('{} TASK description {} render full {} ### TIME :{}'.format(datetime.now().strftime('%D:: %H:%M:%S'),task['result_dir'],'',end_time))
 
-    if task['render_type'] is 11: #render full video
-        try:
-            logging.info('{} Render TASK{} ##   moview_full   ### {} ####'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'), task['render_type'],' '))
-            start_time = time.time()
-            bpy.ops.wm.open_mainfile(filepath=task['project_name'])
-            bpy.context.scene.render.filepath ='{}.mp4'.format(str(task['result_dir'])+'/'+str('roller_video'))
-            bpy.context.scene.render.engine = 'CYCLES'
-            bpy.context.scene.cycles.device = 'CPU'
-            bpy.context.scene.render.ffmpeg.format = 'MPEG4'
-            bpy.context.scene.render.ffmpeg.video_bitrate = 750
-            bpy.context.scene.render.ffmpeg.audio_bitrate = 124
-            bpy.ops.render.render(animation=True, scene=bpy.context.scene.name)
-            os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
-            os.chmod(bpy.context.scene.render.filepath, 0o777)
-         
-            bpy.context.scene.frame_start = 100
-            bpy.context.scene.frame_end = 101
-            bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
-            
-            bpy.context.scene.render.filepath ='{}.jpg'.format(str(task['result_dir'])+'/'+str('roller_video'))
-            bpy.ops.render.render(write_still=True)
-            os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
-            os.chmod(bpy.context.scene.render.filepath, 0o777)
-            end_time = time.time() - start_time
-            logging.info('{} TASK description {} ########## {} ### TIME :{}'.format(datetime.now().strftime('%D:: %HH:%MM:%SS'),task['result_dir'],'res' ,end_time))
-        except Exception as e:
-            pass
-
+    
 
 @asyncio.coroutine
 def check_queue():
@@ -378,20 +353,20 @@ def start_background_tasks():
     runing_task_all = len(run_tasks)
     runing_task = len(queue_of_run_tasks)
     
-    logging.info('{} ## Objects len  in runningtask: {} ##'.format(datetime.now().strftime('%D:: %H:%M:%S'), str(runing_task_all)))
+    #logging.info('{} ## Objects len  in runningtask: {} ##'.format(datetime.now().strftime('%D:: %H:%M:%S'), str(runing_task_all)))
 
     if runing_task >= MAX_SIZE_QUEUE:
-        i = MAX_SIZE_QUEUE
+        i = 0
     else:
         i = runing_task
     #queue_of_suspend
-    logging.info('{} ## Objects len before pop : {} # {}'.format(datetime.now().strftime('%D:: %H:%M:%S'), i, runing_task))
+    #logging.info('{} ## Objects len before pop : {} # {}'.format(datetime.now().strftime('%D:: %H:%M:%S'), i, runing_task))
     while i:
         try:
             #logging.info('{} ##  Object len: {} ##########'.format(datetime.now().strftime('%D:: %H:%M:%S'), str(i)))
             sec, task = queue_of_run_tasks.pop()
             task = json.loads(task)
-            logging.info('{} ##  Object name: {} ##########'.format(datetime.now().strftime('%D:: %H:%M:%S'), task))
+            #logging.info('{} ##  Object name: {} ##########'.format(datetime.now().strftime('%D:: %H:%M:%S'), task))
             procs = mp.Process(target=rend_task, args=(task,)).start()
             for proc in procs:
                 proc.join()
