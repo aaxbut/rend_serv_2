@@ -309,8 +309,8 @@ def rend_task(task):
                     out_file,
                     ]
         pipe = sp.Popen(command)
-
-
+        os.chown(out_file, int(u_ugid), int(u_gguid))
+        os.chmod(out_file, 0o777)
         bpy.context.scene.frame_start = 100
         bpy.context.scene.frame_end = 101
         bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
@@ -319,11 +319,6 @@ def rend_task(task):
         bpy.ops.render.render(write_still=True)
         os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
         os.chmod(bpy.context.scene.render.filepath, 0o777)
-        try:
-            os.chown(out_file, int(u_ugid), int(u_gguid))
-            os.chmod(out_file, 0o777)
-        except Exception as e:
-            logging.info('Render TASK  moview_priview {}'.format(str(e)))
 
 
         end_time = time.time() - start_time
@@ -354,6 +349,58 @@ def rend_task(task):
         file_txt_for_concat = str(task['result_dir'])+'/'+'tst.txt'
         with open(file_txt_for_concat, 'w') as f:
             for x in l_1:
+                f.write('file roller_video{}.mp4\n'.format(x[0]))
+        out_file = str(task['result_dir'])+'/'+'roller_video.mp4'
+        command = [
+                    FFMPEG_BIN,
+                    '-y',
+                    '-f', 'concat',
+                    '-safe', str(0),
+                    '-i', file_txt_for_concat,
+                    '-c', 'copy',
+                    out_file,
+                    ]
+        pipe = sp.Popen(command)
+        os.chown(out_file, int(u_ugid), int(u_gguid))
+        os.chmod(out_file, 0o777)
+        bpy.context.scene.frame_start = 100
+        bpy.context.scene.frame_end = 101
+        bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+
+        bpy.context.scene.render.filepath = '{}.jpg'.format(str(task['result_dir']) + '/' + str('roller_video'))
+        bpy.ops.render.render(write_still=True)
+        os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
+        os.chmod(bpy.context.scene.render.filepath, 0o777)
+
+
+        end_time = time.time() - start_time
+
+        #oi = run_tasks.pop()
+        logging.info('{} TASK description  @@! {} render full moview  {} ### TIME :{}'.format(datetime.now().strftime('%D:: %H:%M:%S'),task['result_dir'],'',end_time))
+
+    if int(task['render_type']) is 11:
+        start_time = time.time()
+        try:
+            start_time = time.time()
+            logging.info('{} Render TASK{} ## full movie ### {} ####'.format(datetime.now().strftime('%D:: %H:%M:%S'), task['render_type'], ' '))
+            l_1 = return_list_of_parts(50, 5) #context_frame_end
+            logging.info('{} TASK des'.format(l_1))
+            procs = [mp.Process(target=rend_full_movie, args=(x,), kwargs=task) for x in l_1]
+            for p in procs:
+                queue_of_run_tasks.append(p)
+                p.daemon = True
+                p.start()
+            for p in procs:
+                queue_of_run_tasks.pop()
+                p.join()
+        except Exception as e:
+            logging.info('{} Render TASK full movie {} ## {} ##'.format(datetime.now().strftime('%D: %H:%M:%S'), str(e),start_time))
+
+        file_txt_for_concat = str(task['result_dir'])+'/'+'tst_1.txt'
+        #end_time = time.time() - start_time
+
+        with open(file_txt_for_concat, 'w') as f:
+            for x in l_1:
                 f.write('file roller_video_{}.mp4\n'.format(x[0]))
         out_file = str(task['result_dir'])+'/'+'roller_video.mp4'
         command = [
@@ -366,8 +413,8 @@ def rend_task(task):
                     out_file,
                     ]
         pipe = sp.Popen(command)
-
-
+        os.chown(out_file, int(u_ugid), int(u_gguid))
+        os.chmod(out_file, 0o777)
         bpy.context.scene.frame_start = 100
         bpy.context.scene.frame_end = 101
         bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
@@ -376,19 +423,11 @@ def rend_task(task):
         bpy.ops.render.render(write_still=True)
         os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
         os.chmod(bpy.context.scene.render.filepath, 0o777)
-        try:
-            os.chown(out_file, int(u_ugid), int(u_gguid))
-            os.chmod(out_file, 0o777)
-        except Exception as e:
-            logging.info('TASK full {} ###### {} ######'.format('IIIIII',str(e)))
-
-
 
         end_time = time.time() - start_time
+        logging.info('{} TASK description {} render full {} ### TIME :{}'.format(datetime.now().strftime('%D:: %H:%M:%S'),task['result_dir'],'',end_time))
 
-        #oi = run_tasks.pop()
-        logging.info('{} TASK description  @@! {} render full moview  {} ### TIME :{}'.format(datetime.now().strftime('%D:: %H:%M:%S'),task['result_dir'],'',end_time))
-
+    
 
 @asyncio.coroutine
 def check_queue():

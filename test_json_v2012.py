@@ -5,7 +5,7 @@ import json
 
 async def fetch(client):
         url = "http://127.0.0.1:7812/tr"
-        data = {'render_type':4,'moview_full':False,'moview_picture':False,'moview_priview':True,'sender':'node-1','result_dir':'/var/www/cmex.ru/data/uploads/users','user': 'bob', 'message': 'We did it!','project_name':'/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend','files_png':{'head1':'head13.png','mouth1':'mouth13.png'}}
+        data = {'user_roller_id':'12907', 'render_type':'2','moview_full':False,'moview_picture':False,'moview_priview':True,'sender':'node-1','result_dir':'/var/www/cmex.ru/data/uploads/users','user': 'bob', 'message': 'We did it!','project_name':'/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend','files_png':{'head1':'head13.png','mouth1':'mouth13.png'}}
         #data = {'sendaemonder':'node-1','user': 'nebob', 'file_h1': 'head1.png', 'message': 'We did it!','project_name':'Rauf','file_name':'500265.blend','file78.46.23.1878.46.23.1878.46.23.1878.46.23.18s_png':{'head1':'head1.png','mouth1':'mouth1.png'}}
         #data = {'sender':'node-1','user': 'aaxbut', 'file_h1': 'head1.png', 'message': 'We did it!','requestdata_for_renderproject_name':'Rauf','file_name':'500265.blend','files_png':{'head1':'head12.png','mouth1':'mouth12.png'}}
 
@@ -17,10 +17,10 @@ async def fetch(client):
         #"result_dir":"/var/www/cmex.ru/data/uploads/users_rollers/11723/video"
         headers = {'Content-type': 'application/json'}
          #    assert session.status == 200                                                              task['moview_priview'], 
-        async with await client.post(url, data = json.dumps(data) ,headers = headers) as post_session:
+        async with await client.post(url, data=json.dumps(data), headers=headers) as post_session:
 
             #assert post_session.status == 405
-            u =  json.loads(await post_session.text())
+            u = json.loads(await post_session.text())
    
             return u
 

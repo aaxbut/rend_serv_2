@@ -251,7 +251,7 @@ def return_list_of_parts(len_frames, parts):
 
 
 d = return_list_of_parts(len_frames,parts)
-print(d)
+#print(d)
 #for x in d:
 #    print(x)
 #print(dis.dis(return_list_of_parts))
@@ -268,9 +268,32 @@ def legb_tes():
     except Exception as e:
         print(str(e))
 
-    print(try_legb)
+    #print(try_legb)
 
-legb_tes()
+#legb_tes()
+
+import MySQLdb as mysql
+
+user_roller_id ='12907'
+dbconnectionhost = 'localhost'
+dbname = 'cmexdb'
+dbusername = 'custom'
+dbpassword = '12301982'
+
+
+with mysql.connect(host=dbconnectionhost, user=dbusername, passwd=dbpassword, db=dbname) as db:
+    try:
+        db.execute('update users_rollers set is_render=1,filename_video=%s where id=%s',
+                    ('video/roller_video.mp4', user_roller_id))
+        db.execute('update users_rollers set is_render=1,filename_screen=%s where id=%s',
+                    ('video/roller_video.jpg', user_roller_id))
+        db.execute('update users_rollers set is_ready=1,filename_screen=%s where id=%s',
+                    ('video/roller_video.jpg', user_roller_id))
+    except Exception as e:
+        print(e)
+       # logging.info( 'Base err : {}'.format( e ) )
+    finally:
+        db.close()
 
 
 
