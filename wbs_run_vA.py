@@ -197,13 +197,13 @@ def rend_priview(*args, **kwargs):
                                     str(frames_start))
         scn.render.engine = 'CYCLES'
         scn.cycles.device = 'CPU'
-        scn.render.ffmpeg.format = 'MPEG4'
-        scn.render.ffmpeg.codec = 'MPEG4'
-        scn.render.ffmpeg.video_bitrate = 6000
-        scn.render.ffmpeg.maxrate = 9000
-        scn.render.ffmpeg.packetsize = 4096
-        scn.render.resolution_percentage = 60
-        scn.render.ffmpeg.audio_bitrate = 384
+        #scn.render.ffmpeg.format = 'MPEG4'
+        #scn.render.ffmpeg.codec = 'MPEG4'
+        #scn.render.ffmpeg.video_bitrate = 6000
+        #scn.render.ffmpeg.maxrate = 9000
+        #scn.render.ffmpeg.packetsize = 4096
+        #scn.render.resolution_percentage = 60
+        #scn.render.ffmpeg.audio_bitrate = 384
         bpy.ops.render.render(animation=True, scene=bpy.context.scene.name)
         os.chown(bpy.context.scene.render.filepath, int(u_ugid), int(u_gguid))
         os.chmod(bpy.context.scene.render.filepath, 0o777)
