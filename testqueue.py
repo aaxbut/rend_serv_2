@@ -210,8 +210,7 @@ import pdb
 import dis
 
 
-len_frames = 1440
-parts = 25
+
 
 def du__du_test(func):
     
@@ -249,8 +248,17 @@ def return_list_of_parts(len_frames, parts):
 
     return parts_list
 
+len_frames = 20
+parts = 10
+
+tst_task = {'a':1,'b':2}
+
 
 d = return_list_of_parts(len_frames,parts)
+f = [(x,tst_task) for x in d]
+print(f)
+#print(list(map(d,tst_task)))
+
 #print(d)
 #for x in d:
 #    print(x)
@@ -281,7 +289,7 @@ dbusername = 'custom'
 dbpassword = '12301982'
 
 
-with mysql.connect(host=dbconnectionhost, user=dbusername, passwd=dbpassword, db=dbname) as db:
+'''with mysql.connect(host=dbconnectionhost, user=dbusername, passwd=dbpassword, db=dbname) as db:
     try:
         db.execute('update users_rollers set is_render=1,filename_video=%s where id=%s',
                     ('video/roller_video.mp4', user_roller_id))
@@ -295,6 +303,7 @@ with mysql.connect(host=dbconnectionhost, user=dbusername, passwd=dbpassword, db
     finally:
         db.close()
 
+'''
 
 
 

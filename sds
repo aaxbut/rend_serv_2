@@ -1,367 +1,200 @@
 INFO:root:Awaiting task 
 INFO:root:Awaiting task 
-INFO:root:Thu May 11 22:01:54 2017 SRV: ('0.0.0.0', 7812) 
-INFO:root:Transmit description time : Thu May 11 22:01:57 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:01:57 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:01:58 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:01:58 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:01:58 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:01:58 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:01:59 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:01:59 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
+INFO:root:Fri May 12 15:46:51 2017 SRV: ('0.0.0.0', 7812) 
 INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 4
-INFO:root:Transmit description time : Thu May 11 22:02:00 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:00 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:00 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:00 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:01 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:01 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:02 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:02 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:02 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:02 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:04 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:04 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Transmit description time : Fri May 12 15:46:58 2017 ## Data : dict ###
+INFO:aiohttp.access:127.0.0.1 - - [12/May/2017:10:46:58 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
 INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 10
+INFO:root:[{'render_type': '4', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'message': 'We did it!', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_full': False, 'sender': 'node-1', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'moview_picture': False, 'user': 'bob'}] ##  Object len: 1
 INFO:root:0 ######################
-INFO:root:1 ######################
-INFO:root:2 ######################
-INFO:root:3 ######################
-INFO:root:[<generator object rend_task_1 at 0x7f7493ef1990>, <generator object rend_task_1 at 0x7f7493ef1ba0>, <generator object rend_task_1 at 0x7f7493ef16d0>, <generator object rend_task_1 at 0x7f7493ef1678>] ##  Object len: 
+INFO:root:GATHER  !!!! else 1
 INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:Transmit description time : Thu May 11 22:02:05 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:05 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:05 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:05 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:06 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:06 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:06 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:06 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:07 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:07 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:07 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:07 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:08 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:08 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:09 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:09 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:09 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:09 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
+INFO:root:<generator object rend_task_1.<locals>.<genexpr> at 0x7f0e4af12eb8> ######################
+ERROR:asyncio:_GatheringFuture exception was never retrieved
+future: <_GatheringFuture finished exception=TypeError("'generator' object is not subscriptable",)>
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/asyncio/tasks.py", line 239, in _step
+    result = coro.send(None)
+  File "/usr/lib/python3.5/asyncio/coroutines.py", line 206, in coro
+    res = func(*args, **kw)
+  File "/home/aaxbut/python/rend_blend/rend_serv_2/wbs_run_Vb.py", line 491, in rend_task_1
+    executor.submit(tester1(lll[x]))
+TypeError: 'generator' object is not subscriptable
 INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 15
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:Awaiting task 
+INFO:root:Fri May 12 15:47:27 2017 SRV: ('0.0.0.0', 7812) 
+INFO:root:Transmit description time : Fri May 12 15:47:31 2017 ## Data : dict ###
+INFO:aiohttp.access:127.0.0.1 - - [12/May/2017:10:47:31 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
+INFO:root:Awaiting task 
+INFO:root:[{'sender': 'node-1', 'user': 'bob', 'user_roller_id': '12907', 'render_type': '4', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}}] ##  Object len: 1
 INFO:root:0 ######################
-INFO:root:1 ######################
-INFO:root:2 ######################
-INFO:root:3 ######################
-INFO:root:[<generator object rend_task_1 at 0x7f7493ef1ca8>, <generator object rend_task_1 at 0x7f7493ef1620>, <generator object rend_task_1 at 0x7f7493ef1ba0>, <generator object rend_task_1 at 0x7f7493ef1678>] ##  Object len: 
+INFO:root:GATHER  !!!! else 1
 INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:Transmit description time : Thu May 11 22:02:10 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:10 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:11 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:11 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:12 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:12 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:13 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:13 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:13 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:13 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:02:13 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:02:13 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
+INFO:root:[([0, 4], {'sender': 'node-1', 'user': 'bob', 'user_roller_id': '12907', 'render_type': '4', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}}), ([5, 9], {'sender': 'node-1', 'user': 'bob', 'user_roller_id': '12907', 'render_type': '4', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}}), ([10, 15], {'sender': 'node-1', 'user': 'bob', 'user_roller_id': '12907', 'render_type': '4', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}})] ######################
+ERROR:asyncio:_GatheringFuture exception was never retrieved
+future: <_GatheringFuture finished exception=IndexError('tuple index out of range',)>
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/asyncio/tasks.py", line 239, in _step
+    result = coro.send(None)
+  File "/usr/lib/python3.5/asyncio/coroutines.py", line 206, in coro
+    res = func(*args, **kw)
+  File "/home/aaxbut/python/rend_blend/rend_serv_2/wbs_run_Vb.py", line 491, in rend_task_1
+    executor.submit(tester1(lll[x]))
+  File "/home/aaxbut/python/rend_blend/rend_serv_2/wbs_run_Vb.py", line 434, in tester1
+    logging.info('BEFORE tester run #: {}, #:{}'.format(task))
+IndexError: tuple index out of range
 INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 17
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:Awaiting task 
+INFO:root:Fri May 12 15:48:30 2017 SRV: ('0.0.0.0', 7812) 
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Transmit description time : Fri May 12 15:49:05 2017 ## Data : dict ###
+INFO:aiohttp.access:127.0.0.1 - - [12/May/2017:10:49:05 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
+INFO:root:Awaiting task 
+INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'user': 'bob', 'render_type': '4', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'sender': 'node-1', 'user_roller_id': '12907'}] ##  Object len: 1
 INFO:root:0 ######################
-INFO:root:1 ######################
-INFO:root:2 ######################
-INFO:root:3 ######################
-INFO:root:[<generator object rend_task_1 at 0x7f7493699308>, <generator object rend_task_1 at 0x7f7493699150>, <generator object rend_task_1 at 0x7f74936993b8>, <generator object rend_task_1 at 0x7f74936990f8>] ##  Object len: 
+INFO:root:GATHER  !!!! else 1
 INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 13
-INFO:root:0 ######################
-INFO:root:1 ######################
-INFO:root:2 ######################
-INFO:root:3 ######################
-INFO:root:[<generator object rend_task_1 at 0x7f7493ef1ba0>, <generator object rend_task_1 at 0x7f7493699308>, <generator object rend_task_1 at 0x7f7493699150>, <generator object rend_task_1 at 0x7f74936993b8>] ##  Object len: 
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 9
-INFO:root:0 ######################
-INFO:root:1 ######################
-INFO:root:2 ######################
-INFO:root:3 ######################
-INFO:root:[<generator object rend_task_1 at 0x7f7493ef1ba0>, <generator object rend_task_1 at 0x7f7493ef17d8>, <generator object rend_task_1 at 0x7f7493ef1a40>, <generator object rend_task_1 at 0x7f7493ef1360>] ##  Object len: 
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_picture': False, 'user_roller_id': '12907', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False}, {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob', 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 5
-INFO:root:0 ######################
-INFO:root:1 ######################
-INFO:root:2 ######################
-INFO:root:3 ######################
-INFO:root:[<generator object rend_task_1 at 0x7f7493ef1ba0>, <generator object rend_task_1 at 0x7f7493ef17d8>, <generator object rend_task_1 at 0x7f7493ef1a40>, <generator object rend_task_1 at 0x7f7493ef1360>] ##  Object len: 
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:4 ##################### $#
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'render_type': '4', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_picture': False, 'sender': 'node-1', 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'user_roller_id': '12907', 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:Awaiting task 
-INFO:root:Thu May 11 22:05:17 2017 SRV: ('0.0.0.0', 7812) 
-INFO:root:Transmit description time : Thu May 11 22:05:18 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:05:18 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:05:20 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:05:20 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:05:21 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:05:21 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}, {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'moview_full': False, 'message': 'We did it!', 'moview_priview': True, 'moview_picture': False, 'sender': 'node-1', 'user_roller_id': '12907', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'render_type': '4', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob'}, {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'moview_full': False, 'user_roller_id': '12907', 'moview_priview': True, 'moview_picture': False, 'sender': 'node-1', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'message': 'We did it!', 'render_type': '4'}] ##  Object len: 3
-INFO:root:Transmit description time : Thu May 11 22:05:23 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:05:23 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Transmit description time : Thu May 11 22:05:24 2017 ## Data : dict ###
-INFO:aiohttp.access:127.0.0.1 - - [11/May/2017:17:05:24 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}, {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'moview_full': False, 'message': 'We did it!', 'moview_priview': True, 'moview_picture': False, 'sender': 'node-1', 'user_roller_id': '12907', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'render_type': '4', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user': 'bob'}, {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'moview_full': False, 'user_roller_id': '12907', 'moview_priview': True, 'moview_picture': False, 'sender': 'node-1', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'message': 'We did it!', 'render_type': '4'}, {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'message': 'We did it!', 'moview_full': False, 'moview_priview': True, 'moview_picture': False, 'user_roller_id': '12907', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'render_type': '4'}, {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'message': 'We did it!', 'sender': 'node-1', 'user_roller_id': '12907', 'moview_priview': True, 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_full': False, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'render_type': '4', 'user': 'bob'}] ##  Object len: 5
-INFO:root:0 ######################
-INFO:root:1 ######################
-INFO:root:2 ######################
-INFO:root:3 ######################
-INFO:root:[<generator object rend_task_1 at 0x7fcc05f8eaf0>, <generator object rend_task_1 at 0x7fcc05f8e570>, <generator object rend_task_1 at 0x7fcc05f8e360>, <generator object rend_task_1 at 0x7fcc05f8e7d8>] ##  Object len: 
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:4 ######################
-INFO:root:BEFORE tester run
+INFO:root:[([0, 4], {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'user': 'bob', 'render_type': '4', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'sender': 'node-1', 'user_roller_id': '12907'}), ([5, 9], {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'user': 'bob', 'render_type': '4', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'sender': 'node-1', 'user_roller_id': '12907'}), ([10, 15], {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'user': 'bob', 'render_type': '4', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'sender': 'node-1', 'user_roller_id': '12907'})] ######################
+INFO:root:BEFORE tester run #: ([0, 4], {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'user': 'bob', 'render_type': '4', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'sender': 'node-1', 'user_roller_id': '12907'}), #:
+INFO:root:REND_full movie 'end_fr' :::  
 INFO:root:After tester run
-INFO:root:BEFORE tester run
+INFO:root:BEFORE tester run #: ([5, 9], {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'user': 'bob', 'render_type': '4', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'sender': 'node-1', 'user_roller_id': '12907'}), #:
+INFO:root:REND_full movie 'end_fr' :::  
 INFO:root:After tester run
-INFO:root:BEFORE tester run
-INFO:root:After tester run
-INFO:root:BEFORE tester run
+INFO:root:BEFORE tester run #: ([10, 15], {'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'user': 'bob', 'render_type': '4', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'sender': 'node-1', 'user_roller_id': '12907'}), #:
+INFO:root:REND_full movie 'end_fr' :::  
 INFO:root:After tester run
 INFO:root:4 ##################### $#
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:Awaiting task 
+INFO:root:Fri May 12 15:50:57 2017 SRV: ('0.0.0.0', 7812) 
+INFO:root:Transmit description time : Fri May 12 15:50:59 2017 ## Data : dict ###
+INFO:aiohttp.access:127.0.0.1 - - [12/May/2017:10:50:59 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
+INFO:root:Awaiting task 
+INFO:root:[{'user': 'bob', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'sender': 'node-1', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'render_type': '4'}] ##  Object len: 1
+INFO:root:0 ######################
+INFO:root:GATHER  !!!! else 1
+INFO:root:4 ######################
+INFO:root:[([0, 4], {'user': 'bob', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'sender': 'node-1', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'render_type': '4'}), ([5, 9], {'user': 'bob', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'sender': 'node-1', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'render_type': '4'}), ([10, 15], {'user': 'bob', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'sender': 'node-1', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'render_type': '4'})] ######################
+INFO:root:BEFORE tester run #: ([0, 4], {'user': 'bob', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'sender': 'node-1', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'render_type': '4'}), #:
+INFO:root:REND_full movie 'end_fr' :::  
+INFO:root:After tester run
+INFO:root:BEFORE tester run #: ([5, 9], {'user': 'bob', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'sender': 'node-1', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'render_type': '4'}), #:
+INFO:root:REND_full movie 'end_fr' :::  
+INFO:root:After tester run
+INFO:root:BEFORE tester run #: ([10, 15], {'user': 'bob', 'moview_priview': True, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'moview_picture': False, 'moview_full': False, 'message': 'We did it!', 'sender': 'node-1', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'render_type': '4'}), #:
+INFO:root:REND_full movie 'end_fr' :::  
+INFO:root:After tester run
 INFO:root:4 ##################### $#
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:Awaiting task 
+INFO:root:Fri May 12 15:51:51 2017 SRV: ('0.0.0.0', 7812) 
+INFO:root:Transmit description time : Fri May 12 15:51:53 2017 ## Data : dict ###
+INFO:aiohttp.access:127.0.0.1 - - [12/May/2017:10:51:53 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
+INFO:root:Awaiting task 
+INFO:root:[{'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'message': 'We did it!', 'render_type': '4', 'sender': 'node-1', 'moview_picture': False, 'moview_priview': True, 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'moview_full': False}] ##  Object len: 1
+INFO:root:0 ######################
+INFO:root:GATHER  !!!! else 1
+INFO:root:4 ######################
+INFO:root:[([0, 4], {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'message': 'We did it!', 'render_type': '4', 'sender': 'node-1', 'moview_picture': False, 'moview_priview': True, 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'moview_full': False}), ([5, 9], {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'message': 'We did it!', 'render_type': '4', 'sender': 'node-1', 'moview_picture': False, 'moview_priview': True, 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'moview_full': False}), ([10, 15], {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'message': 'We did it!', 'render_type': '4', 'sender': 'node-1', 'moview_picture': False, 'moview_priview': True, 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'moview_full': False})] ######################
+INFO:root:BEFORE tester run #: ([0, 4], {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'message': 'We did it!', 'render_type': '4', 'sender': 'node-1', 'moview_picture': False, 'moview_priview': True, 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'moview_full': False}), #:
+INFO:root:REND_full movie 'end_fr' :::  
+INFO:root:After tester run
+INFO:root:BEFORE tester run #: ([5, 9], {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'message': 'We did it!', 'render_type': '4', 'sender': 'node-1', 'moview_picture': False, 'moview_priview': True, 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'moview_full': False}), #:
+INFO:root:REND_full movie 'end_fr' :::  
+INFO:root:After tester run
+INFO:root:BEFORE tester run #: ([10, 15], {'result_dir': '/var/www/cmex.ru/data/uploads/users', 'user_roller_id': '12907', 'user': 'bob', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'message': 'We did it!', 'render_type': '4', 'sender': 'node-1', 'moview_picture': False, 'moview_priview': True, 'files_png': {'head1': 'head13.png', 'mouth1': 'mouth13.png'}, 'moview_full': False}), #:
+INFO:root:REND_full movie 'end_fr' :::  
+INFO:root:After tester run
 INFO:root:4 ##################### $#
+INFO:root:Awaiting task 
+INFO:root:[] ##  Object len: 0
+INFO:root:GATHER  !!!! else 0
+INFO:root:Awaiting task 
+INFO:root:Awaiting task 
+INFO:root:Fri May 12 15:52:21 2017 SRV: ('0.0.0.0', 7812) 
+INFO:root:Transmit description time : Fri May 12 15:52:23 2017 ## Data : dict ###
+INFO:aiohttp.access:127.0.0.1 - - [12/May/2017:10:52:23 +0000] "POST /tr HTTP/1.1" 200 367 "-" "Python/3.5 aiohttp/1.0.2"
+INFO:root:Awaiting task 
+INFO:root:[{'moview_priview': True, 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'sender': 'node-1', 'user_roller_id': '12907', 'user': 'bob', 'render_type': '4', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'message': 'We did it!', 'moview_full': False}] ##  Object len: 1
+INFO:root:0 ######################
+INFO:root:GATHER  !!!! else 1
+INFO:root:4 ######################
+INFO:root:[([0, 4], {'moview_priview': True, 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'sender': 'node-1', 'user_roller_id': '12907', 'user': 'bob', 'render_type': '4', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'message': 'We did it!', 'moview_full': False}), ([5, 9], {'moview_priview': True, 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'sender': 'node-1', 'user_roller_id': '12907', 'user': 'bob', 'render_type': '4', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'message': 'We did it!', 'moview_full': False}), ([10, 15], {'moview_priview': True, 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'sender': 'node-1', 'user_roller_id': '12907', 'user': 'bob', 'render_type': '4', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'message': 'We did it!', 'moview_full': False})] ######################
 INFO:root:4 ##################### $#
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1
-INFO:root:Awaiting task 
-INFO:root:[{'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'sender': 'node-1', 'user': 'bob', 'moview_full': False, 'message': 'We did it!', 'moview_picture': False, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'moview_priview': True, 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user_roller_id': '12907', 'render_type': '4'}] ##  Object len: 1

@@ -424,26 +424,31 @@ def check_queue():
 
 import random
 
-@asyncio.coroutine
+#@asyncio.coroutine
 def tester1(task):
+
+    frame_set, task_set = task
+    frame_start,frame_end = frame_set
+
     asyncio.sleep(0.001)
-    logging.info('BEFORE tester run')
+    logging.info('BEFORE tester run #: {}, #:'.format(task))
+
     try:
-        bpy.ops.wm.open_mainfile(filepath=task['project_name'] )
+        bpy.ops.wm.open_mainfile(filepath=task_set['project_name'] )
 #        context_frame_start = bpy.context.scene.frame_start
 #        context_frame_end = bpy.context.scene.frame_end
     except Exception as e:
         logging.info('ERRR {}'.format(str(e)))
 
-    bpy.context.scene.frame_start = 0
-    bpy.context.scene.frame_end = 20
+    #bpy.context.scene.frame_start = 0
+    #bpy.context.scene.frame_end = 20
     try:
         scn = bpy.context.scene
-        scn.frame_start = 0
-        scn.frame_end = 20
+        scn.frame_start = frame_start
+        scn.frame_end = frame_end
         scn.render.filepath = '{}_{}.mp4'.format(
-            str(task['result_dir']) + '/' + str('roller_video'),
-            str(random.randint(0,10000)))
+            str(task_set['result_dir']) + '/' + str('roller_video'),
+            str(task_set['end_fr']))
         scn.render.engine = 'CYCLES'
         scn.cycles.device = 'CPU'
         scn.render.ffmpeg.format = 'MPEG4'
@@ -462,9 +467,10 @@ def tester1(task):
 
 
     logging.info('After tester run')
+    #return 121
 
 #import concurrent.futures
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 
 
 @asyncio.coroutine
@@ -476,8 +482,24 @@ def tester(task):
 @asyncio.coroutine
 def rend_task_1(task):
     logging.info('{} ######################'.format(task['render_type']))
-    yield from asyncio.ensure_future(tester1(task))
-    logging.info('{} #####################{} $#'.format( task['render_type'],''))
+    #res = yield from asyncio.ensure_future(tester1(task))
+    with ProcessPoolExecutor(max_workers=3) as executor:
+        l_1 = return_list_of_parts(15,3)
+        lll = [(x,task) for x in l_1]
+        logging.info('{} ######################'.format(lll))
+        for x in range(3):
+            executor.submit(tester1(lll[x]))
+        logging.info('{} #####################{} $#'.format( task['render_type'],''))
+
+        
+        #for x in range(3):
+        #    task['start_fr'],task['end_fr'] = l_1.pop()
+        #    logging.info('{} ###{}###HERE#####'.format(task['start_fr'],task['end_fr']))
+
+            #executor.map(tester1,[task,], timeout=0.0001)
+            #future = executor.submit(tester1(task))
+    #boo = asyncio.ensure_future(loop.run_in_executor(executor, tester1(task)))
+            
 
 
 #    fut1 = loop.run_in_executor(None, tester, task)
@@ -488,24 +510,35 @@ def rend_task_1(task):
 
 @asyncio.coroutine
 def start_background_tasks():
+    len_queue = len(queue_of_run_tasks)
     sub_tasks = []
     logging.info('{} ##  Object len: {}'.format(queue_of_run_tasks, len(queue_of_run_tasks)))
-    if len(queue_of_run_tasks) != 0 and len(queue_of_run_tasks) > 4:
-        for x in range(4):
-            sub_tasks.append(rend_task_1(queue_of_run_tasks.pop()))
+    if len_queue != 0 and len_queue > 2:
+        #with ProcessPoolExecutor(max_workers=4) as executor:
+        for x in range(2):
+            #executor.submit(tester1(queue_of_run_tasks.pop()))
+            #executor.map(tester1,[queue_of_run_tasks.pop(),], timeout=0.0001)
             logging.info('{} ######################'.format(str(x)))
+            sub_tasks.append(rend_task_1(queue_of_run_tasks.pop()))
+        asyncio.gather(*sub_tasks)
+        logging.info('GATHER  !!!! len >2 {}'.format(len_queue))
+
+    else:
+        for x in range(len_queue):
+            #executor.submit(tester1(queue_of_run_tasks.pop()))
+            #executor.map(tester1,[queue_of_run_tasks.pop(),], timeout=0.0001)
+            logging.info('{} ######################'.format(str(x)))
+            sub_tasks.append(rend_task_1(queue_of_run_tasks.pop()))
+                
+        asyncio.gather(*sub_tasks)
+        logging.info('GATHER  !!!! else {}'.format(len_queue))
 
 
-       # task = queue_of_run_tasks.pop()
+        #task = queue_of_run_tasks.pop()
 
-        logging.info( '{} ##  Object len: {}'.format(sub_tasks, '' ))
+        #logging.info( '{} ## BEFORE RUN EXECUTOR  Object len: {}'.format(sub_tasks, '' ))
     # task = json.loads(task )
-        yield from asyncio.gather(*sub_tasks)
-        #asyncio.ensure_future(rend_task_1(task))
-
-
-@asyncio.coroutine
-#@DecoWithArgs( 'aaxbut', '@', 'gmail.com' )
+        #hArgs( 'aaxbut', '@', 'gmail.com' )
 def transmit(request):
     data = yield from request.text()
     req_json = json.loads(data)
@@ -554,6 +587,7 @@ if __name__ == '__main__':
     policy.set_event_loop( policy.new_event_loop() )
     loop = asyncio.get_event_loop()
     srv = loop.run_until_complete( main_loop( loop ) )
+    #executor = ProcessPoolExecutor(2)
     try:
         logging.info( '{} SRV: {} '.format(
             datetime.now().strftime( '%c' ),
