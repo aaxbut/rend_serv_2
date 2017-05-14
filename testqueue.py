@@ -255,8 +255,8 @@ tst_task = {'a':1,'b':2}
 
 
 d = return_list_of_parts(len_frames,parts)
-f = [(x,tst_task) for x in d]
-print(f)
+f = [(x, tst_task) for x in d]
+# print(f)
 #print(list(map(d,tst_task)))
 
 #print(d)
@@ -304,9 +304,177 @@ dbpassword = '12301982'
         db.close()
 
 '''
+b_projects = (
+                {'render_type': '1', 'file_video': 'video/roller_video.mp4', 'file_screen': 'video/roller_video.jpg'},
+
+                {'render_type': '2', 'file_screen': 'video/roller_video.jpg'},
+                {'render_type': '4', 'file_video': 'video/roller_video_demo.mp4', 'file_screen': 'video/roller_video_demo.jpg'},
+            )
+p_rend_type = {
+                '1': {
+                        'file_video': 'video/roller_video.mp4',
+                        'file_screen': 'video/roller_video.jpg',
+                        'is_render': 1,
+                        'is_ready': 1
+                },
+                '2': {
+                        'file_screen': 'video/roller_video.jpg',
+                        'is_render': 1,
+                        'is_ready': 1,
+                    },
+                '4': {
+                        'file_video': 'video/roller_video_demo.mp4',
+                        'file_screen': 'video/roller_video_demo.jpg',
+                    },
+            }
+
+
+from collections import namedtuple
+Vision = namedtuple('Vision', ['left', 'right'])
+BProjects = namedtuple('BProject', ['render_type', 'file_video', 'file_screen'])
+
+vision = Vision(9.4, 343)
+v1 = BProjects(1, 'video/roller_video.mp4', 'video/roller_video.jpg')
+v2 = BProjects(4, 'video/roller_video_demo.mp4', 'video/roller_video_demo.jpg')
+v3 = BProjects(2, '', 'video/roller_video.jpg')
+a, b = vision
+#print(v1, v2, v3)
+#print(p_rend_type)
+
+if '1' in p_rend_type:
+    print(p_rend_type['1'])
+#print(list(filter(p_rend_type, str(1)))
+
+#print(b_pro1jects[0])1
+
+frames_count = {}
+import bpy
+
+
+
+def bframes_count(**kwargs):
+    path_project = kwargs['project_name']
+    project_name = path_project.split('/')[-1].strip('.')
+    if project_name in frames_count:
+        return frames_count[project_name]['count']
+    else:
+        bpy.ops.wm.open_mainfile(filepath=path_project)
+        count_frames = bpy.context.scene.frame_end
+        frames_count[project_name] = {'project_name': project_name, 'count': count_frames}
+        return count_frames
 
 
 
 
 
+print('*'*80)
+f = {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend'}
+f1 = {'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Raufeee.blend'}
+a = bframes_count(**f)
+print('*'*80)
+
+p_rend_type = {
+                1: {
+                        'file_video': 'video/roller_video.mp4',
+                        'file_screen': 'video/roller_video.jpg',
+                        'render_type_video': 'filename_video',
+                        'render_type_screen': 'filename_screen',
+                        'status_start': 'is_render',
+                        'status_end': 'is_ready'
+
+                },
+                2: {
+                        'file_screen': 'video/roller_video.jpg',
+                        'render_type_screen': 'filename_screen',
+                        'status_start': 'is_render',
+                        'status_end': 'is_ready'
+                    },
+                4: {
+                        'file_video': 'video/roller_video_demo.mp4',
+                        'file_screen': 'video/roller_video_demo.jpg',
+                        'render_type_video': 'filename_video_demo',
+                        'render_type_screen': 'filename_screen_demo',
+                        'status_start': 'is_render_demo',
+                        'status_end': 'is_ready_demo'
+
+                },
+            }
+
+user_roller_id ='12907'
+dbconnectionhost = 'localhost'
+dbname = 'cmexdb'
+dbusername = 'custom'
+dbpassword = '12301982'
+
+
+ful = {'moview_picture': False, 'files_png': {'mouth1': 'mouth13.png', 'head1': 'head13.png'}, 'result_dir': '/var/www/cmex.ru/data/uploads/users', 'project_name': '/var/www/cmex.ru/data/uploads/rollers/Rauf/Rauf.blend', 'user': 'bob', 'moview_full': False, 'render_type': '4', 'user_roller_id': '12907', 'message': 'We did it!', 'sender': 'node-1', 'moview_priview': True}
+
+
+def data_update(**kwargs):
+    render_type = kwargs['render_type']
+    cond = kwargs['cond']
+    user_rollerid = kwargs['user_roller_id']
+
+    if cond is False:
+        try:
+            with mysql.connect(host=dbconnectionhost, user=dbusername, passwd=dbpassword, db=dbname) as db:
+                if render_type != 2:
+                    db.execute('update users_rollers set {}=1,{}="{}", {}="{}" where id={}'.format(
+                        p_rend_type[render_type]['status_start'],
+
+                        p_rend_type[render_type]['render_type_video'],
+                        p_rend_type[render_type]['file_video'],
+                        p_rend_type[render_type]['render_type_screen'],
+                        p_rend_type[render_type]['file_screen'],
+                        user_rollerid
+                    ))
+                else:
+                    db.execute('update users_rollers set {}=1, {}="{}" where id={}'.format(
+                        p_rend_type[render_type]['status_start'],
+                        p_rend_type[render_type]['render_type_screen'],
+                        p_rend_type[render_type]['file_screen'],
+
+                        user_rollerid
+                    ))
+        except mysql.Error as e:
+            print('errrrrwqwq1', e)
+        finally:
+            db.close()
+    else:
+        with mysql.connect(host=dbconnectionhost, user=dbusername, passwd=dbpassword, db=dbname) as db:
+            try:
+                if kwargs['render_type'] != 2:
+                    db.execute('update users_rollers set {}=1,{}="{}", {}="{}" where id={}'.format(
+                        p_rend_type[render_type]['status_end'],
+                        p_rend_type[render_type]['render_type_video'],
+                        p_rend_type[render_type]['file_video'],
+                        p_rend_type[render_type]['render_type_screen'],
+                        p_rend_type[render_type]['file_screen'],
+                        user_rollerid
+                    ))
+                else:
+                    print('in 2 complete')
+                    db.execute('update users_rollers set {}=1, {}="{}" where id={}'.format(
+                        p_rend_type[render_type]['status_end'],
+                        p_rend_type[render_type]['render_type_screen'],
+                        p_rend_type[render_type]['file_screen'],
+                        user_rollerid
+                    ))
+            except mysql.Error as e:
+                print('errrr',e)
+            finally:
+                db.close()
+
+
+print(p_rend_type)
+#data_update(render_type=2,  user_roller_id='12907', cond=True)
+
+def tusta(**kwargs):
+    if kwargs['render_type'] == 1:
+        print('sdfdsf')
+    elif kwargs['render_type'] == 4:
+        print('karamba')
+
+
+print(tusta(render_type=4))
 

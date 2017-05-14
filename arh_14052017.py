@@ -6,6 +6,10 @@ import json
 from aiohttp import web
 import itertools
 import multiprocessing as mp
+from concurrent.futures import ProcessPoolExecutor
+import asyncio.subprocess
+import random
+
 from queue import Empty
 from collections import deque
 import subprocess as sp
@@ -29,6 +33,33 @@ u_ugid = conf.get( 'usr_permission', 'uid' )
 u_gguid = conf.get( 'usr_permission', 'gid' )
 MAX_SIZE_QUEUE = 6
 LOG_FILENAME = '/var/tmp/render_blender_server_test.log'
+
+p_rend_type = {
+    1: {
+        'file_video': 'video/roller_video.mp4',
+        'file_screen': 'video/roller_video.jpg',
+        'render_type_video': 'filename_video',
+        'render_type_screen': 'filename_screen',
+        'status_start': 'is_render',
+        'status_end': 'is_ready'
+
+    },
+    2: {
+        'file_screen': 'video/roller_video.jpg',
+        'render_type_screen': 'filename_screen',
+        'status_start': 'is_render',
+        'status_end': 'is_ready'
+    },
+    4: {
+        'file_video': 'video/roller_video_demo.mp4',
+        'file_screen': 'video/roller_video_demo.jpg',
+        'render_type_video': 'filename_video_demo',
+        'render_type_screen': 'filename_screen_demo',
+        'status_start': 'is_render_demo',
+        'status_end': 'is_ready_demo'
+
+    },
+}
 
 
 # base connect
@@ -152,8 +183,74 @@ class DecoWithArgsMysqlUpd( object ):
         return warap
 
 
+def data_update(**kwargs):
+    render_type = int( kwargs['render_type'] )
+    cond = kwargs['cond']
+    user_rollerid = kwargs['user_roller_id']
+
+    if cond is False:
+        try:
+            with mysql.connect( host=dbconnectionhost, user=dbusername, passwd=dbpassword, db=dbname ) as db:
+                if render_type != 2:
+                    db.execute( 'update users_rollers set {}=1,{}="{}", {}="{}" where id={}'.format(
+                        p_rend_type[render_type]['status_start'],
+
+                        p_rend_type[render_type]['render_type_video'],
+                        p_rend_type[render_type]['file_video'],
+                        p_rend_type[render_type]['render_type_screen'],
+                        p_rend_type[render_type]['file_screen'],
+                        user_rollerid
+                    ) )
+                else:
+                    db.execute( 'update users_rollers set {}=1, {}="{}" where id={}'.format(
+                        p_rend_type[render_type]['status_start'],
+                        p_rend_type[render_type]['render_type_screen'],
+                        p_rend_type[render_type]['file_screen'],
+
+                        user_rollerid
+                    ) )
+        except mysql.Error as e:
+            logging.error( '{}'.format( str( e ) ) )
+        finally:
+            db.close()
+    elif cond is True:
+        with mysql.connect( host=dbconnectionhost, user=dbusername, passwd=dbpassword, db=dbname ) as db:
+            try:
+                if kwargs['render_type'] == 1:
+                    db.execute( 'update users_rollers set {}=1,{}="{}", {}="{}" where id={}'.format(
+                        p_rend_type[render_type]['status_end'],
+                        p_rend_type[render_type]['render_type_video'],
+                        p_rend_type[render_type]['file_video'],
+                        p_rend_type[render_type]['render_type_screen'],
+                        p_rend_type[render_type]['file_screen'],
+                        user_rollerid
+                    ) )
+                elif kwargs['render_type'] == 4:
+                    db.execute( 'update users_rollers set {}=1,{}="{}", {}="{}" where id={}'.format(
+                        p_rend_type[render_type]['status_end'],
+                        p_rend_type[render_type]['render_type_video'],
+                        p_rend_type[render_type]['file_video'],
+                        p_rend_type[render_type]['render_type_screen'],
+                        p_rend_type[render_type]['file_screen'],
+                        user_rollerid
+                    ) )
+                elif kwargs['render_type'] == 2:
+                    db.execute( 'update users_rollers set {}=1, {}="{}" where id={}'.format(
+                        p_rend_type[render_type]['status_end'],
+                        p_rend_type[render_type]['file_screen'],
+                        p_rend_type[render_type]['render_type_screen'],
+                        user_rollerid
+                    ) )
+            except mysql.Error as e:
+                logging.error( '{}'.format( str( e ) ) )
+            finally:
+                db.close()
+
+
 def return_list_of_parts(len_frames, parts):
-    """  function make parts from size """
+    """  function make parts from size 
+    :rtype: list
+    """
     chunk = len_frames / parts
     floor_chunk = math.floor( chunk )
     chunk_all = floor_chunk * parts
@@ -192,57 +289,87 @@ def timit2(func):
     return wrapper
 
 
-# @DecoWithArgsMysqlUpd('aaxbut','@','gmail.com')
-# @asyncio.coroutine
-# @timit
-def rend_priview(*args, **kwargs):
-    frames_start, frames_end = args[0]
-    task = kwargs
+@asyncio.coroutine
+def great_split(task, parts):
+    #    logging.info('IN GreatSplit {} : {}'.format(task, parts))
+    rend_type = int( task['render_type'] )
+    rend_result_dir = task['result_dir']
+    file_name = p_rend_type[rend_type]['file_video'].split( '/' )[1].split( '.' )[0]
+
+    file_txt_for_concat = '{}/tst.txt'.format( rend_result_dir )
+    # str(rend_result_dir) + '/' + 'tst.txt'
+
+    logging.info(
+        'IN GreatSplit {} : {} : {} :{}'.format( rend_type, rend_result_dir, file_name, file_txt_for_concat ) )
+
+    with open( file_txt_for_concat, 'w' ) as f:
+        for x in parts:
+            f.write( 'file {}_{}.mp4 \n'.format( file_name, x[0] ) )
+
+    out_file = '{}/{}.mp4'.format( rend_result_dir, file_name )
+    logging.info( 'IN GreatSplit :{}'.format( out_file ) )
+    command = [
+        FFMPEG_BIN,
+        '-y',
+        '-f', 'concat',
+        '-safe', '0',
+        '-i', file_txt_for_concat,
+        '-c', 'copy',
+        out_file,
+    ]
+    try:
+        process = yield from asyncio.create_subprocess_exec(
+            *command,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.STDOUT
+        )
+    except Exception as e:
+        logging.info( '{}'.format( str( e ) ) )
+    stdout, _ = yield from process.communicate()
+    logging.info( '{}'.format( stdout ) )
+
+    os.chown( out_file, int( u_ugid ), int( u_gguid ) )
+    os.chmod( out_file, 0o777 )
+
+
+def rend_picture(task):
+    frame_set, task_set = task
+    #    frame_start, frame_end = frame_set
+    try:
+        bpy.ops.wm.open_mainfile( filepath=task_set['project_name'] )
+    except Exception as e:
+        logging.info( '{}'.format( str( e ) ) )
+    try:
+        scn = bpy.context.scene
+        bpy.data.scenes[scn.name].render.image_settings.file_format = 'JPEG'
+        scn.render.filepath = '{}.mp40000.jpg'.format(
+            str( task_set['result_dir'] ) + '/' + str( 'roller_video' ) )
+        bpy.ops.render.render( write_still=True )
+        os.chown( scn.render.filepath, int( u_ugid ), int( u_gguid ) )
+        os.chmod( scn.render.filepath, 0o777 )
+    except Exception as e:
+        logging.info( 'ERR PIC {}'.format( str( e ) ) )
+
+    return 1
+
+
+def rend_preview(task):
+    frame_set, task_set = task
+    frame_start, frame_end = frame_set
     # logging.info('REND_PRIVIEW {} ::: {} in queue {} '.format(frames_start, frames_end, len(queue_of_run_tasks)))
     #    logging.info('REND_PRIVIEW def {} :: '.format(kwargs))
     try:
-        scn = bpy.context.scene
-        scn.frame_start = frames_start
-        scn.frame_end = frames_end
-        scn.render.filepath = '{}_{}.mp4'.format(
-            str( task['result_dir'] ) + '/' + str( 'roller_video_demo' ),
-            str( frames_start ) )
-        scn.render.engine = 'CYCLES'
-        scn.cycles.device = 'CPU'
-        # scn.render.ffmpeg.format = 'MPEG4'
-        # scn.render.ffmpeg.codec = 'MPEG4'
-        # scn.render.ffmpeg.video_bitrate = 6000
-        # scn.render.ffmpeg.maxrate = 9000
-        # scn.render.ffmpeg.packetsize = 4096
-        # scn.render.resolution_percentage = 60
-        # scn.render.ffmpeg.audio_bitrate = 384
-        bpy.ops.render.render( animation=True, scene=bpy.context.scene.name )
-        os.chown( bpy.context.scene.render.filepath, int( u_ugid ), int( u_gguid ) )
-        os.chmod( bpy.context.scene.render.filepath, 0o777 )
-
-
+        bpy.ops.wm.open_mainfile( filepath=task_set['project_name'] )
     except Exception as e:
-        logging.info( 'REND_PRIVIEW def {} :::  '.format( str( e ) ) )
-        pass
+        logging.info( '{}'.format( str( e ) ) )
 
-    io = run_tasks.pop()
-    # logging.info('@@##  {} :: !@!@!@!@@@! def {} :::>'.format(len(run_tasks),io))
-
-    return '1'
-
-
-def rend_full_movie(*args, **kwargs):
-    frames_start, frames_end = args[0]
-    task = kwargs
-    #  logging.info('REND_full movie {} ::: {} '.format(frames_start, frames_end))
-    #  logging.info('REND_full movie {} :: '.format(kwargs))
     try:
         scn = bpy.context.scene
-        scn.frame_start = frames_start
-        scn.frame_end = frames_end
+        scn.frame_start = frame_start
+        scn.frame_end = frame_end
         scn.render.filepath = '{}_{}.mp4'.format(
-            str( task['result_dir'] ) + '/' + str( 'roller_video' ),
-            str( frames_start ) )
+            str( task_set['result_dir'] ) + '/' + str( 'roller_video_demo' ),
+            str( frame_start ) )
         scn.render.engine = 'CYCLES'
         scn.cycles.device = 'CPU'
         scn.render.ffmpeg.format = 'MPEG4'
@@ -252,13 +379,71 @@ def rend_full_movie(*args, **kwargs):
         scn.render.ffmpeg.packetsize = 4096
         scn.render.resolution_percentage = 60
         scn.render.ffmpeg.audio_bitrate = 384
-        bpy.ops.render.render( animation=True, scene=bpy.context.scene.name )
-        os.chown( bpy.context.scene.render.filepath, int( u_ugid ), int( u_gguid ) )
-        os.chmod( bpy.context.scene.render.filepath, 0o777 )
-        # run_tasks.pop()
+        bpy.ops.render.render( animation=True, scene=scn.name )
+        os.chown( scn.render.filepath, int( u_ugid ), int( u_gguid ) )
+        os.chmod( scn.render.filepath, 0o777 )
+
+        # make screen from roller
+        #  make screen from video roller
+    #        bpy.context.scene.frame_start = 100
+    #        bpy.context.scene.frame_end = 101
+    #        bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+    #        scn.render.filepath = '{}.jpg'.format(str(task_set['result_dir']) + '/' + str('roller_video_demo'))
+    #        bpy.ops.render.render(write_still=True)
+    #        try:
+    #            os.chown(scn.render.filepath, int(u_ugid), int(u_gguid))
+    #            os.chmod(scn.render.filepath, 0o777)
+    #        except Exception as e:
+    #            logging.info('Render TASK  moview_priview {}'.format(str(e)))
+
     except Exception as e:
-        logging.info( 'REND_full movie {} :::  '.format( str( e ) ) )
-        pass
+        logging.info( 'REND_PRIVIEW def {} :::  '.format( str( e ) ) )
+
+    return '1'
+
+
+def rend_full_movie(task):
+    frame_set, task_set = task
+    frame_start, frame_end = frame_set
+    logging.info( 'REND_full movie {} ::: {} '.format( frame_start, frame_end ) )
+    #  logging.info('REND_full movie {} :: '.format(kwargs))
+    try:
+        bpy.ops.wm.open_mainfile( filepath=task_set['project_name'] )
+    except Exception as e:
+        logging.info( '{}'.format( str( e ) ) )
+
+    try:
+        scn = bpy.context.scene
+        scn.frame_start = frame_start
+        scn.frame_end = frame_end
+        scn.render.filepath = '{}_{}.mp4'.format(
+            str( task_set['result_dir'] ) + '/' + str( 'roller_video' ),
+            str( frame_start ) )
+        scn.render.engine = 'CYCLES'
+        scn.cycles.device = 'CPU'
+        scn.render.ffmpeg.format = 'MPEG4'
+        scn.render.ffmpeg.codec = 'MPEG4'
+        scn.render.ffmpeg.video_bitrate = 6000
+        scn.render.ffmpeg.maxrate = 9000
+        scn.render.ffmpeg.packetsize = 4096
+        scn.render.ffmpeg.audio_bitrate = 384
+        bpy.ops.render.render( animation=True, scene=scn.name )
+        os.chown( scn.render.filepath, int( u_ugid ), int( u_gguid ) )
+        os.chmod( scn.render.filepath, 0o777 )
+
+        # make screen from video roller
+    #        bpy.context.scene.frame_start = 100
+    #        bpy.context.scene.frame_end = 101
+    #        bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
+    #        scn.render.filepath = '{}.jpg'.format(str(task_set['result_dir']) + '/' + str('roller_video'))
+    #        bpy.ops.render.render(write_still=True)
+    #        try:
+    #            os.chown(scn.render.filepath, int(u_ugid), int(u_gguid))
+    #            os.chmod(scn.render.filepath, 0o777)
+    #        except Exception as e:
+    #            logging.info('Render TASK  moview_full {}'.format(str(e)))
+    except Exception as e:
+        logging.info( '{}'.format( str( e ) ) )
     return '1'
 
 
@@ -301,7 +486,7 @@ def rend_task(task):
                                                                       task['render_type'], ' ' ) )
             l_1 = return_list_of_parts( 5, 5 )
             logging.info( '{} TASK des'.format( l_1 ) )
-            procs = [mp.Process( target=rend_priview, args=(x,), kwargs=task ) for x in l_1]
+            procs = [mp.Process( target=rend_preview, args=(x,), kwargs=task ) for x in l_1]
             for p in procs:
                 run_tasks.append( p )
                 # logging.info('{} TASK des !!!! in proc start'.format(run_tasks))
@@ -415,40 +600,80 @@ def rend_task(task):
 
 @asyncio.coroutine
 def check_queue():
-    logging.info('Awaiting task ')
+    """ check queue mby need another variant to make waiter """
     while True:
         logging.info( 'Awaiting task ' )
+        yield from asyncio.sleep( 5 )
+        loop.create_task( (start_background_tasks()) )
 
-        yield from asyncio.sleep(5)
-        loop.create_task((start_background_tasks()))
 
-import random
+def bframes_count(**kwargs) -> int:
+    """
+        look frames count in dict frames_count if None open
+        file and take it from blend file
 
-#@asyncio.coroutine
+    :rtype: int
+    """
+    path_project = kwargs['project_name']
+    project_name = path_project.split( '/' )[-1].strip( '.' )
+    if project_name in frames_count:
+        return frames_count[project_name]['count']
+    else:
+        bpy.ops.wm.open_mainfile( filepath=path_project )
+        count_frames = bpy.context.scene.frame_end
+        frames_count[project_name] = {'project_name': project_name, 'count': count_frames}
+        return count_frames
+
+
+def screens_maker(task):
+    """
+    screens_maker make screens for full and preview movie
+
+    :param task - kwargs of task  
+    :return: int 
+    """
+    rend_type = int( task['render_type'] )
+    rend_project = task['project_name']
+    rend_result_dir = task['result_dir']
+    file_name = p_rend_type[rend_type]['file_screen'].split( '/' )[1]
+    logging.info( 'IN SCREEN Maker {}'.format( task ) )
+    try:
+        bpy.ops.wm.open_mainfile( filepath=rend_project )
+        scn = bpy.context.scene
+        scn.frame_start = 100
+        scn.frame_end = 101
+        bpy.data.scenes[scn.name].render.image_settings.file_format = 'JPEG'
+        scn.render.filepath = '{}'.format( str( rend_result_dir ) + '/' + str( file_name ) )
+        bpy.ops.render.render( write_still=True )
+        try:
+            os.chown( scn.render.filepath, int( u_ugid ), int( u_gguid ) )
+            os.chmod( scn.render.filepath, 0o777 )
+        except Exception as e:
+            logging.info( 'err SCREEN MAKER rights{}'.format( str( e ) ) )
+    except Exception as e:
+        logging.info( 'ERR IN SCREEN Maker {}'.format( str( e ) ) )
+
+    return 1
+
+
 def tester1(task):
-
     frame_set, task_set = task
-    frame_start,frame_end = frame_set
-
-    asyncio.sleep(0.001)
-    logging.info('BEFORE tester run #: {}, #:'.format(task))
+    frame_start, frame_end = frame_set
+    asyncio.sleep( 0.001 )
+    logging.info( 'BEFORE tester run #: {}, #{},{}:'.format( task, frame_start, frame_end ) )
 
     try:
-        bpy.ops.wm.open_mainfile(filepath=task_set['project_name'] )
-#        context_frame_start = bpy.context.scene.frame_start
-#        context_frame_end = bpy.context.scene.frame_end
+        bpy.ops.wm.open_mainfile( filepath=task_set['project_name'] )
     except Exception as e:
-        logging.info('ERRR {}'.format(str(e)))
-
-    #bpy.context.scene.frame_start = 0
-    #bpy.context.scene.frame_end = 20
+        logging.info( '{}'.format( str( e ) ) )
     try:
         scn = bpy.context.scene
         scn.frame_start = frame_start
         scn.frame_end = frame_end
         scn.render.filepath = '{}_{}.mp4'.format(
-            str(task_set['result_dir']) + '/' + str('roller_video'),
-            str(task_set['end_fr']))
+            str( task_set['result_dir'] ) + '/' + str( 'roller_video' ),
+            str( frame_start ),
+        )
         scn.render.engine = 'CYCLES'
         scn.cycles.device = 'CPU'
         scn.render.ffmpeg.format = 'MPEG4'
@@ -459,118 +684,136 @@ def tester1(task):
         scn.render.resolution_percentage = 60
         scn.render.ffmpeg.audio_bitrate = 384
         bpy.ops.render.render( animation=True, scene=bpy.context.scene.name )
-        os.chown( bpy.context.scene.render.filepath, int( u_ugid ), int( u_gguid ) )
-        os.chmod( bpy.context.scene.render.filepath, 0o777 )
-        # run_tasks.pop()
+        os.chown( scn.render.filepath, int( u_ugid ), int( u_gguid ) )
+        os.chmod( scn.render.filepath, 0o777 )
     except Exception as e:
-        logging.info( 'REND_full movie {} :::  '.format( str( e ) ) )
-
-
-    logging.info('After tester run')
-    #return 121
-
-#import concurrent.futures
-from concurrent.futures import ProcessPoolExecutor
+        logging.info( 'EXCEPTION : {} #'.format( str( e ) ) )
+    logging.info( 'After tester run' )
 
 
 @asyncio.coroutine
-def tester(task):
-    file = str(task['result_dir']) + '/' + str('roller_video')+str(random.randint(0,10000))
-    with open(file, 'w') as f:
-        f.write(''.join([str(x) for x in range(1000)]))
+def starter_works(task):
+    time_start = time.time()
+    rend_type = int( task['render_type'] )
+    user_roller_id = task['user_roller_id']
+    p = []
 
-@asyncio.coroutine
-def rend_task_1(task):
-    logging.info('{} ######################'.format(task['render_type']))
-    #res = yield from asyncio.ensure_future(tester1(task))
-    with ProcessPoolExecutor(max_workers=3) as executor:
-        l_1 = return_list_of_parts(15,3)
-        lll = [(x,task) for x in l_1]
-        logging.info('{} ######################'.format(lll))
-        for x in range(3):
-            executor.submit(tester1(lll[x]))
-        logging.info('{} #####################{} $#'.format( task['render_type'],''))
+    logging.info( '{} ######################'.format( task['render_type'] ) )
+    # before run need update base for task started
+    data_update(
+        render_type=rend_type,
+        user_roller_id=user_roller_id,
+        cond=False
+    )
 
-        
-        #for x in range(3):
-        #    task['start_fr'],task['end_fr'] = l_1.pop()
-        #    logging.info('{} ###{}###HERE#####'.format(task['start_fr'],task['end_fr']))
+    with ProcessPoolExecutor( max_workers=5 ) as executor:
 
-            #executor.map(tester1,[task,], timeout=0.0001)
-            #future = executor.submit(tester1(task))
-    #boo = asyncio.ensure_future(loop.run_in_executor(executor, tester1(task)))
-            
+        #  before run need split dict with task settings and list with parts
+        #  function look in dict have part if full movie, if movie pri run 500 // 5 parts
+        try:
+            if rend_type == 1:
+                # f_count = bframes_count(project_name=task['project_name'])
+                parts = return_list_of_parts( 30, 3 )
+                p = parts
+                parts_tasks = [(x, task) for x in parts]
+                executor.map( rend_full_movie, parts_tasks )
+                executor.map( screens_maker, parts_tasks[0] )
+                logging.info( '{} ####EXECUTOR RUN ###'.format( '1' ) )
 
+            elif rend_type == 4:
+                f_count = 15
+                parts = return_list_of_parts( f_count, 3 )
+                p = parts
+                parts_tasks = [(x, task) for x in parts]
+                executor.map( rend_preview, parts_tasks )
+                executor.map( screens_maker, parts_tasks[0] )
+                logging.info( '{} ####EXECUTOR RUN PRIVIEW ###'.format( '1' ) )
 
-#    fut1 = loop.run_in_executor(None, tester, task)
-#    re = yield from fut1
+            elif rend_type == 2:
+                parts = return_list_of_parts( 5, 1 )
+                parts_tasks = [(x, task) for x in parts]
+                executor.map( rend_picture, parts_tasks )
+        except Exception as e:
+            logging.info( 'POOL err{}'.format( str( e ) ) )
 
+    logging.info( '{} #####################{} $#'.format( task['render_type'], '' ) )
+    # here nee add function for split of projects and set rights
+    if rend_type == 1 or rend_type == 4:
+        logging.info( '{} #########{}#########{} $# {} '.format( rend_type, 'BEFORE SPLIT', p, task ) )
+        yield from great_split( task, p )
 
+    try:
+        data_update(
+            render_type=rend_type,
+            user_roller_id=user_roller_id,
+            cond=True )
+    except mysql.Error as e:
+        logging.info( 'POOL err{}'.format( str( e ) ) )
+
+    # function to update in base complited task
+    time_end = time.time() - time_start
+    logging.info( '# {} complete TIME: {}'.format( task['project_name'], time_end ) )
 
 
 @asyncio.coroutine
 def start_background_tasks():
-    len_queue = len(queue_of_run_tasks)
+    #  len of queue in lists
+    len_queue = len( queue_of_run_tasks )
     sub_tasks = []
-    logging.info('{} ##  Object len: {}'.format(queue_of_run_tasks, len(queue_of_run_tasks)))
+    logging.info( '{} ##  Object len: {}'.format( queue_of_run_tasks, len( queue_of_run_tasks ) ) )
+    #  2 tasks in 1 click !!! not more or slow down rend
     if len_queue != 0 and len_queue > 2:
-        #with ProcessPoolExecutor(max_workers=4) as executor:
-        for x in range(2):
-            #executor.submit(tester1(queue_of_run_tasks.pop()))
-            #executor.map(tester1,[queue_of_run_tasks.pop(),], timeout=0.0001)
-            logging.info('{} ######################'.format(str(x)))
-            sub_tasks.append(rend_task_1(queue_of_run_tasks.pop()))
-        asyncio.gather(*sub_tasks)
-        logging.info('GATHER  !!!! len >2 {}'.format(len_queue))
-
+        for x in range( 2 ):
+            logging.info( '{}'.format( str( x ) ) )
+            sub_tasks.append( starter_works( queue_of_run_tasks.pop() ) )
+        asyncio.gather( *sub_tasks )
+    # logging.info('{} len >2 {}'.format(asyncio.gather.__name__, len_queue))
     else:
-        for x in range(len_queue):
-            #executor.submit(tester1(queue_of_run_tasks.pop()))
-            #executor.map(tester1,[queue_of_run_tasks.pop(),], timeout=0.0001)
-            logging.info('{} ######################'.format(str(x)))
-            sub_tasks.append(rend_task_1(queue_of_run_tasks.pop()))
-                
-        asyncio.gather(*sub_tasks)
-        logging.info('GATHER  !!!! else {}'.format(len_queue))
+        for x in range( len_queue ):
+            logging.info( '{}'.format( str( x ) ) )
+            sub_tasks.append( starter_works( queue_of_run_tasks.pop() ) )
+        asyncio.gather( *sub_tasks )
 
 
-        #task = queue_of_run_tasks.pop()
+# logging.info('GATHER  !!!! else {}'.format(len_queue))
 
-        #logging.info( '{} ## BEFORE RUN EXECUTOR  Object len: {}'.format(sub_tasks, '' ))
-    # task = json.loads(task )
-        #hArgs( 'aaxbut', '@', 'gmail.com' )
+
 def transmit(request):
     data = yield from request.text()
-    req_json = json.loads(data)
+    req_json = json.loads( data )
     # logging.info('{} :::'.format(datetime.now().strftime('%c')))
     if request.content_type == 'application/json':
-        logging.info('Transmit description time : {} ## Data : {} ###'.format(
-                                    datetime.now().strftime('%c'),
-                                    req_json.__class__.__name__
-                                    ))
-    ## some short work mby here
-    queue_of_run_tasks.append(req_json)
-    return web.json_response(req_json)
+        logging.info( 'Transmit description time : {} ## Data : {} ###'.format(
+            datetime.now().strftime( '%c' ),
+            req_json.__class__.__name__
+        ) )
+    # some short work mby here
+    queue_of_run_tasks.append( req_json )
+    return web.json_response( req_json )
 
 
 @asyncio.coroutine
 def corobas_barabas(*args, **kwargs):
     logging.info( '{} ##  Object name: {} ##########'.format( datetime.now().strftime( '%D:: %HH:%MM:%SS' ),
                                                               corobas_barabas.__name__ ) )
-    queue_of_run_tasks.insert(0, args)
+    queue_of_run_tasks.insert( 0, args )
     # run_tasks.insert(0, args)
-    yield from asyncio.sleep(1)
-
+    yield from asyncio.sleep( 1 )
 
 
 def main_loop(loop):
     # set logging
     # logging.basicConfig(level=logging.DEBUG)
-    logging.basicConfig( filename='sds', level=logging.INFO)
-    app = web.Application(loop=loop)
+    FORMAT = '%(asctime)-15s %(processName)s %(message)s'
+    logging.basicConfig(
+        filename='sds',
+        format=FORMAT,
+        level=logging.INFO
+    )
+    app = web.Application( loop=loop )
 
-#    hello_corobas = loop.create_task( corobas_1() )
-    loop_check_queue = loop.create_task(check_queue())
+    #    hello_corobas = loop.create_task( corobas_1() )
+    loop_check_queue = loop.create_task( check_queue() )
 
     app.router.add_post( '/tr', transmit )
     server = yield from loop.create_server( app.make_handler(), '0.0.0.0', 7812 )
@@ -578,16 +821,16 @@ def main_loop(loop):
 
 
 if __name__ == '__main__':
-    #executor = concurrent.futures.ThreadPoolExecutor( max_workers=2 )
+    # executor = concurrent.futures.ThreadPoolExecutor( max_workers=2 )
+    frames_count = {}
     queue_of_run_tasks = []
     run_tasks = []
-
 
     policy = asyncio.get_event_loop_policy()
     policy.set_event_loop( policy.new_event_loop() )
     loop = asyncio.get_event_loop()
     srv = loop.run_until_complete( main_loop( loop ) )
-    #executor = ProcessPoolExecutor(2)
+    # executor = ProcessPoolExecutor(2)
     try:
         logging.info( '{} SRV: {} '.format(
             datetime.now().strftime( '%c' ),
