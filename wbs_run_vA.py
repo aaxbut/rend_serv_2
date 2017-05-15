@@ -5,6 +5,8 @@ import logging
 import json
 from aiohttp import web
 from concurrent.futures import ProcessPoolExecutor
+import multiprocessing as mp
+
 import asyncio.subprocess
 import bpy
 import os
@@ -245,19 +247,6 @@ def rend_preview(task):
         os.chown(scn.render.filepath, int(u_ugid), int(u_gguid))
         os.chmod(scn.render.filepath, 0o777)
 
-        # make screen from roller
-        #  make screen from video roller
-#        bpy.context.scene.frame_start = 100
-#        bpy.context.scene.frame_end = 101
-#        bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
-#        scn.render.filepath = '{}.jpg'.format(str(task_set['result_dir']) + '/' + str('roller_video_demo'))
-#        bpy.ops.render.render(write_still=True)
-#        try:
-#            os.chown(scn.render.filepath, int(u_ugid), int(u_gguid))
-#            os.chmod(scn.render.filepath, 0o777)
-#        except Exception as e:
-#            logging.info('Render TASK  moview_priview {}'.format(str(e)))
-
     except Exception as e:
         logging.info('REND_PRIVIEW def {} :::  '.format(str(e)))
 
@@ -292,18 +281,6 @@ def rend_full_movie(task):
         bpy.ops.render.render(animation=True, scene=scn.name)
         os.chown(scn.render.filepath, int(u_ugid), int(u_gguid))
         os.chmod(scn.render.filepath, 0o777)
-
-        # make screen from video roller
-#        bpy.context.scene.frame_start = 100
-#        bpy.context.scene.frame_end = 101
-#        bpy.data.scenes[bpy.context.scene.name].render.image_settings.file_format = 'JPEG'
-#        scn.render.filepath = '{}.jpg'.format(str(task_set['result_dir']) + '/' + str('roller_video'))
-#        bpy.ops.render.render(write_still=True)
-#        try:
-#            os.chown(scn.render.filepath, int(u_ugid), int(u_gguid))
-#            os.chmod(scn.render.filepath, 0o777)
-#        except Exception as e:
-#            logging.info('Render TASK  moview_full {}'.format(str(e)))
     except Exception as e:
         logging.info('{}'.format(str(e)))
     return '1'
@@ -315,7 +292,7 @@ def check_queue():
     while True:
         logging.info('Awaiting task ')
         yield from asyncio.sleep(5)
-        yield from loop.create_task((start_background_tasks()))
+        #yield from loop.create_task((start_background_tasks()))
 #        loop.call_soon_threadsafe((start_background_tasks()))
 
 
@@ -418,7 +395,7 @@ def starter_works(task):
         cond=False
     )
 
-    with ProcessPoolExecutor(max_workers=15) as executor:
+    with ProcessPoolExecutor(max_workers=2) as executor:
 
         #  before run need split dict with task settings and list with parts
         #  function look in dict have part if full movie, if movie pri run 500 // 5 parts
@@ -426,7 +403,7 @@ def starter_works(task):
             if rend_type == 1:
                 f_count = 50
                     # bframes_count(project_name=task['project_name'])
-                parts = return_list_of_parts(f_count, 5)
+                parts = return_list_of_parts(f_count, 2)
                 p = parts
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_full_movie, parts_tasks)
@@ -435,7 +412,7 @@ def starter_works(task):
 
             elif rend_type == 4:
                 f_count = 50
-                parts = return_list_of_parts(f_count, 3)
+                parts = return_list_of_parts(f_count, 2)
                 p = parts
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_preview, parts_tasks)
@@ -467,31 +444,105 @@ def starter_works(task):
     time_end = time.time() - time_start
     logging.info('# {} complete TIME: {}'.format(task['result_dir'], time_end))
 
+ 
+def fg(er):
+    logging.info('FFFFFFFFFFFFFFGGGGGGGGGGGGGGGGGGG{} complete'.format(er))
+    #fut = asyncio.async(starter_works(er))
+
+   # t = Tread(target=starter_works,args=er)
+   # t.start()
+    #loop.create_task(starter_works(er))
+
+    return 0
+from threading import Thread
 
 @asyncio.coroutine
-def start_background_tasks():
+def low_level(*args,loop=None):
+     #asyncio.async(low_level())
+     logging.info('FFFFFFFFFFFFFFGGGGGGGGwefwefwfGGGGGGGGGGG{} complete'.format('saff'))
+     #fut = asyncio.async(starter_works(args[0]))
+
+import threading    
+
+
+
+@asyncio.coroutine
+def start_background_tasks(future):
     # len of queue in lists
     len_queue = len(queue_of_run_tasks)
     sub_tasks = []
+    #new_loop = asyncio.new_event_loop()
+    #t = mp.Process(target=new_loop.run_until_complete, args=(low_level(queue_of_run_tasks.pop(),loop=new_loop),))
+    #t.start()
+    #t.join()
+    
+
     logging.info('{} ##  Object len: {}'.format(queue_of_run_tasks, len(queue_of_run_tasks)))
     # 2 tasks in 1 click !!! not more or slow down rend
     if len_queue != 0 and len_queue > 4:
-        for x in range(4):
+        for x in range(2):
             logging.info('{}'.format(str(x)))
             sub_tasks.append(starter_works(queue_of_run_tasks.pop()))
+            sub_tasks.append(queue_of_run_tasks.pop())
+            logging.info('{} ##  sub_tasks Object len: {}'.format(sub_tasks, len(sub_tasks)))
+           # new_loop = asyncio.new_event_loop()
+
+          #  t = threading.Thread(target=new_loop.run_until_complete, args=(low_level(sub_tasks.pop(),loop=new_loop),))
+         #   t.start()
+        #    t.join()
+           # new_loop.run_until_complete(low_level(sub_tasks.pop(),loop=new_loop))
+#        procs = [mp.Process(target=starter_works,args=[task,]) for task in sub_tasks]
+#        for proc in procs:
+#            proc.start()
         yield from asyncio.gather(*sub_tasks)
+        future.set_result('Future is done!')
         # logging.info('{} len >2 {}'.format(asyncio.gather.__name__, len_queue))
     else:
         for x in range(len_queue):
             logging.info('{}'.format(str(x)))
             sub_tasks.append(starter_works(queue_of_run_tasks.pop()))
+            #sub_tasks.append(queue_of_run_tasks.pop())
+            logging.info('{}PROC  sub_tasks Object len: {}'.format(sub_tasks, type(sub_tasks)))
         yield from asyncio.gather(*sub_tasks)
+        future.set_result('Future is done!')
+
+            
+
+            
+
+         
+#        try:
+#            #loop.call_soon_threadsafe(starter_works(sub_tasks))#
+
+            #with mp.Pool() as p:
+            #    p.map_async(starter_works,sub_tasks)
+            #    logging.info('{}PROC  sub_tasks Object len: {}'.format(sub_tasks, pool_1))
+       # except Exception as e:
+       #     logging.info('{}'.format(e))
+        #with ProcessPoolExecutor(max_workers=1) as executor:
+        #    executor.map(list(starter_works), sub_tasks)
+
+        
+#        procs = [mp.Process(target=starter_works,args=[task,]) for task in sub_tasks]
+#        
+#        logging.info('PROC  sub_tasks Object len: {}'.format(procs))
+#        for proc in procs:
+ #           logging.info('PROC  sub_tasks Object len: {}'.format(proc))
+            #proc.daemon =True
+ #           proc.start()
+ #       for proc in procs:
+ #           logging.info('PROC  sub_tasks Object len: {}'.format(proc))
+ #           #proc.daemon =True
+ #           proc.join()
+#
+
+        #yield from asyncio.gather(*sub_tasks)
 
 
 @asyncio.coroutine
 def transmit(request):
     data = yield from request.text()
-    yield from asyncio.sleep(1)
+    #yield from asyncio.sleep(1)
     req_json = json.loads(data)
     # logging.info('{} :::'.format(datetime.now().strftime('%c')))
     if request.content_type == 'application/json':
@@ -502,6 +553,37 @@ def transmit(request):
     # some short work mby here
     queue_of_run_tasks.append(req_json)
     return web.json_response(req_json)
+
+
+@asyncio.coroutine
+def greet_every_two_seconds():
+    while True:
+        #loop.create_task(start_background_tasks())
+        print('Hello World')
+        if len(queue_of_run_tasks) > 0:
+            print('Hello World!!!!!!!!!!!!!!!!!!!',len(queue_of_run_tasks))
+            bkp_loop = asyncio.new_event_loop()
+            future1 = asyncio.Future(loop=bkp_loop)
+
+            future = asyncio.ensure_future(start_background_tasks(future1))
+
+#            bkp_loop.create_task(start_background_tasks())
+
+            tasks = [
+                start_background_tasks(future1),
+            ]
+            asyncio.ensure_future(start_background_tasks(future1))
+
+            bkp_loop.run_until_complete(future1)
+            bkp_loop.close()
+            
+
+        yield from asyncio.sleep(2)
+
+
+def loop_in_thread(loop):
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(greet_every_two_seconds())
 
 
 def main_loop(loop):
@@ -515,7 +597,7 @@ def main_loop(loop):
                         )
     app = web.Application(loop=loop)
 
-    loop_check_queue = loop.create_task(check_queue())
+    #loop_check_queue = loop.create_task(check_queue())
     app.router.add_post('/tr', transmit)
     server = yield from loop.create_server(app.make_handler(), '0.0.0.0', 7812)
     return server
@@ -525,10 +607,20 @@ if __name__ == '__main__':
     frames_count = {}
     queue_of_run_tasks = []
     run_tasks = []
+
+    new_loop = asyncio.new_event_loop()
+
+
     policy = asyncio.get_event_loop_policy()
-    policy.set_event_loop( policy.new_event_loop())
+    policy.set_event_loop(policy.new_event_loop())
     loop = asyncio.get_event_loop()
     srv = loop.run_until_complete(main_loop(loop))
+   
+
+    t = threading.Thread(target=loop_in_thread, args=(new_loop,))
+    t.start()
+
+    
     try:
         logging.info( '{} SRV: {} '.format(
             datetime.now().strftime('%c'),
