@@ -566,14 +566,12 @@ def greet_every_two_seconds():
             future1 = asyncio.Future(loop=bkp_loop)
 
             future = asyncio.ensure_future(start_background_tasks(future1))
-
 #            bkp_loop.create_task(start_background_tasks())
 
             tasks = [
                 start_background_tasks(future1),
             ]
             asyncio.ensure_future(start_background_tasks(future1))
-
             bkp_loop.run_until_complete(future1)
             bkp_loop.close()
             
