@@ -14,6 +14,7 @@ import time
 import MySQLdb as mysql
 import math
 import configparser
+import random
 
 
 conf = configparser.RawConfigParser()
@@ -195,26 +196,29 @@ def great_split(task, parts):
 
 
 
-
+@asyncio.coroutine
 def rend_picture(task):
-    frame_set, task_set = task
+    frame_set, task_set = task[0]
+    logging.info('FILE opened {}'.format(task))
 #    frame_start, frame_end = frame_set
+
     try:
         bpy.ops.wm.open_mainfile(filepath=task_set['project_name'])
+        logging.info('FILE opened {}'.format(str(bpy.ops.wm.open_mainfile)))
     except Exception as e:
-        logging.info('{}'.format(str(e)))
+        logging.info(' OPEN FILE ERR{}'.format(str(e)))
     try:
         scn = bpy.context.scene
         bpy.data.scenes[scn.name].render.image_settings.file_format = 'JPEG'
-        scn.render.filepath = '{}.mp40000.jpg'.format(
-            str(task_set['result_dir']) + '/' + str('roller_video'))
+        scn.render.filepath = '{}.mp40000.jpg{}'.format(
+            str(task_set['result_dir']) + '/' + str('roller_video'),random.randint(1,10000))
         bpy.ops.render.render(write_still=True)
-        os.chown(scn.render.filepath, int(u_ugid), int(u_gguid))
-        os.chmod(scn.render.filepath, 0o777)
+#        os.chown(scn.render.filepath, int(u_ugid), int(u_gguid))
+#        os.chmod(scn.render.filepath, 0o777)
     except Exception as e:
         logging.info('ERR PIC {}'.format(str(e)))
 
-    return 1
+    #yield {'ok'}
 
 
 def rend_preview(task):
@@ -290,7 +294,7 @@ def rend_full_movie(task):
 def check_queue():
     """ check queue mby need another variant to make waiter """
     while True:
-        logging.info('Awaiting task ')
+        logging.info('Awaiting task {} : {} : {} :'.format(threading.current_thread(),threading.active_count(),threading.get_ident))
         yield from asyncio.sleep(5)
         #yield from loop.create_task((start_background_tasks()))
 #        loop.call_soon_threadsafe((start_background_tasks()))
@@ -379,21 +383,22 @@ def tester1(task):
         logging.info('EXCEPTION : {} #'.format(str(e)))
     logging.info('After tester run')
 
-
+import concurrent.futures
 @asyncio.coroutine
 def starter_works(task):
     time_start = time.time()
+    logging.info('{} #############!!!!!!!!#########'.format(task))
     rend_type = int(task['render_type'])
     user_roller_id = task['user_roller_id']
     p = []
 
-    logging.info('{} ######################'.format(task['render_type']))
+    #$logging.info('{} #############!!!!!!!!#########'.format(task[0]['render_type']))
     # before run need update base for task started
-    data_update(
-        render_type=rend_type,
-        user_roller_id=user_roller_id,
-        cond=False
-    )
+#    yield from data_update(
+#        render_type=rend_type,
+#        user_roller_id=user_roller_id,
+#        cond=False
+#    )
 
     with ProcessPoolExecutor(max_workers=2) as executor:
 
@@ -405,9 +410,9 @@ def starter_works(task):
                     # bframes_count(project_name=task['project_name'])
                 parts = return_list_of_parts(f_count, 2)
                 p = parts
-                parts_tasks = [(x, task) for x in parts]
-                executor.map(rend_full_movie, parts_tasks)
-                executor.map(screens_maker, parts_tasks[0])
+                parts_tasks = yield from [(x, task) for x in parts]
+                yield from executor.map(rend_full_movie, parts_tasks)
+                yield from executor.map(screens_maker, parts_tasks[0])
                 logging.info('{} ####EXECUTOR RUN ###'.format('1'))
 
             elif rend_type == 4:
@@ -415,34 +420,45 @@ def starter_works(task):
                 parts = return_list_of_parts(f_count, 2)
                 p = parts
                 parts_tasks = [(x, task) for x in parts]
-                executor.map(rend_preview, parts_tasks)
-                executor.map(screens_maker, parts_tasks[0])
+                #yield from executor.map(rend_preview, parts_tasks)
+                yield from executor.map(screens_maker, parts_tasks[0])
                 logging.info('{} ####EXECUTOR RUN PRIVIEW ###'.format('1'))
 
             elif rend_type == 2:
+                logging.info('{} ####EXECUTOR RUN SCREEN ###'.format('2'))
                 parts = return_list_of_parts(5, 1)
                 parts_tasks = [(x, task) for x in parts]
-                executor.map(rend_picture, parts_tasks)
+                #rend_picture(*parts_tasks)
+
+                #asyncio.Task(rend_picture(parts_tasks))
+                #l = yield from rend_picture(parts_tasks)
+                #th = threading.Thread(target=rend_picture, args=(parts_tasks))
+                #th.start()
+                #th.join()
+                yield from loop.create_task(rend_picture(parts_tasks))
+                #concurrent.futures.wait(rend_picture(parts_tasks),return_when=ALL_COMPLETED)
+                logging.info('{} ####EXECUTOR RUN SCREEN ###'.format('res'))
         except Exception as e:
-            logging.info('POOL err{}'.format(str(e)))
+            logging.info('POOL err  {}'.format(str(e)))
 
     logging.info('{} #####################{} $#'.format(task['render_type'], ''))
     # here nee add function for split of projects and set rights
     if rend_type == 1 or rend_type == 4:
         logging.info('{} #########{}#########{} $# {} '.format(rend_type, 'BEFORE SPLIT', p, task))
-        yield from great_split(task, p)
+     #   yield from great_split(task, p)
 
-    try:
-        data_update(
-            render_type=rend_type,
-            user_roller_id=user_roller_id,
-            cond=True)
-    except mysql.Error as e:
-        logging.info('POOL err{}'.format(str(e)))
+    #try:
+    #    yield from data_update(
+    #        render_type=rend_type,
+    #        user_roller_id=user_roller_id,
+    #        cond=True)
+    #except mysql.Error as e:
+    #    logging.info('POOL err{}'.format(str(e)))
 
     # function to update in base complited task
     time_end = time.time() - time_start
     logging.info('# {} complete TIME: {}'.format(task['result_dir'], time_end))
+
 
  
 def fg(er):
@@ -484,6 +500,7 @@ def start_background_tasks(future):
             logging.info('{}'.format(str(x)))
             sub_tasks.append(starter_works(queue_of_run_tasks.pop()))
             sub_tasks.append(queue_of_run_tasks.pop())
+            yield from starter_works(sub_tasks.pop())
             logging.info('{} ##  sub_tasks Object len: {}'.format(sub_tasks, len(sub_tasks)))
            # new_loop = asyncio.new_event_loop()
 
@@ -491,20 +508,34 @@ def start_background_tasks(future):
          #   t.start()
         #    t.join()
            # new_loop.run_until_complete(low_level(sub_tasks.pop(),loop=new_loop))
-#        procs = [mp.Process(target=starter_works,args=[task,]) for task in sub_tasks]
-#        for proc in procs:
-#            proc.start()
-        yield from asyncio.gather(*sub_tasks)
+     #   procs = [mp.Process(target=starter_works,args=[task,]) for task in sub_tasks]
+     #   for proc in procs:
+     #       proc.start()
+
+ #       yield from asyncio.gather(*sub_tasks)
         future.set_result('Future is done!')
         # logging.info('{} len >2 {}'.format(asyncio.gather.__name__, len_queue))
     else:
         for x in range(len_queue):
             logging.info('{}'.format(str(x)))
-            sub_tasks.append(starter_works(queue_of_run_tasks.pop()))
+            
             #sub_tasks.append(queue_of_run_tasks.pop())
             logging.info('{}PROC  sub_tasks Object len: {}'.format(sub_tasks, type(sub_tasks)))
-        yield from asyncio.gather(*sub_tasks)
+#        yield from asyncio.gather(*sub_tasks)
+        try:
+            sub_tasks.append(queue_of_run_tasks.pop())
+            #mp.Process(target=starter_works,args=[taska,]).start()
+            yield from starter_works(sub_tasks.pop())
+            #proc = mp.Process(target=starter_works,args=[queue_of_run_tasks.pop(),]).start()
+            #yield from proc.join()
+            
+
+        except Exception as e:
+            logging.info('PROC {}'.format(e))
+
+
         future.set_result('Future is done!')
+    
 
             
 
@@ -556,24 +587,31 @@ def transmit(request):
 
 
 @asyncio.coroutine
-def greet_every_two_seconds():
+def greet_every_two_seconds(loop):
     while True:
         #loop.create_task(start_background_tasks())
-        print('Hello World')
+        #print('Hello World', threading.current_thread(), threading.active_count(),threading.get_ident())
+        print('in proc : ', os.getppid(),__name__,os.getpid(), len(queue_of_run_tasks))
         if len(queue_of_run_tasks) > 0:
             print('Hello World!!!!!!!!!!!!!!!!!!!',len(queue_of_run_tasks))
-            bkp_loop = asyncio.new_event_loop()
-            future1 = asyncio.Future(loop=bkp_loop)
+            #bkp_loop = asyncio.new_event_loop()
+            future1 = asyncio.Future(loop=loop)
 
-            future = asyncio.ensure_future(start_background_tasks(future1))
-#            bkp_loop.create_task(start_background_tasks())
+            future = asyncio.run_coroutine_threadsafe(start_background_tasks(future1),loop)
+            #yield from future
+#            try:
+#                loop.create_task(start_background_tasks(future1))
+#            except Exception as e:
+#                print(e)
 
-            tasks = [
-                start_background_tasks(future1),
-            ]
-            asyncio.ensure_future(start_background_tasks(future1))
-            bkp_loop.run_until_complete(future1)
-            bkp_loop.close()
+#            tasks = [
+#                start_background_tasks(future1),
+#            ]
+#            yield from asyncio.gather(*tasks)
+
+            #yield from asyncio.ensure_future(start_background_tasks(future1))
+            #loop.run_until_complete(future1)
+            #bkp_loop.close()
             
 
         yield from asyncio.sleep(2)
@@ -581,7 +619,7 @@ def greet_every_two_seconds():
 
 def loop_in_thread(loop):
     asyncio.set_event_loop(loop)
-    loop.run_until_complete(greet_every_two_seconds())
+    loop.run_until_complete(greet_every_two_seconds(loop))
 
 
 def main_loop(loop):
@@ -595,7 +633,7 @@ def main_loop(loop):
                         )
     app = web.Application(loop=loop)
 
-    #loop_check_queue = loop.create_task(check_queue())
+    loop_check_queue = loop.create_task(check_queue())
     app.router.add_post('/tr', transmit)
     server = yield from loop.create_server(app.make_handler(), '0.0.0.0', 7812)
     return server
@@ -613,10 +651,14 @@ if __name__ == '__main__':
     policy.set_event_loop(policy.new_event_loop())
     loop = asyncio.get_event_loop()
     srv = loop.run_until_complete(main_loop(loop))
+
+#    p = mp.Process(target=loop_in_thread, args = (new_loop,))
+#    p.start()
    
 
     t = threading.Thread(target=loop_in_thread, args=(new_loop,))
     t.start()
+
 
     
     try:

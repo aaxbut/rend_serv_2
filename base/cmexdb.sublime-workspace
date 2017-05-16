@@ -1,0 +1,848 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"q",
+				"queue_of_run_tasks"
+			],
+			[
+				"ex",
+				"except"
+			],
+			[
+				"fut",
+				"future1"
+			],
+			[
+				"loop",
+				"loop_in_thread"
+			],
+			[
+				"get",
+				"get_ident"
+			],
+			[
+				"T",
+				"Thread	(testqueue.py)"
+			],
+			[
+				"crea",
+				"create_task"
+			],
+			[
+				"sta",
+				"start"
+			],
+			[
+				"pool",
+				"pool_1"
+			],
+			[
+				"pro",
+				"proc"
+			],
+			[
+				"start",
+				"starter_works	function"
+			],
+			[
+				"frame",
+				"frame_set"
+			],
+			[
+				"fra",
+				"frame_end"
+			],
+			[
+				"sub",
+				"sub_tasks"
+			],
+			[
+				"len",
+				"len_queue"
+			],
+			[
+				"ta",
+				"task"
+			],
+			[
+				"exe",
+				"executor"
+			],
+			[
+				"Pro",
+				"ProcessPoolExecutor"
+			],
+			[
+				"id",
+				"idx"
+			],
+			[
+				"k",
+				"kwargs_w"
+			],
+			[
+				"return",
+				"return_list_of_parts"
+			],
+			[
+				"flor",
+				"floor_chunk"
+			],
+			[
+				"floor",
+				"floor_chunk"
+			],
+			[
+				"ren",
+				"rend_priview"
+			],
+			[
+				"Ec",
+				"Exception"
+			],
+			[
+				"er",
+				"Error	class"
+			],
+			[
+				"size",
+				"size_q_now"
+			],
+			[
+				"max",
+				"max_size_q"
+			],
+			[
+				"items",
+				"items_in	statement"
+			],
+			[
+				"item",
+				"items_out_count	statement"
+			],
+			[
+				"se",
+				"set_item"
+			],
+			[
+				"pa",
+				"parst"
+			],
+			[
+				"Parst",
+				"parts"
+			],
+			[
+				"a",
+				"append	function"
+			],
+			[
+				"Tas",
+				"TaskWait"
+			],
+			[
+				"clas",
+				"classmethod	class"
+			],
+			[
+				"Proc",
+				"Process"
+			],
+			[
+				"qu",
+				"queue_in_class"
+			],
+			[
+				"ar",
+				"args1"
+			],
+			[
+				"war",
+				"wrapper_func"
+			],
+			[
+				"fl",
+				"flush_task"
+			],
+			[
+				"async",
+				"asyncio"
+			],
+			[
+				"tas",
+				"task_wait_test"
+			],
+			[
+				"test",
+				"test_calback"
+			],
+			[
+				"prin",
+				"print_name	function"
+			],
+			[
+				"render",
+				"render_proc_cr"
+			],
+			[
+				"fre",
+				"freeze_support"
+			],
+			[
+				"apl",
+				"apply_async	function"
+			],
+			[
+				"req",
+				"req_json	statement"
+			],
+			[
+				"file",
+				"filek"
+			],
+			[
+				"rad",
+				"randint	statement"
+			],
+			[
+				"da",
+				"data_for_render	param"
+			],
+			[
+				"P",
+				"Process	class"
+			],
+			[
+				"M",
+				"MEDIA_URL"
+			],
+			[
+				"model",
+				"models"
+			],
+			[
+				"Com",
+				"CompanyConf	class"
+			],
+			[
+				"tra",
+				"translator"
+			],
+			[
+				"mai",
+				"main_page	(settings.py)"
+			],
+			[
+				"te",
+				"template_name	statement"
+			],
+			[
+				"template",
+				"template_name"
+			],
+			[
+				"ma",
+				"main_page_view"
+			],
+			[
+				"main",
+				"main_page_view	(views.py)"
+			],
+			[
+				"vi",
+				"views	(urls.py)"
+			],
+			[
+				"ca",
+				"cabinet_page	(settings.py)"
+			],
+			[
+				"cabin",
+				"cabinet_page"
+			],
+			[
+				"p",
+				"params"
+			],
+			[
+				"header",
+				"headers"
+			],
+			[
+				"au",
+				"auth"
+			],
+			[
+				"ur",
+				"url_submit"
+			],
+			[
+				"res",
+				"resp	withstmt"
+			],
+			[
+				"resp",
+				"response"
+			],
+			[
+				"fir",
+				"firefox_binary"
+			],
+			[
+				"loca",
+				"local_filename"
+			],
+			[
+				"y",
+				"yield	(ddd.py)"
+			],
+			[
+				"goto",
+				"gotoxy"
+			],
+			[
+				"RA",
+				"random	statement"
+			],
+			[
+				"rand",
+				"random"
+			],
+			[
+				"v",
+				"values	param"
+			],
+			[
+				"val",
+				"values	param"
+			],
+			[
+				"ky",
+				"key_s"
+			],
+			[
+				"ke",
+				"key	param"
+			],
+			[
+				"key",
+				"key_s"
+			],
+			[
+				"c",
+				"copy"
+			],
+			[
+				"va",
+				"values_s	(ddd.py)"
+			],
+			[
+				"ye",
+				"yield	keyword"
+			],
+			[
+				"kye",
+				"keys_s	statement"
+			],
+			[
+				"keys",
+				"keys_s"
+			],
+			[
+				"time",
+				"time_exec"
+			],
+			[
+				"arg",
+				"args"
+			],
+			[
+				"en",
+				"enumerate	class"
+			],
+			[
+				"values",
+				"values_s"
+			],
+			[
+				"iter",
+				"iteritems"
+			],
+			[
+				"from",
+				"fromkeys	function"
+			],
+			[
+				"def",
+				"default"
+			],
+			[
+				"vla",
+				"values_s"
+			],
+			[
+				"default",
+				"defaultdict"
+			],
+			[
+				"re",
+				"result"
+			],
+			[
+				"lis",
+				"list_codes"
+			],
+			[
+				"s",
+				"search	function"
+			],
+			[
+				"zip",
+				"zip_codes"
+			],
+			[
+				"me",
+				"meta	(spid_huuz_f.py)"
+			],
+			[
+				"scrapy",
+				"scrapy.Request"
+			],
+			[
+				"spid",
+				"spid_huuz	(spid_huuz.py)"
+			],
+			[
+				"dis",
+				"dist_to_avoid"
+			],
+			[
+				"go",
+				"go_away"
+			],
+			[
+				"speed",
+				"speed_x"
+			],
+			[
+				"con",
+				"continue"
+			],
+			[
+				"wi",
+				"wizards"
+			],
+			[
+				"wo",
+				"worlds	(RemoteProcessClient.py)"
+			],
+			[
+				"unit",
+				"unit"
+			],
+			[
+				"mo",
+				"move_to	function"
+			],
+			[
+				"B",
+				"BOTTOM_KEY"
+			],
+			[
+				"w",
+				"width"
+			],
+			[
+				"cla",
+				"classmethod	class"
+			],
+			[
+				"Tur",
+				"TutorialViews"
+			],
+			[
+				"hello",
+				"hello_world"
+			],
+			[
+				"set",
+				"settings"
+			],
+			[
+				"serve",
+				"serve_forever	function"
+			],
+			[
+				"x",
+				"xrange"
+			],
+			[
+				"std",
+				"stdout	instance"
+			],
+			[
+				"is",
+				"is_alive	function"
+			],
+			[
+				"pass",
+				"pass"
+			],
+			[
+				"na",
+				"name_file"
+			],
+			[
+				"list",
+				"listdir	(find_before.py)"
+			],
+			[
+				"S",
+				"SchemaNode"
+			],
+			[
+				"new_",
+				"new_body"
+			],
+			[
+				"ec",
+				"except	keyword"
+			],
+			[
+				"wiki",
+				"wiki_form"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 374.0,
+		"last_filter": "Package Control: ",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 489.0
+	},
+	"console":
+	{
+		"height": 234.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/aaxbut/python/rend_blend/rend_serv_2/arh_14052017.py",
+		"/home/aaxbut/python/rend_blend/rend_serv_2/sds",
+		"/home/aaxbut/python/rend_blend/rend_serv_2/wbs_run_Vb.py",
+		"/home/aaxbut/python/rend_blend/rend_serv_2/123",
+		"/home/aaxbut/python/rend_blend/rend_serv_2/web_blen_service_v5.py",
+		"/home/aaxbut/python/rend_blend/rend_serv_2/df.c",
+		"/home/aaxbut/python/rend_blend/rend_serv_2/a.out",
+		"/home/aaxbut/python/rend_blend/web_blend_service_v5_1.py",
+		"/home/aaxbut/python/rend_blend/web_blend_service_v4_1.py",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/urls.py",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/__portfolio.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/__navigation.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/__header.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/__futer.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/index.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/__pricing.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/__contact.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/kazdentexpo_asia/urls.py",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/admin.py",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/translation.py",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/__head_css.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/base.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/kazdentexpo_asia/settings.py",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/__service.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/__welcome.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/kazdentexpo_asia/translation.py",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/__features_section.html",
+		"/home/aaxbut/python/Xoxol/kazdentexpo/kazdentexpo_asia/main_page/templates/__main_page_action.html",
+		"/home/aaxbut/python/pabuhasia/pa_buh_asia/cabinet_page/views.py",
+		"/home/aaxbut/python/pabuhasia/pa_buh_asia/main_page/urls.py",
+		"/home/aaxbut/python/pabuhasia/pa_buh_asia/cabinet_page/urls.py",
+		"/home/aaxbut/python/pabuhasia/pa_buh_asia/pa_buh_asia/urls.py",
+		"/home/aaxbut/python/pyram/asipo_asia/asipo_asia/templates/constract.jinja2",
+		"/home/aaxbut/python/pyram/asipo_asia/prod.ini",
+		"/home/aaxbut/python/facewww/*REPL* [python]",
+		"/home/aaxbut/python/facewww/rabbit_tst/rec_rbq.py",
+		"/home/aaxbut/python/facewww/celly/__init__.py",
+		"/home/aaxbut/python/facewww/rabbit_tst/tasks.py",
+		"/home/aaxbut/python/facewww/celly/tasks.py",
+		"/home/aaxbut/python/facewww/celly",
+		"/home/aaxbut/python/craw_ls/ex_struct.py",
+		"/home/aaxbut/python/craw_ls/us_zip_code/us_zip_code/spiders/zip_try.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_Design_Build_Firms.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_ArchBuilds.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_Home_Builders.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_General_Contractors.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_Interior_Designers_Decorators.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_Kitchen_Bath_Designers.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_Kitchen_Bath_Remodelers.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_Tile_Stone_Countertops.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_Landscape_Architects_Designers.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_Landscape_Contractors.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_Stone_Pavers_Concrete.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_Swimming_Pool_Builders.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Site_Huuz_Electricians.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/huuz_pools.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/spid_huuz.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/settings.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Huuz_Electricians.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/ts_spiders.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_ArchBuilds.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_Design_Build_Firms.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_Electricians.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_General_Contractors.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_Home_Builders.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_Interior_Designers_Decorators.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_Kitchen_Bath_Designers.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_Kitchen_Bath_Remodelers.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_Landscape_Architects_Designers.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_Landscape_Contractors.py\n",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_Stone_Pavers_Concrete.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_Swimming_Pool_Builders.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Mail_Fb_Huuz_Tile_Stone_Countertops.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/items.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/pymongo_test.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/spid_huuz_f.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Huuz_Emails_FB.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Huuz_Tile_Stone_Countertops.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Huuz_Stone_Pavers_Concrete.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/h_category.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/example.py",
+		"/home/aaxbut/python/craw_ls/spid_huuz.py",
+		"/home/aaxbut/python/craw_ls/esalmaty.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Huuz_Landscape_Contractors.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Huuz_Landscape_Architects_Designers.py",
+		"/home/aaxbut/python/craw_ls/scrapy_huu/serv_huuz/spiders/Huuz_Kitchen_Bath_Remodelers.py",
+		"/home/aaxbut/python/craw_ls/serv_huuz/serv_huuz/spiders/__pycache__/spid_huuz_f.py",
+		"/home/aaxbut/python/craw_ls/df.json",
+		"/home/aaxbut/python/gameAI/python3-cgdk/MyStrategy.py",
+		"/home/aaxbut/python/pyram/s4/view_classes/setup.py",
+		"/home/aaxbut/python/pyram/s4/view_classes/tutorial/__init__.py",
+		"/home/aaxbut/python/pyram/s4/view_classes/tutorial/home.pt",
+		"/home/aaxbut/python/pyram/s4/view_classes/tutorial/tests.py",
+		"/home/aaxbut/python/pyram/s4/view_classes/tutorial/views.py",
+		"/home/aaxbut/python/pyram/s4/views/tutorial/views.py",
+		"/home/aaxbut/python/pyram/s4/views/tutorial/__init__.py",
+		"/home/aaxbut/python/pyram/s4/views/__init__.py",
+		"/home/aaxbut/python/pyram/s4/views/tutorial/tests.py",
+		"/home/aaxbut/python/pyram/s4/views/views.py",
+		"/home/aaxbut/python/pyram/s4/functional_testing/tutorial/__init__.py",
+		"/home/aaxbut/python/pyram/s4/functional_testing/tutorial/tests.py",
+		"/home/aaxbut/python/pyram/s4/unit_testing/tutorial/__init__.py",
+		"/home/aaxbut/python/pyram/s4/unit_testing/tutorial/tests.py",
+		"/home/aaxbut/python/pyram/s4/ini/tutorial/__init__.py",
+		"/home/aaxbut/python/pyram/s4/debugtoolbar/development.ini",
+		"/home/aaxbut/python/pyram/s4/ini/setup.py",
+		"/home/aaxbut/python/pyram/s4/debugtoolbar/setup.py",
+		"/home/aaxbut/python/pyram/s4/ini/development.ini",
+		"/home/aaxbut/python/pyram/s4/debugtoolbar/tutorial/__init__.py",
+		"/home/aaxbut/python/pyram/s4/ini/__init__py",
+		"/home/aaxbut/python/pyram/s4/package/setup.py",
+		"/home/aaxbut/python/pyram/s4/package/tutorial/app.py",
+		"/home/aaxbut/python/rend_blend/web_blend_service_v04.py",
+		"/home/aaxbut/python/rend_blend/nserv.py",
+		"/home/aaxbut/python/rend_blend/users/aaxbut/png/head1.png",
+		"/home/aaxbut/python/rend_blend/pyOpenSllGen.py",
+		"/home/aaxbut/python/docmed/cabinet/cabinet/templates/wikipage_view.pt",
+		"/home/aaxbut/python/docmed/cabinet/cabinet/templates/wikipage_addedit.pt",
+		"/home/aaxbut/python/docmed/cabinet/cabinet/templates/wiki_view.pt",
+		"/home/aaxbut/python/docmed/cabinet_doc/application.py",
+		"/home/aaxbut/python/bledIMP/blend_srv.py",
+		"/home/aaxbut/python/bledIMP/tst.py",
+		"/home/aaxbut/python/bledIMP/th_v1_001",
+		"/home/aaxbut/python/bledIMP/th_v1_001.py",
+		"/home/aaxbut/python/bledIMP/th_v1_002.py",
+		"/home/aaxbut/.config/sublime-text-3/Packages/Anaconda/Anaconda.sublime-settings",
+		"/home/aaxbut/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/aaxbut/.config/sublime-text-3/Packages/User/sublime_jedi.sublime-settings"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"        \n",
+			"future",
+			"kwargs",
+			"job",
+			"app",
+			"{}  ",
+			"run_render_multi55",
+			"f*2",
+			"nav",
+			"%}</",
+			"bootstrap.min.css.map",
+			"')),",
+			"cabinet_page",
+			"#   ",
+			"headers",
+			"assert",
+			"')",
+			"table_live",
+			")\n",
+			"table_live",
+			"]\n",
+			"'),",
+			"values_s",
+			"))\n",
+			")))\n",
+			"Mail_Fb_Huuz_Tile_Stone_Countertops",
+			"MongoDBPipeline",
+			"auth",
+			"y",
+			"']</",
+			"home_view",
+			"ins",
+			"break",
+			"p",
+			"l2",
+			")\n",
+			"a",
+			")\n",
+			"d"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 32.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/python3.sublime-build",
+	"project": "cmexdb.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 243.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
