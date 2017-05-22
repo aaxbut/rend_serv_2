@@ -5,7 +5,6 @@ import logging
 import json
 from aiohttp import web
 from concurrent.futures import ProcessPoolExecutor
-import multiprocessing as mp
 import asyncio.subprocess
 import bpy
 import os
@@ -16,7 +15,7 @@ import configparser
 
 
 conf = configparser.RawConfigParser()
-conf.read('/etc/wb4.conf')
+conf.read('/etc/wb3.conf')
 FFMPEG_BIN = 'ffmpeg'
 BLEND_DIR = conf.get('bl_path', 'BLEND_DIR')
 USERS_DIR = conf.get('bl_path', 'USERS_DIR')
@@ -85,8 +84,6 @@ def data_update(**kwargs):
                     ))
         except mysql.Error as e:
             logging.error('{}'.format(str(e)))
-        finally:
-            db.close()
 
     elif cond is True:
         with mysql.connect(host=dbconnectionhost, user=dbusername, passwd=dbpassword, db=dbname) as db:
@@ -118,8 +115,6 @@ def data_update(**kwargs):
                     ))
             except mysql.Error as e:
                 logging.error('{}'.format(str(e)))
-            finally:
-                db.close()
 
 
 def return_list_of_parts(len_frames, parts):
@@ -465,26 +460,6 @@ def starter_works(task):
     time_end = time.time() - time_start
     logging.info('# {} complete TIME: {}'.format(task['result_dir'], time_end))
 
-@asyncio.coroutine
-def boo(q):
-    while True:
-        yield from asyncio.sleep(1)
-        logging.info('{1}: From BOO  ::res : {0}'.format('id_th', 'cur_th'))
-        if not q.empty():
-            task = q.get()
-            logging.info('{1}: From BOO ####### {2}::res : {0}'.format('id_th', q.qsize(), task))
-            try:
-                yield from starter_works(task)
-                logging.info('From BOO: {0}'.format(q.qsize()))
-            except Exception as e:
-                logging.info('From BOO ERR: {0}'.format(e))
-
-
-def loop_in_thread(loop, q):
-    asyncio.set_event_loop(loop)
-    #yield from loop.run_in_executor(None, boo())
-    loop.run_until_complete(boo(q))
-
 
 @asyncio.coroutine
 def start_background_tasks():
@@ -520,7 +495,6 @@ def transmit(request):
                                     ))
     # some short work mby here
     queue_of_run_tasks.append(req_json)
-    q.put(req_json)
     return web.json_response(req_json)
 
 
@@ -535,9 +509,9 @@ def main_loop(loop):
                         )
     app = web.Application(loop=loop)
 
-    #loop_check_queue = loop.create_task(check_queue())
+    loop_check_queue = loop.create_task(check_queue())
     app.router.add_post('/tr', transmit)
-    server = yield from loop.create_server(app.make_handler(), '0.0.0.0', 7812)
+    server = yield from loop.create_server(app.make_handler(), '0.0.0.0', 7811)
     return server
 
 
@@ -545,16 +519,10 @@ if __name__ == '__main__':
     frames_count = {}
     queue_of_run_tasks = []
     run_tasks = []
-    q = mp.JoinableQueue()
     policy = asyncio.get_event_loop_policy()
-    policy.set_event_loop(policy.new_event_loop())
+    policy.set_event_loop( policy.new_event_loop())
     loop = asyncio.get_event_loop()
     srv = loop.run_until_complete(main_loop(loop))
-    procs = [mp.Process(target=loop_in_thread, args=(loop, q)) for _ in range(4)]
-    for proc in procs:
-        # proc.daemon = True
-        proc.start()
-
     try:
         logging.info( '{} SRV: {} '.format(
             datetime.now().strftime('%c'),
