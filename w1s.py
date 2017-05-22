@@ -56,7 +56,7 @@ p_rend_type = {
                 },
             }
 
-
+@asyncio.coroutine
 def data_update(**kwargs):
     render_type = int(kwargs['render_type'])
     cond = kwargs['cond']
@@ -411,7 +411,7 @@ def starter_works(task):
 
     logging.info('{} ######################'.format(task['render_type']))
     # before run need update base for task started
-    data_update(
+    yield from data_update(
         render_type=rend_type,
         user_roller_id=user_roller_id,
         cond=False
@@ -424,7 +424,7 @@ def starter_works(task):
         try:
             if rend_type == 1:
                 f_count = bframes_count(project_name=task['project_name'])
-                parts = return_list_of_parts(f_count, 5)
+                parts = return_list_of_parts(50, 5)
                 p = parts
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_full_movie, parts_tasks)
@@ -433,7 +433,7 @@ def starter_works(task):
 
             elif rend_type == 4:
                 f_count = 500
-                parts = return_list_of_parts(f_count, 5)
+                parts = return_list_of_parts(50, 5)
                 p = parts
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_preview, parts_tasks)
@@ -451,20 +451,24 @@ def starter_works(task):
     # here nee add function for split of projects and set rights
     if rend_type == 1 or rend_type == 4:
         logging.info('{} #########{}#########{} $# {} '.format(rend_type, 'BEFORE SPLIT', p, task))
-        yield from great_split(task, p)
+        try:
+            yield from great_split(task, p)
+        except Exception as e:
+            logging.info( 'SPLIT err{}'.format( str( e ) ) )
+
 
 
     try:
-        data_update(
+        yield from data_update(
             render_type=rend_type,
             user_roller_id=user_roller_id,
             cond=True)
     except mysql.Error as e:
-        logging.info('POOL err{}'.format(str(e)))
+        logging.info('BASE err{}'.format(str(e)))
 
     # function to update in base complited task
     time_end = time.time() - time_start
-    q.task_done()
+    yield q.task_done()
     logging.info('# {} complete TIME: {}'.format(task['result_dir'], time_end))
 
     #return 1
