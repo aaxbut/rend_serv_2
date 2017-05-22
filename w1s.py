@@ -424,7 +424,7 @@ def starter_works(task):
         try:
             if rend_type == 1:
                 f_count = bframes_count(project_name=task['project_name'])
-                parts = return_list_of_parts(50, 5)
+                parts = return_list_of_parts(f_count, 5)
                 p = parts
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_full_movie, parts_tasks)
@@ -433,7 +433,7 @@ def starter_works(task):
 
             elif rend_type == 4:
                 f_count = 500
-                parts = return_list_of_parts(50, 5)
+                parts = return_list_of_parts(f_count, 5)
                 p = parts
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_preview, parts_tasks)
