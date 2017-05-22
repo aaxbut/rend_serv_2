@@ -417,14 +417,14 @@ def starter_works(task):
         cond=False
     )
 
-    with ProcessPoolExecutor(max_workers=14) as executor:
+    with ProcessPoolExecutor(max_workers=6) as executor:
 
         #  before run need split dict with task settings and list with parts
         #  function look in dict have part if full movie, if movie pri run 500 // 5 parts
         try:
             if rend_type == 1:
                 f_count = bframes_count(project_name=task['project_name'])
-                parts = return_list_of_parts(f_count, 6)
+                parts = return_list_of_parts(50, 5)
                 p = parts
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_full_movie, parts_tasks)
@@ -433,7 +433,7 @@ def starter_works(task):
 
             elif rend_type == 4:
                 f_count = 500
-                parts = return_list_of_parts(f_count, 5)
+                parts = return_list_of_parts(50, 5)
                 p = parts
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_preview, parts_tasks)
@@ -453,6 +453,7 @@ def starter_works(task):
         logging.info('{} #########{}#########{} $# {} '.format(rend_type, 'BEFORE SPLIT', p, task))
         yield from great_split(task, p)
 
+
     try:
         data_update(
             render_type=rend_type,
@@ -463,16 +464,19 @@ def starter_works(task):
 
     # function to update in base complited task
     time_end = time.time() - time_start
+    q.task_done()
     logging.info('# {} complete TIME: {}'.format(task['result_dir'], time_end))
+
+    #return 1
 
 @asyncio.coroutine
 def boo(q):
     while True:
         yield from asyncio.sleep(1)
-        logging.info('{1}: From BOO  ::res : {0}'.format('id_th', 'cur_th'))
+ #       logging.info('{1}: From BOO  ::res : {0}'.format('id_th', 'cur_th'))
         if not q.empty():
             task = q.get()
-            logging.info('{1}: From BOO ####### {2}::res : {0}'.format('id_th', q.qsize(), task))
+ #           logging.info('{1}: From BOO ####### {2}::res : {0}'.format('id_th', q.qsize(), task))
             try:
                 yield from starter_works(task)
                 logging.info('From BOO: {0}'.format(q.qsize()))
