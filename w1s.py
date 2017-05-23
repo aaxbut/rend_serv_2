@@ -6,6 +6,7 @@ import json
 from aiohttp import web
 from concurrent.futures import ProcessPoolExecutor
 import multiprocessing as mp
+from subprocess import Popen, STDOUT, PIPE
 import asyncio.subprocess
 import bpy
 import os
@@ -163,15 +164,22 @@ def great_split(task, parts):
         out_file,
     ]
     try:
-        process = yield from asyncio.create_subprocess_exec(
+#        process = Popen(
+#                    *command,
+#                    stdout=PIPE,
+#                    stderr=STDOUT
+
+#        )
+
+        process = asyncio.create_subprocess_exec(
                     *command,
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.STDOUT
                 )
-        stdout, _ = yield from process.communicate()
-        # logging.info('{}'.format(stdout))
+        stdout, *_ = yield from process.communicate()
+        logging.info('{}'.format(stdout))
     except Exception as e:
-        logging.info('{}'.format(str(e)))
+        logging.debug('{}'.format(str(e)))
 
     try:
         os.chown(out_file, int(u_ugid), int(u_gguid))
@@ -183,15 +191,17 @@ def great_split(task, parts):
             param = x.strip('file').strip()
             pth_for_del = '{}/{}'.format(rend_result_dir, param)
             try:
+                logging.info('SPLIT {}'.format(pth_for_del))
                 os.remove(pth_for_del)
+
             except Exception as e:
-                logging.info('ERR Del {}'.format(e))
+                logging.debug('ERR Del {}'.format(e))
                 pass
             logging.info('Del {}'.format(pth_for_del))
     try:
         os.remove(file_txt_for_concat)
     except Exception as e:
-        logging.info('ERR Del {}'.format(e))
+        logging.debug('ERR Del {}'.format(e))
 
 
 def rend_picture(task):
@@ -235,7 +245,7 @@ def rend_preview(task):
         scn.render.engine = 'CYCLES'
         scn.cycles.device = 'CPU'
         scn.render.ffmpeg.format = 'MPEG4'
-#        scn.render.ffmpeg.codec = 'MPEG4'
+        scn.render.ffmpeg.codec = 'MPEG4'
         scn.render.ffmpeg.video_bitrate = 750
 #        scn.render.ffmpeg.maxrate = 9000
 #        scn.render.ffmpeg.packetsize = 4096
@@ -284,7 +294,7 @@ def rend_full_movie(task):
         scn.render.engine = 'CYCLES'
         scn.cycles.device = 'CPU'
         scn.render.ffmpeg.format = 'MPEG4'
-#        scn.render.ffmpeg.codec = 'MPEG4'
+        scn.render.ffmpeg.codec = 'MPEG4'
         scn.render.ffmpeg.video_bitrate = 750
 #        scn.render.ffmpeg.maxrate = 9000
 #        scn.render.ffmpeg.packetsize = 4096
@@ -362,7 +372,7 @@ def screens_maker(task):
         except Exception as e:
             logging.info('err SCREEN MAKER rights{}'.format(str(e)))
     except Exception as e:
-        logging.info('ERR IN SCREEN Maker {}'.format(str(e)))
+        logging.debug('ERR IN SCREEN Maker {}'.format(str(e)))
 
     return 1
 
@@ -411,11 +421,13 @@ def starter_works(task):
 
     logging.info('{} ######################'.format(task['render_type']))
     # before run need update base for task started
-    yield from data_update(
-        render_type=rend_type,
-        user_roller_id=user_roller_id,
-        cond=False
-    )
+    try:
+        yield from data_update(
+            render_type=rend_type,
+            user_roller_id=user_roller_id,
+            cond=False)
+    except Exception as e:
+        logging.debug('ERR IN data_update {}'.format(str(e)))
 
     with ProcessPoolExecutor(max_workers=6) as executor:
 
@@ -429,6 +441,7 @@ def starter_works(task):
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_full_movie, parts_tasks)
                 executor.map(screens_maker, parts_tasks[0])
+                executor.shutdown()
                 logging.info('{} ####EXECUTOR RUN ###'.format('1'))
 
             elif rend_type == 4:
@@ -438,25 +451,27 @@ def starter_works(task):
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_preview, parts_tasks)
                 executor.map(screens_maker, parts_tasks[0])
+                executor.shutdown()
                 logging.info('{} ####EXECUTOR RUN PRIVIEW ###'.format('1'))
 
             elif rend_type == 2:
                 parts = return_list_of_parts(5, 1)
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_picture, parts_tasks)
+                executor.shutdown()
         except Exception as e:
-            logging.info('POOL err{}'.format(str(e)))
+            logging.debug('POOL err{}'.format(str(e)))
 
     logging.info('{} #####################{} $#'.format(task['render_type'], ''))
+    logging.info('Process {} $# Current process {}'.format(os.getpid(), mp.current_process().name))
+
     # here nee add function for split of projects and set rights
     if rend_type == 1 or rend_type == 4:
         logging.info('{} #########{}#########{} $# {} '.format(rend_type, 'BEFORE SPLIT', p, task))
         try:
             yield from great_split(task, p)
         except Exception as e:
-            logging.info( 'SPLIT err{}'.format( str( e ) ) )
-
-
+            logging.debug('SPLIT err{}'.format(str(e)))
 
     try:
         yield from data_update(
@@ -468,8 +483,11 @@ def starter_works(task):
 
     # function to update in base complited task
     time_end = time.time() - time_start
-    yield q.task_done()
+
     logging.info('# {} complete TIME: {}'.format(task['result_dir'], time_end))
+    yield q.task_done()
+    yield from q.join()
+#    return q.join()
 
     #return 1
 
@@ -477,15 +495,15 @@ def starter_works(task):
 def boo(q):
     while True:
         yield from asyncio.sleep(1)
- #       logging.info('{1}: From BOO  ::res : {0}'.format('id_th', 'cur_th'))
+        logging.debug('{1}: From BOO  ::res : {0}'.format('id_th', 'cur_th'))
         if not q.empty():
             task = q.get()
- #           logging.info('{1}: From BOO ####### {2}::res : {0}'.format('id_th', q.qsize(), task))
+            logging.debug('{1}: From BOO ####### {2}:: P_name : {0}'.format(mp.current_process().name, q.qsize(), task))
             try:
                 yield from starter_works(task)
                 logging.info('From BOO: {0}'.format(q.qsize()))
             except Exception as e:
-                logging.info('From BOO ERR: {0}'.format(e))
+                logging.debug('From BOO ERR: {0}'.format(e))
 
 
 def loop_in_thread(loop, q):
