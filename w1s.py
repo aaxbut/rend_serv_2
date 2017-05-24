@@ -302,7 +302,7 @@ def rend_preview(task):
         scn.render.engine = 'CYCLES'
         scn.cycles.device = 'CPU'
         scn.render.ffmpeg.format = 'MPEG4'
-        scn.render.ffmpeg.codec = 'MPEG4'
+#        scn.render.ffmpeg.codec = 'MPEG4'
         scn.render.ffmpeg.video_bitrate = 750
 #        scn.render.ffmpeg.maxrate = 9000
 #        scn.render.ffmpeg.packetsize = 4096
@@ -352,7 +352,7 @@ def rend_full_movie(task):
         scn.render.engine = 'CYCLES'
         scn.cycles.device = 'CPU'
         scn.render.ffmpeg.format = 'MPEG4'
-        scn.render.ffmpeg.codec = 'MPEG4'
+#        scn.render.ffmpeg.codec = 'MPEG4'
         scn.render.ffmpeg.video_bitrate = 750
 #        scn.render.ffmpeg.maxrate = 9000
 #        scn.render.ffmpeg.packetsize = 4096
