@@ -13,7 +13,7 @@ async def fetch(client):
 
         #"result_dir":"/var/www/cmex.ru/data/uploads/users_rollers/11723/video"
 
-        #"project_name":"/var/www/cmex.ru/data/uploads/users_rollers/11723/project/neulovimiemstiteli.blend" 
+        #"project_name":"/var/www/cProcessPoolExecutormex.ru/data/uploads/users_rollers/11723/project/neulovimiemstiteli.blend" 
         #"result_dir":"/var/www/cmex.ru/data/uploads/users_rollers/11723/video"
         headers = {'Content-type': 'application/json'}
          #    assert session.status == 200                                                              task['moview_priview'], 

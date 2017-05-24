@@ -142,8 +142,10 @@ def return_list_of_parts(len_frames, parts):
     return parts_list
 
 
-@asyncio.coroutine
+@asyncio.coroutine #task, parts
 def great_split(task, parts):
+    logging.info('IN GreatSplit :{}'.format(task, parts))
+
     rend_type = int(task['render_type'])
     rend_result_dir = task['result_dir']
     file_name = p_rend_type[rend_type]['file_video'].split('/')[1].split('.')[0]
@@ -171,13 +173,14 @@ def great_split(task, parts):
 
 #        )
 
-        process = asyncio.create_subprocess_exec(
+        process = yield from asyncio.create_subprocess_exec(
                     *command,
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.STDOUT
                 )
-        stdout, *_ = yield from process.communicate()
+        stdout, _ = yield from process.communicate()
         logging.info('{}'.format(stdout))
+
     except Exception as e:
         logging.debug('{}'.format(str(e)))
 
@@ -185,25 +188,39 @@ def great_split(task, parts):
         os.chown(out_file, int(u_ugid), int(u_gguid))
         os.chmod(out_file, 0o777)
     except Exception as e:
-        pass
+        logging.debug('{}'.format(e))
+
+    logging.debug('AFTER SPLIT {} {}'.format(file_txt_for_concat, rend_result_dir))
+
+    return (file_txt_for_concat, rend_result_dir)
+
+#@asyncio.coroutine
+def del_temp_files(path_temp):
+    logging.info('del_temp_files {}'.format(path_temp))
+    file_txt_for_concat,rend_result_dir = path_temp
+
     with open(file_txt_for_concat, 'r') as f:
         for x in f.readlines():
             param = x.strip('file').strip()
             pth_for_del = '{}/{}'.format(rend_result_dir, param)
-            try:
-                logging.info('SPLIT {}'.format(pth_for_del))
-                os.remove(pth_for_del)
+            logging.info('SPLIT {} : PARAM : {}'.format(pth_for_del, param))
 
-            except Exception as e:
-                logging.debug('ERR Del {}'.format(e))
-                pass
-            logging.info('Del {}'.format(pth_for_del))
-    try:
-        os.remove(file_txt_for_concat)
-    except Exception as e:
-        logging.debug('ERR Del {}'.format(e))
+ #           try:
+ #               logging.info('SPLIT {}'.format(pth_for_del))
+ #               os.remove(pth_for_del)
+
+#            except Exception as e:
+#                logging.debug('ERR Del {}'.format(e))
+#                pass
+#            logging.info('Del {}'.format(pth_for_del))
+#    try:
+#        os.remove(file_txt_for_concat)
+#    except Exception as e:
+#        logging.debug('ERR Del {}'.format(e))
+    #return [1,2]
 
 
+@asyncio.coroutine
 def rend_picture(task):
     frame_set, task_set = task
 #    frame_start, frame_end = frame_set
@@ -273,11 +290,11 @@ def rend_preview(task):
 
     return '1'
 
-
+#@asyncio.coroutine
 def rend_full_movie(task):
     frame_set, task_set = task
     frame_start, frame_end = frame_set
-    logging.info('REND_full movie {} ::: {} '.format(frame_start, frame_end))
+    logging.info('REND_full movie {} ::: {} {}'.format(frame_start, frame_end, os.getpid()))
     #  logging.info('REND_full movie {} :: '.format(kwargs))
     try:
         bpy.ops.wm.open_mainfile(filepath=task_set['project_name'])
@@ -316,7 +333,11 @@ def rend_full_movie(task):
 #            logging.info('Render TASK  moview_full {}'.format(str(e)))
     except Exception as e:
         logging.info('{}'.format(str(e)))
-    return '1'
+    proc_wrk = mp.current_process()
+    #logging.info('Render TASK  moview_full proc live {}'.format(proc_wrk.is_alive()))
+    #proc_wrk.join()
+    logging.info('{} Render TASK  moview_full proc live after join {}'.format(proc_wrk, proc_wrk.is_alive()))
+    return proc_wrk.join()
 
 
 @asyncio.coroutine
@@ -374,7 +395,7 @@ def screens_maker(task):
     except Exception as e:
         logging.debug('ERR IN SCREEN Maker {}'.format(str(e)))
 
-    return 1
+    return mp.current_process().join()
 
 
 def tester1(task):
@@ -441,8 +462,13 @@ def starter_works(task):
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_full_movie, parts_tasks)
                 executor.map(screens_maker, parts_tasks[0])
-                executor.shutdown()
-                logging.info('{} ####EXECUTOR RUN ###'.format('1'))
+                proc_wrk = mp.current_process()
+                logging.info('Process ###{} $# Current process {} {} '.format(os.getpid(), os.getppid(), proc_wrk.pid))
+                #asyncio.ensure_future(great_split(task, p))
+                #f = executor.submit(great_split(task, p))
+                #great_split(task, p)
+                #executor.shutdown(wait=True)
+                #logging.info('{} ####EXECUTOR RUN ###'.format(f))
 
             elif rend_type == 4:
                 f_count = 500
@@ -451,6 +477,7 @@ def starter_works(task):
                 parts_tasks = [(x, task) for x in parts]
                 executor.map(rend_preview, parts_tasks)
                 executor.map(screens_maker, parts_tasks[0])
+                #great_split(task, p)
                 executor.shutdown()
                 logging.info('{} ####EXECUTOR RUN PRIVIEW ###'.format('1'))
 
@@ -466,12 +493,16 @@ def starter_works(task):
     logging.info('Process {} $# Current process {}'.format(os.getpid(), mp.current_process().name))
 
     # here nee add function for split of projects and set rights
-    if rend_type == 1 or rend_type == 4:
-        logging.info('{} #########{}#########{} $# {} '.format(rend_type, 'BEFORE SPLIT', p, task))
-        try:
-            yield from great_split(task, p)
-        except Exception as e:
-            logging.debug('SPLIT err{}'.format(str(e)))
+#    if rend_type == 6 or rend_type == 5:
+#        logging.info('{} #########{}#########{} $# {} '.format(rend_type, 'BEFORE SPLIT', p, task))
+#        try:
+#            res_path = yield from great_split(task, p)
+#            logging.info('#FROM SPLIT ###{} $#'.format(res_path))
+            #del_temp_files(res_path)
+
+
+#        except Exception as e:
+#            logging.debug('SPLIT err{}'.format(str(e)))
 
     try:
         yield from data_update(
@@ -485,8 +516,8 @@ def starter_works(task):
     time_end = time.time() - time_start
 
     logging.info('# {} complete TIME: {}'.format(task['result_dir'], time_end))
-    yield q.task_done()
-    yield from q.join()
+    q.task_done()
+    #return q.join
 #    return q.join()
 
     #return 1
@@ -495,13 +526,13 @@ def starter_works(task):
 def boo(q):
     while True:
         yield from asyncio.sleep(1)
-        logging.debug('{1}: From BOO  ::res : {0}'.format('id_th', 'cur_th'))
+        #logging.debug('{1}: From BOO  ::res : {0}'.format('id_th', 'cur_th'))
         if not q.empty():
             task = q.get()
             logging.debug('{1}: From BOO ####### {2}:: P_name : {0}'.format(mp.current_process().name, q.qsize(), task))
             try:
                 yield from starter_works(task)
-                logging.info('From BOO: {0}'.format(q.qsize()))
+                #logging.info('From BOO: {0}'.format(q.qsize()))
             except Exception as e:
                 logging.debug('From BOO ERR: {0}'.format(e))
 
@@ -557,7 +588,7 @@ def main_loop(loop):
     logging.basicConfig(
                         filename=LOG_FILENAME,
                         format=FORMAT,
-                        level=logging.INFO
+                        level=logging.DEBUG
                         )
     app = web.Application(loop=loop)
 
