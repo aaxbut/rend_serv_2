@@ -28,6 +28,8 @@ dbpassword = conf.get('base', 'dbpassword')
 u_ugid = conf.get('usr_permission', 'uid')
 u_gguid = conf.get('usr_permission', 'gid')
 MAX_SIZE_QUEUE = 6
+WRK_POOL_PROC = 3
+WRK_PROC = 2
 LOG_FILENAME = '/var/tmp/render_blender_server_test.log'
 
 p_rend_type = {
@@ -142,8 +144,41 @@ def return_list_of_parts(len_frames, parts):
     return parts_list
 
 
-@asyncio.coroutine #task, parts
+@asyncio.coroutine
 def great_split(task, parts):
+    logging.debug('IN GS 1: Parent : {} Child {} parts {}'.format(os.getppid(), mp.current_process().pid,  parts))
+    rend_type = int(task['render_type'])
+    rend_result_dir = task['result_dir']
+    file_name = p_rend_type[rend_type]['file_video'].split('/')[1].split('.')[0]
+    logging.debug('IN GS 2: Rend type : {} res dir: {} file name: {}'.format(rend_type, rend_result_dir, file_name))
+    file_txt_for_concat = '{}/tst.txt'.format(rend_result_dir)
+    logging.debug('IN GS 3: file_txt_for_concat : {}'.format(file_txt_for_concat))
+    with open(file_txt_for_concat, 'w') as file:
+        for part in parts:
+            file.write('file {}_{}.mp4\n'.format(file_name, part[0]))
+    out_file = '{}/{}.mp4'.format(rend_result_dir, file_name)
+    logging.debug('IN GS 4: {}'.format(out_file))
+    command = [
+        FFMPEG_BIN,
+        '-y',
+        '-f', 'concat',
+        '-safe', '0',
+        '-i', file_txt_for_concat,
+        '-c', 'copy',
+        out_file,
+    ]
+    p = Popen(command, stderr=PIPE)
+    try:
+        _, stderr = p.communicate()
+        logging.debug('IN GS 5: {}'.format(stderr))
+    except Exception as e:
+        logging.debug('IN GS ERR 6: {}'.format(e))
+    logging.debug('IN GS 6: {}'.format(out_file))
+    return (file_txt_for_concat, rend_result_dir, p_rend_type[rend_type]['file_video'].split('/')[1])
+
+
+@asyncio.coroutine #task, parts
+def great_split3(task, parts):
     logging.info('IN GreatSplit :{}'.format(task, parts))
 
     rend_type = int(task['render_type'])
@@ -166,12 +201,6 @@ def great_split(task, parts):
         out_file,
     ]
     try:
-#        process = Popen(
-#                    *command,
-#                    stdout=PIPE,
-#                    stderr=STDOUT
-
-#        )
 
         process = yield from asyncio.create_subprocess_exec(
                     *command,
@@ -192,35 +221,44 @@ def great_split(task, parts):
 
     logging.debug('AFTER SPLIT {} {}'.format(file_txt_for_concat, rend_result_dir))
 
-    return (file_txt_for_concat, rend_result_dir)
+    yield (file_txt_for_concat, rend_result_dir)
 
-#@asyncio.coroutine
+
+@asyncio.coroutine
 def del_temp_files(path_temp):
-    logging.info('del_temp_files {}'.format(path_temp))
-    file_txt_for_concat,rend_result_dir = path_temp
+    logging.debug('DL 1 : {}'.format(path_temp))
+    file_txt_for_concat, rend_result_dir, file_mp4 = path_temp
+    logging.debug('DL 2 : {} : {} '.format(file_txt_for_concat, rend_result_dir))
+    p = os.path.join(rend_result_dir, file_mp4)
+
+    try:
+        os.chown(p, int(u_ugid), int(u_gguid))
+        os.chmod(p, 0o777)
+    except Exception as e:
+        logging.debug('DL ERR 1 : {}'.format(e))
+
 
     with open(file_txt_for_concat, 'r') as f:
         for x in f.readlines():
             param = x.strip('file').strip()
             pth_for_del = '{}/{}'.format(rend_result_dir, param)
-            logging.info('SPLIT {} : PARAM : {}'.format(pth_for_del, param))
+            logging.debug('DL 3 : {} : PARAM : {}'.format(pth_for_del, param))
+            try:
+                os.remove(pth_for_del)
 
- #           try:
- #               logging.info('SPLIT {}'.format(pth_for_del))
- #               os.remove(pth_for_del)
-
-#            except Exception as e:
-#                logging.debug('ERR Del {}'.format(e))
+            except Exception as e:
+                logging.debug('ERR Del {}'.format(e))
 #                pass
-#            logging.info('Del {}'.format(pth_for_del))
-#    try:
-#        os.remove(file_txt_for_concat)
-#    except Exception as e:
-#        logging.debug('ERR Del {}'.format(e))
-    #return [1,2]
+            logging.info('Del {}'.format(pth_for_del))
+    try:
+        os.remove(file_txt_for_concat)
+    except Exception as e:
+        logging.debug('ERR Del {}'.format(e))
+    #proc_wrk = mp.current_process()
+    return {'DONE'}
 
 
-@asyncio.coroutine
+#@asyncio.coroutine
 def rend_picture(task):
     frame_set, task_set = task
 #    frame_start, frame_end = frame_set
@@ -239,7 +277,9 @@ def rend_picture(task):
     except Exception as e:
         logging.info('ERR PIC {}'.format(str(e)))
 
-    return 1
+    proc_wrk = mp.current_process()
+
+    return proc_wrk.join()
 
 
 def rend_preview(task):
@@ -287,8 +327,9 @@ def rend_preview(task):
 
     except Exception as e:
         logging.info('REND_PRIVIEW def {} :::  '.format(str(e)))
+    proc_wrk = mp.current_process()
 
-    return '1'
+    return proc_wrk.join()
 
 #@asyncio.coroutine
 def rend_full_movie(task):
@@ -395,7 +436,9 @@ def screens_maker(task):
     except Exception as e:
         logging.debug('ERR IN SCREEN Maker {}'.format(str(e)))
 
-    return mp.current_process().join()
+    proc_wrk = mp.current_process()
+
+    return proc_wrk.join()
 
 
 def tester1(task):
@@ -450,7 +493,7 @@ def starter_works(task):
     except Exception as e:
         logging.debug('ERR IN data_update {}'.format(str(e)))
 
-    with ProcessPoolExecutor(max_workers=6) as executor:
+    with ProcessPoolExecutor(max_workers=int(WRK_POOL_PROC)) as executor:
 
         #  before run need split dict with task settings and list with parts
         #  function look in dict have part if full movie, if movie pri run 500 // 5 parts
@@ -463,12 +506,8 @@ def starter_works(task):
                 executor.map(rend_full_movie, parts_tasks)
                 executor.map(screens_maker, parts_tasks[0])
                 proc_wrk = mp.current_process()
-                logging.info('Process ###{} $# Current process {} {} '.format(os.getpid(), os.getppid(), proc_wrk.pid))
-                #asyncio.ensure_future(great_split(task, p))
-                #f = executor.submit(great_split(task, p))
-                #great_split(task, p)
-                #executor.shutdown(wait=True)
-                #logging.info('{} ####EXECUTOR RUN ###'.format(f))
+                logging.debug('Process ###{} $# Current process {} {} '.format(os.getpid(), os.getppid(), proc_wrk.pid))
+                logging.debug('{} ####EXECUTOR RUN ###{}'.format(proc_wrk.pid, proc_wrk))
 
             elif rend_type == 4:
                 f_count = 500
@@ -478,7 +517,7 @@ def starter_works(task):
                 executor.map(rend_preview, parts_tasks)
                 executor.map(screens_maker, parts_tasks[0])
                 #great_split(task, p)
-                executor.shutdown()
+               # executor.shutdown()
                 logging.info('{} ####EXECUTOR RUN PRIVIEW ###'.format('1'))
 
             elif rend_type == 2:
@@ -487,10 +526,22 @@ def starter_works(task):
                 executor.map(rend_picture, parts_tasks)
                 executor.shutdown()
         except Exception as e:
-            logging.debug('POOL err{}'.format(str(e)))
+            logging.debug('POOL err ::{}'.format(str(e)))
 
-    logging.info('{} #####################{} $#'.format(task['render_type'], ''))
-    logging.info('Process {} $# Current process {}'.format(os.getpid(), mp.current_process().name))
+    logging.debug('{} #####################{} $#'.format(task['render_type'], ''))
+    logging.debug('BEFORE GS Process {} $# Current process {} '.format(os.getpid(), mp.current_process().name))
+    if rend_type == 1 or rend_type == 4:
+        proc_wrk = mp.current_process()
+        gs_data = yield from great_split(task, p)
+        dl_tmp = yield from del_temp_files(gs_data)
+        logging.info('AFTER GS Process {} ### GS : {}  DL: {}'.format(proc_wrk.pid, gs_data, dl_tmp))
+
+    # f = executor.submit(great_split(task, p))
+    # completed, pending = f
+    # gg =
+    # great_split(task, p)
+    # executor.shutdown(wait=True)
+
 
     # here nee add function for split of projects and set rights
 #    if rend_type == 6 or rend_type == 5:
@@ -607,7 +658,7 @@ if __name__ == '__main__':
     policy.set_event_loop(policy.new_event_loop())
     loop = asyncio.get_event_loop()
     srv = loop.run_until_complete(main_loop(loop))
-    procs = [mp.Process(target=loop_in_thread, args=(loop, q)) for _ in range(4)]
+    procs = [mp.Process(target=loop_in_thread, args=(loop, q)) for _ in range(WRK_PROC)]
     for proc in procs:
         # proc.daemon = True
         proc.start()
